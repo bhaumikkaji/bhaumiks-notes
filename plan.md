@@ -170,17 +170,26 @@ Key observations:
 - All **self-hosted WOFF2** with `preload` and `fetchpriority="high"`
 - **Monospace for code, serif for everything else** — editorial feel
 
-### SEO & metadata
+### SEO & Social Previews
 
-- Full JSON-LD structured data (BlogPosting, BreadcrumbList)
-- OpenGraph tags (title, description, image, type, site_name)
+- Full JSON-LD structured data (BlogPosting, BreadcrumbList, Person)
+- OpenGraph tags (title, description, image, type, site_name, url)
 - Twitter Card tags (summary_large_image)
+- Canonical URLs
+- `robots`: index, follow
+- `color-scheme`: light dark
+- **Rich OG preview cards** when links are shared:
+  - `og:site_name` → "Bhaumik's Notes" (colored accent)
+  - `og:title` → Note title (bold)
+  - `og:description` → Note summary or site description
+  - `og:image` → Default: high-quality portrait; per-note override available
+  - `twitter:card` → `summary_large_image`
+  - Should render beautifully in Telegram, Discord, Twitter/X, LinkedIn, iMessage, Slack
+- Default OG image: professional portrait or branded image (to be provided by Bhaumik)
+- Per-note OG image: optional, notes can specify their own
 - RSS feed (`/feed.xml`)
 - Atom feed (`/atom.xml`)
-- Sitemap (`/sitemap.xml`)
-- Canonical URLs
-- `robots` meta: index, follow
-- `color-scheme` meta: light dark (dark mode support)
+- Sitemap (`/sitemap.xml`) (dark mode support)
 
 ### CSS & performance
 
@@ -249,8 +258,17 @@ Hardik's categories (used as tag pills):
 6. **Responsive** — mobile-first, desktop-great
 7. **Dark mode** — expected for this audience
 8. **SEO basics** — meta tags, Open Graph, clean URLs
-9. **Newsletter signup** — Substack integration (like reference site)
-10. **Contact/social links** — Twitter/email, minimal footer
+9. **Rich social/OG previews** — when a note link is shared anywhere (Telegram, Discord, Twitter, LinkedIn, iMessage, Slack), it should render a compelling preview card with:
+   - Site name (colored accent)
+   - Note title (bold)
+   - Description/summary
+   - Large preview image (author photo or note-specific image)
+   - This means: proper `og:title`, `og:description`, `og:image`, `og:type`, `og:site_name`, `og:url`
+   - And: `twitter:card` set to `summary_large_image`
+   - Default image: a high-quality portrait or branded image for the site
+   - Per-note override: notes can specify their own OG image if desired
+10. **Newsletter signup** — Substack integration (like reference site)
+11. **Contact/social links** — Twitter/email, minimal footer
 
 ---
 
