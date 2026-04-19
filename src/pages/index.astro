@@ -19,7 +19,7 @@ const hero = featured[0];
 const side = featured.slice(1);
 ---
 
-<BaseLayout title="Bhaumik Kaji ・ Design & product thinker" description="Senior Product Designer at Microsoft. Sharing notes on tech, design and AI." showScrollProgress={false}>
+<BaseLayout title="Bhaumik Kaji ・ Design & product thinker" description="Senior Product Designer at Microsoft. Sharing notes on tech, design and AI." showScrollProgress={false} showDensityToggle={true}>
   <div class="home" data-density="default">
 
     <!-- Bento Grid -->
@@ -229,35 +229,6 @@ const side = featured.slice(1);
   .home[data-density="expanded"] .card-desc-compact { display: none !important; }
   .home[data-density="expanded"] .card-desc-expanded {
     display: block !important;
-  }
-
-  /* ===== Density buttons (in header) ===== */
-  .density-btn {
-    width: 30px;
-    height: 30px;
-    border: none;
-    border-radius: 999px;
-    background: transparent;
-    color: var(--text-tertiary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s ease, color 0.15s ease;
-  }
-
-  .density-btn:hover {
-    background: color-mix(in srgb, var(--text-primary) 6%, transparent);
-    color: var(--text-secondary);
-  }
-
-  .density-btn.density-active {
-    background: color-mix(in srgb, var(--accent) 12%, transparent);
-    color: var(--accent);
-  }
-
-  .density-btn :global(svg) {
-    display: block;
   }
 
   /* ===== Responsive ===== */

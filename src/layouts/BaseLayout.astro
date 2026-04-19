@@ -8,9 +8,10 @@ export interface Props {
   image?: string;
   type?: 'website' | 'article';
   showScrollProgress?: boolean;
+  showDensityToggle?: boolean;
 }
 
-const { title, description = 'Notes on tech, design, and AI by Bhaumik Kaji.', image = '/images/og-default.svg', type = 'website', showScrollProgress = true } = Astro.props;
+const { title, description = 'Notes on tech, design, and AI by Bhaumik Kaji.', image = '/images/og-default.svg', type = 'website', showScrollProgress = true, showDensityToggle = false } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
@@ -199,33 +200,32 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }
 
       .masthead-title a {
-        color: var(--text-primary);
+        color: var(--accent);
         text-decoration: none;
         display: flex;
         align-items: center;
+        gap: 10px;
       }
 
       .header-icon {
-        color: var(--accent) !important;
         transition: color 0.15s ease;
       }
 
       .header-icon :global(svg) {
         display: block;
-        color: var(--accent);
       }
 
-      a:hover .header-icon :global(svg) {
-        color: var(--accent-hover);
+      .masthead-title a:hover .header-icon :global(svg) {
+        opacity: 0.7;
       }
 
       .masthead-center {
         display: flex;
-        gap: 2px;
+        gap: 4px;
         background: var(--bg);
         border: 1px solid var(--border);
         border-radius: 999px;
-        padding: 3px 6px;
+        padding: 3px 10px;
       }
 
       .masthead-right {
@@ -238,8 +238,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }
 
       .density-btn {
-        width: 30px;
-        height: 30px;
+        width: 32px;
+        height: 32px;
         border: none;
         border-radius: 999px;
         background: transparent;
@@ -253,16 +253,36 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
       .density-btn:hover {
         background: color-mix(in srgb, var(--text-primary) 6%, transparent);
-        color: var(--text-secondary);
       }
 
       .density-btn.density-active {
         background: color-mix(in srgb, var(--accent) 12%, transparent);
-        color: var(--accent);
       }
 
-      .density-btn :global(svg) {
+      .density-circle {
+        border-radius: 50%;
+        background: var(--text-tertiary);
         display: block;
+        transition: background 0.15s ease;
+      }
+
+      .density-btn.density-active .density-circle {
+        background: var(--accent);
+      }
+
+      .density-circle-sm {
+        width: 8px;
+        height: 8px;
+      }
+
+      .density-circle-md {
+        width: 12px;
+        height: 12px;
+      }
+
+      .density-circle-lg {
+        width: 16px;
+        height: 16px;
       }
 
       /* Main content */
@@ -353,17 +373,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
               <a href="/" aria-label="Home"><Icon name="pen-tool" size={18} class="header-icon" /></a>
               <a href="/notes" aria-label="Read my notes" class={Astro.url.pathname.startsWith('/notes') ? 'nav-active' : ''}><Icon name="list" size={16} class="header-icon" /></a>
             </h4>
+            {showDensityToggle && (
             <div class="masthead-center" id="density-toggle">
               <button class="density-btn" data-density="compact" aria-label="Compact view">
-                <Icon name="layout-list" size={14} />
+                <span class="density-circle density-circle-sm"></span>
               </button>
               <button class="density-btn density-active" data-density="default" aria-label="Default view">
-                <Icon name="layout-grid" size={14} />
+                <span class="density-circle density-circle-md"></span>
               </button>
               <button class="density-btn" data-density="expanded" aria-label="Expanded view">
-                <Icon name="layout-dashboard" size={14} />
+                <span class="density-circle density-circle-lg"></span>
               </button>
             </div>
+            )}
             <div class="masthead-right">
               <Personalize />
             </div>
