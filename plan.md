@@ -313,6 +313,91 @@ Pretext is powerful but adds complexity. For v1:
 
 ---
 
+## Personalization System
+
+A floating widget on the bottom-right of every page for theme + mode customization.
+
+### Mode (Light / Dark)
+
+Controls the **full neutral palette**: backgrounds, text, borders. Not just accent.
+
+| Token | Light | Dark |
+|-------|-------|------|
+| `--bg` | `#fafafa` | `#111111` |
+| `--text-primary` | `#111111` | `#f0f0f0` |
+| `--text-secondary` | `#555555` | `#a0a0a0` |
+| `--text-tertiary` | `#888888` | `#666666` |
+| `--border` | `#e8e8e8` | `#2a2a2a` |
+
+### Themes (8 accent options)
+
+Themes control **accent only** — links, hover states, scroll bar, category pills, blockquote borders, bento card hover borders, toggle highlights. No effect on body/background/text colors.
+
+| # | Name | Light accent | Dark accent | Type |
+|---|------|-------------|-------------|------|
+| 1 | Ember | `#c2410c` | `#fb923c` | Solid |
+| 2 | Electric | `#2563eb` | `#60a5fa` | Solid |
+| 3 | Violet | `#7c3aed` | `#a78bfa` | Solid |
+| 4 | Emerald | `#059669` | `#34d399` | Solid |
+| 5 | Rose | `#db2777` | `#f472b6` | Solid |
+| 6 | Sunset | `#f97316` → `#ec4899` | `#fb923c` → `#f472b6` | Gradient |
+| 7 | Aurora | `#06b6d4` → `#8b5cf6` | `#22d3ee` → `#a78bfa` | Gradient |
+| 8 | Lava | `#ef4444` → `#f59e0b` | `#f87171` → `#fbbf24` | Gradient |
+
+- Solid themes: accent appears as a single color on all surfaces
+- Gradient themes: accent appears as a gradient on larger surfaces (scroll bar, hero card hover, blockquote border), midpoint color on small touches (link underlines, pill backgrounds)
+- Both light and dark variants are optimized for contrast against their respective neutral backgrounds
+
+### Category Pills
+
+Category pills are **monochrome accent-tinted** — tied to the theme, not per-category colors. Each category has a Unicode icon prefix for visual differentiation:
+
+| Category | Icon |
+|----------|------|
+| Design | ◈ |
+| AI | ⬡ |
+| Tech | ⟨/⟩ |
+| Career | ▲ |
+| Observations | ◉ |
+| Life | ~ |
+
+- Pill background: theme accent at 12% opacity (same for all categories)
+- Pill text: theme accent color (same for all categories)
+- Icon prefix provides visual differentiation without per-category colors
+- In gradient themes: pill uses the gradient's starting color
+
+### The Flyout Widget
+
+```
+┌─────────────────┐
+│  Personalize     │
+│                  │
+│  ● ● ● ● ●      │  ← 5 solid color swatches
+│  ● ● ●           │  ← 3 gradient swatches
+│                  │
+│  ☀ Light  🌙 Dark │  ← mode switch
+└─────────────────┘
+```
+
+- Trigger: small floating button (bottom-right), shows current theme color as a swatch
+- Solid swatches: colored circles with active ring
+- Gradient swatches: gradient circles with active ring
+- Mode switch: sun/moon toggle at the bottom
+- Closes on outside click
+- Active state: ring around selected swatch
+- Persists both theme and mode to `localStorage`
+- Respects OS preference on first visit
+
+### Implementation
+
+- `data-theme` attribute on `<html>` (values: ember, electric, violet, emerald, rose, sunset, aurora, lava)
+- `data-mode` attribute on `<html>` (values: light, dark)
+- CSS variables for accent colors set per theme/mode combination
+- Inline `<script>` in `<head>` prevents flash of wrong theme/mode
+- Toggle widget: Astro component with client-side JS for interactivity
+
+---
+
 ## Density Toggle (Bento Grid)
 
 A floating widget on the bottom-right of the homepage that controls information density across 3 breakpoints:
@@ -578,7 +663,8 @@ bhaumiks-notes/
 | Density toggle | Floating widget, 3 states (compact/default/expanded), CSS transitions + data-density | 2026-04-19 | v1: author-provided summaries, CSS transitions. v2: Pretext for auto-truncation |
 | Body text size | 11px root | 2026-04-18 | Compact, content-dense reading experience |
 | Font | Source Sans 3 (Google Fonts) | 2026-04-18 | Clean, slightly geometric, great at small sizes |
-| Dark mode toggle | JS-based with localStorage, sun/moon icons | 2026-04-19 | Respects OS preference on first visit, persists choice |
+| Dark mode toggle | Replaced by personalization system (theme + mode flyout) | 2026-04-19 | Single sun/moon toggle upgraded to full personalization widget |
+| Category pills | Monochrome accent-tinted with Unicode icon prefixes | 2026-04-19 | No per-category colors; tied to theme accent |
 | Homepage layout | Bento grid (4-col) | 2026-04-19 | Hero card (2×2), 2 side cards, about card, contact card |
 
 ---
