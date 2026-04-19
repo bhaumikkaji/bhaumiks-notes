@@ -40,42 +40,42 @@ Inspired by Hardik's format: short notes, not long-form essays.
 
 ## Content Authoring
 
-- **Authoring tool:** TBD (Markdown/MDX likely, possibly Obsidian-sourced)
-- **Content lives:** In the repo as Markdown/MDX files
-- **No external CMS** — keep it simple, file-based, git-managed
+- **Judy is the interface** between Bhaumik and the project
+- Bhaumik tells Judy what to write → Judy updates code in local folder
+- Local preview link for Bhaumik to review before anything goes live
+- Builds get pushed to deployment when ready
+- **Wiki is for knowledge only** — decisions, plans, important stuff. No code dumps.
+- Content lives in the repo as Markdown/MDX files
+- No external CMS — file-based, git-managed
 
 ---
 
 ## Tech Stack
 
-TBD — options to evaluate:
+### Decision: Astro ✅
 
-### Option A: Astro
-- Best for content-heavy static sites
-- MDX built-in
-- Fast, minimal JS
-- Great for blogs
-- Can use React components if needed
-- Easy deployment (Vercel/Netlify/GitHub Pages)
+**Chosen:** Astro
 
-### Option B: Next.js (App Router)
-- Full React ecosystem
-- SSG/SSR support
-- MDX support
-- Heavier than Astro for a blog
-- Matches portfolio stack (Vite + React)
+Why:
+- Purpose-built for content-heavy static sites
+- MDX native — write notes in Markdown/MDX, render beautifully
+- Zero JS by default — pages ship as static HTML, hydrate only where needed
+- Fast on every device and browser
+- Easy deployment to Azure Static Web Apps or GitHub Pages
+- Can add React components later if needed
+- Modern, well-maintained, great DX
+- Matches the minimal aesthetic we want
+- Built-in content collections, RSS, sitemap, image optimization
 
-### Option C: Same stack as portfolio (Vite + React)
-- Consistency with portfolio site
-- Not purpose-built for content
-- Would need more manual blog infrastructure
-- Least recommended for a content-first project
+This is the right choice for a content-first site. The portfolio uses React, but a blog doesn't need React on every page.
 
-### Recommendation
-**Astro** — purpose-built for content sites, MDX-native, fast, minimal overhead.  
-Blog doesn't need React runtime on every page. Astro renders to static HTML and hydrates only where needed.
+---
 
-But: this is Bhaumik's call. If he wants stack consistency with the portfolio, that's a valid reason to choose differently.
+## Visual Identity
+
+- **For now:** standalone — the blog lives separately from the portfolio
+- **Eventually:** sibling to portfolio — shared visual language, consistent typography and design tokens
+- Typography, color, and spacing choices should be portable enough to share with the portfolio later
 
 ---
 
@@ -84,8 +84,6 @@ But: this is Bhaumik's call. If he wants stack consistency with the portfolio, t
 **Reference site:** https://hvpandya.com/notes/ — Hardik Pandya's personal site
 
 ### Overall site structure
-
-The site is a personal homepage with multiple sections:
 
 ```
 hvpandya.com/
@@ -130,18 +128,17 @@ Key observations:
 - **No dates on the index.** Notes are ordered by recency but dates aren't shown.
 - **No excerpts.** Just title + category tag.
 - **Category tags are small colored pills/lozenges.** They appear inline after the title.
-- **Notes are grouped in small clusters of 3–5** (visible in the HTML structure), creating subtle visual rhythm.
+- **Notes are grouped in small clusters of 3–5**, creating subtle visual rhythm.
 - **"Start reading here" section** — 3 curated notes to onboard new readers.
 - **Clean, no-sidebar layout.** Two-column on desktop: heading left, list right.
 
 ### Individual note page structure
 
-From the Solari note (which I could fetch):
-
 ```
 /[slug]
 ├── Title (h1)
-├── Body content (long-form, markdown-rendered)
+├── Subtitle/opening line
+├── Body content (markdown-rendered)
 │   ├── Rich text with links
 │   ├── Images (with lightbox support)
 │   ├── Code blocks (syntax highlighted)
@@ -155,12 +152,10 @@ Key observations:
 - **Clean single-column reading layout**
 - **Rich typography** — Tiempos Text (body) + Tiempos Headline (headings) + Geist Mono (code)
 - **Self-hosted fonts** (WOFF2, preloaded)
-- **Code blocks with syntax highlighting** (via code-block.js)
-- **Image lightbox** — click to expand
-- **Reactions** — custom emoji-free reaction buttons (not likes, not comments)
-- **"Read more" section** at the bottom with related notes
-- **No comments**
-- **No visible date on the note itself** (though likely in metadata)
+- **No dates displayed on notes**
+- **No author byline** — obvious whose site it is
+- **No "back to notes" breadcrumb** — just the nav header
+- **Reactions are custom**, not likes/comments
 
 ### Typography choices
 
@@ -189,19 +184,18 @@ Key observations:
 - Per-note OG image: optional, notes can specify their own
 - RSS feed (`/feed.xml`)
 - Atom feed (`/atom.xml`)
-- Sitemap (`/sitemap.xml`) (dark mode support)
+- Sitemap (`/sitemap.xml`)
 
 ### CSS & performance
 
-- Single CSS file (`/styles.css?v=4.7.21`) — versioned for cache busting
-- No CSS framework detected (custom CSS)
-- Minimal JS — only `code-block.js` (deferred)
-- Image CDN: `images.hvpandya.com` (preconnect + dns-prefetch)
+- Single CSS file — versioned for cache busting
+- No CSS framework — custom CSS
+- Minimal JS
+- Image CDN with preconnect + dns-prefetch
 - Accessibility: skip-to-main-content link, ARIA roles, semantic HTML
 
-### Category system
+### Category system (Hardik's)
 
-Hardik's categories (used as tag pills):
 - AI experiments
 - Leadership
 - Career
@@ -228,15 +222,14 @@ Hardik's categories (used as tag pills):
 13. **Dark mode** — via `color-scheme: light dark`
 14. **Code syntax highlighting** — for tech content
 15. **"Read more" related notes** at bottom of each note
-16. **Reaction buttons** — custom, emoji-free (optional for us)
+16. **Reaction buttons** — custom, emoji-free
 
 ### What we're doing differently
 
 - Bhaumik's categories: Tech, Design, AI, Career, Observations, Life
 - Bhaumik's voice is his own — not emulating Hardik's writing style
-- We may skip reaction buttons for MVP (or add later)
-- We may add reading time estimates
-- We may add a projects/showcase section later (Hardik has /iconic and /solari)
+- Private analytics dashboard built into the same project
+- Local preview link for reviewing before deploy
 
 ### General design principles
 
@@ -244,7 +237,7 @@ Hardik's categories (used as tag pills):
 - **Dark mode** supported
 - **Minimal distractions** — content is the product
 - **Should feel like Bhaumik** — not a template
-- Visual relationship to portfolio: TBD (sibling? standalone?)
+- **Standalone for now, portable to sibling with portfolio later**
 
 ---
 
@@ -263,12 +256,16 @@ Hardik's categories (used as tag pills):
    - Note title (bold)
    - Description/summary
    - Large preview image (author photo or note-specific image)
-   - This means: proper `og:title`, `og:description`, `og:image`, `og:type`, `og:site_name`, `og:url`
-   - And: `twitter:card` set to `summary_large_image`
-   - Default image: a high-quality portrait or branded image for the site
-   - Per-note override: notes can specify their own OG image if desired
+   - `og:title`, `og:description`, `og:image`, `og:type`, `og:site_name`, `og:url`
+   - `twitter:card` → `summary_large_image`
+   - Default image: high-quality portrait (Bhaumik to provide)
+   - Per-note override available
 10. **Newsletter signup** — Substack integration (like reference site)
 11. **Contact/social links** — Twitter/email, minimal footer
+12. **Reactions** — inspired by hvpandya.com
+    - Types: thoughtful / relatable / good / loved it / blew my mind
+    - Custom, emoji-free, tasteful
+    - Needs backend/storage (TBD)
 
 ---
 
@@ -279,7 +276,6 @@ Hardik's categories (used as tag pills):
 - Reading time estimates
 - Series/linked posts
 - "Start reading here" curated section (like hvpandya.com)
-- Analytics (privacy-respecting, probably Plausible or none)
 - Obsidian-to-blog pipeline (if Bhaumik wants to author there)
 - Projects showcase section (like Hardik's Solari, Stop Slop, etc.)
 
@@ -287,17 +283,64 @@ Hardik's categories (used as tag pills):
 
 ## Hosting & Deployment
 
-TBD — likely options:
+- **Decide later** when ready to launch
+- **Azure Static Web Apps** (Bhaumik has Azure credits) — primary option
+- **GitHub Pages** — backup option
+- Deployment pipeline: local → preview link → push to production
 
-- **Vercel** (free tier, easy deploys, custom domain)
-- **Netlify** (similar to Vercel)
-- **GitHub Pages** (free, simple, but less control over redirects/preview deploys)
+## Custom Domain
 
-Custom domain: TBD (e.g., notes.bhaumikkaji.com or bhaumiksnotes.com or similar)
+- **Decide later** when ready to launch
+- Examples: `notes.bhaumikkaji.com`, `bhaumiksnotes.com`
 
 ---
 
-## Page Structure (Based on Reference)
+## Analytics Dashboard
+
+- **Private analytics dashboard** built into the same project
+- Password-protected, link not listed publicly
+- Bhaumik accesses it via a secret URL
+- **Metrics to design for:**
+  - Page views (total, per note, over time)
+  - Unique visitors
+  - Referral sources
+  - Geography
+  - Time on page / reading depth
+  - Popular notes
+  - Reaction counts per note
+  - Newsletter signups
+  - Social shares / click-throughs
+- **Tech options:** Plausible (privacy-respecting), Umami (self-hosted), or custom lightweight analytics
+- Dashboard design: TBD in a later phase, but architecture must support it
+
+---
+
+## Comments & Reactions
+
+- **No comments** for now
+- **Yes to reactions** — inspired by hvpandya.com
+  - Types: thoughtful / relatable / good / loved it / blew my mind
+  - Custom, emoji-free, tasteful
+  - Need backend/storage solution (likely simple API endpoint or third-party service)
+
+---
+
+## Categories
+
+Start simple, based on Bhaumik's interests:
+
+- **Tech** — tools, experiments, technical observations
+- **Design** — design thinking, craft, opinions
+- **AI** — AI experiments, product implications, hands-on work
+- **Career** — career reflections, advice, observations
+- **Observations** — things noticed, patterns, hot takes
+- **Life** — personal reflections, non-tech
+
+More categories can be added later as content evolves.
+
+---
+
+## Page Structure
 
 ### Homepage
 ```
@@ -325,15 +368,25 @@ Custom domain: TBD (e.g., notes.bhaumikkaji.com or bhaumiksnotes.com or similar)
 │   ├── Rich text, links, images
 │   ├── Code blocks (syntax highlighted)
 │   └── Blockquotes
+├── Reactions (thoughtful / relatable / good / loved it / blew my mind)
 ├── "Read more" — 3–4 related notes
 └── Back to notes index
+```
+
+### Analytics Dashboard (Post-MVP)
+```
+/dashboard (password-protected, unlisted)
+├── Overview: page views, visitors, referrals
+├── Notes: popular notes, reading depth, reaction counts
+├── Growth: subscribers, shares, trends
+└── Geography & sources
 ```
 
 ### Other Pages (Post-MVP)
 ```
 /about          → About Bhaumik
 /projects       → Showcase of side projects
-/stuff          → Tools & setup (like Hardik's /what-i-use)
+/stuff          → Tools & setup
 ```
 
 ### Navigation
@@ -342,14 +395,16 @@ Header: Bhaumik Kaji | Notes [About] [Projects] [Stuff]
 Footer: minimal — RSS, Twitter, email, © year
 ```
 
-## Project Structure (Astro draft)
+---
+
+## Project Structure (Astro)
 
 ```
 bhaumiks-notes/
 ├── src/
 │   ├── content/
 │   │   └── notes/           # MDX notes live here
-│   │       ├── ai-experiments/
+│   │       ├── ai/
 │   │       ├── career/
 │   │       ├── design/
 │   │       ├── observations/
@@ -365,6 +420,7 @@ bhaumiks-notes/
 │   │   ├── NoteCard.astro       # Title + category pill
 │   │   ├── CategoryPill.astro
 │   │   ├── ReadMore.astro       # Related notes section
+│   │   ├── Reactions.astro      # Reaction buttons
 │   │   ├── NewsletterSignup.astro
 │   │   └── CodeBlock.astro       # Syntax highlighting wrapper
 │   ├── styles/
@@ -374,11 +430,13 @@ bhaumiks-notes/
 │       ├── notes/
 │       │   ├── index.astro      # Notes listing
 │       │   └── [...slug].astro   # Individual note
+│       ├── dashboard.astro      # Analytics dashboard (password-protected)
 │       ├── about.astro
 │       └── projects.astro
 ├── public/
 │   ├── fonts/                  # Self-hosted WOFF2
 │   ├── images/
+│   │   └── og-default.jpg      # Default OG image (portrait)
 │   └── favicon/
 ├── astro.config.mjs
 ├── package.json
@@ -403,20 +461,26 @@ bhaumiks-notes/
 | Project name | Bhaumik's Notes | 2026-04-18 | Bhaumik's choice |
 | Location | `/Developer/Bhaumiks Notes/` | 2026-04-18 | Same folder as other projects |
 | Content focus | Tech + Design | 2026-04-18 | Bhaumik's stated purpose |
+| Tech stack | Astro | 2026-04-18 | Modern, content-first, fast, MDX-native, good DX |
+| Visual identity | Standalone for now, sibling to portfolio eventually | 2026-04-18 | Design should be portable for future alignment |
+| Hosting | Azure or GitHub Pages, decide later | 2026-04-18 | Bhaumik has Azure credits |
+| Domain | Decide later | 2026-04-18 | Pick when ready to launch |
+| Authoring | Judy is the interface | 2026-04-18 | Bhaumik tells Judy, Judy updates local, preview locally, push to deploy |
+| Categories | Tech, Design, AI, Career, Observations, Life | 2026-04-18 | Start simple, expand later |
+| Comments | No comments | 2026-04-18 | |
+| Reactions | Yes, inspired by hvpandya.com | 2026-04-18 | Thoughtful / relatable / good / loved it / blew my mind |
+| Analytics | Private dashboard in same project | 2026-04-18 | Password-protected, not listed publicly |
 
 ---
 
 ## Open Questions
 
-- [ ] Tech stack: Astro vs Next.js vs Vite+React
-- [ ] Visual identity: sibling to portfolio or standalone?
-- [ ] Hosting: Vercel / Netlify / GitHub Pages
-- [ ] Custom domain
-- [ ] Authoring workflow: Obsidian pipeline vs in-repo MDX
-- [ ] Tag/category taxonomy
-- [ ] Comment policy (likely: no comments)
-- [ ] Analytics: none vs privacy-respecting
 - [ ] First 3 posts Bhaumik wants to write (drives design priorities)
+- [ ] Analytics dashboard design and tech choice
+- [ ] Reaction storage solution (backend needed)
+- [ ] Default OG image (portrait or branded — Bhaumik to provide)
+- [ ] Font choice (serif editorial like Tiempos, or different?)
+- [ ] Newsletter platform choice (Substack or other)
 
 ---
 
@@ -427,3 +491,5 @@ bhaumiks-notes/
 3. **File-based, git-managed.** No CMS dependency.
 4. **Bhaumik's voice, not a template's.**
 5. **Ship early, iterate.** MVP first, polish second.
+6. **Judy is the interface.** Bhaumik directs, Judy implements, Bhaumik approves.
+7. **Wiki is for knowledge, not code.** Decisions and plans go there, code stays in the repo.
