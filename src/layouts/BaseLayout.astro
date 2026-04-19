@@ -4,9 +4,10 @@ export interface Props {
   description?: string;
   image?: string;
   type?: 'website' | 'article';
+  layout?: 'narrow' | 'wide';
 }
 
-const { title, description = 'Notes on tech, design, and AI by Bhaumik Kaji.', image = '/images/og-default.svg', type = 'website' } = Astro.props;
+const { title, description = 'Notes on tech, design, and AI by Bhaumik Kaji.', image = '/images/og-default.svg', type = 'website', layout = 'narrow' } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
@@ -156,16 +157,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         border-radius: 0 1px 1px 0;
       }
 
-      /* Layout */
-      .container {
-        max-width: var(--max-width);
-        margin: 0 auto;
-        padding: 0 20px;
-      }
-
       /* Header */
       header {
-        padding: 48px 0 24px;
+        padding: 48px 20px 24px;
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+
+      header.wide {
+        max-width: var(--wide-width);
       }
 
       .masthead {
@@ -254,22 +254,36 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
       /* Main content */
       .content {
-        padding: 24px 0 64px;
+        padding: 24px 20px 64px;
         flex: 1;
+        width: 100%;
+      }
+
+      .content.wide {
+        max-width: var(--wide-width);
+        margin: 0 auto;
+      }
+
+      .content.narrow {
+        max-width: var(--max-width);
+        margin: 0 auto;
       }
 
       /* Footer */
       footer {
-        padding: 24px 0;
+        padding: 24px 20px;
         border-top: 1px solid var(--border);
         font-size: 1rem;
         color: var(--text-tertiary);
-      }
-
-      footer .container {
+        max-width: var(--max-width);
+        margin: 0 auto;
         display: flex;
         justify-content: space-between;
         align-items: center;
+      }
+
+      footer.wide {
+        max-width: var(--wide-width);
       }
 
       footer a {
@@ -320,6 +334,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       @media (min-width: 641px) {
         :root {
           --max-width: 640px;
+          --wide-width: 920px;
         }
       }
     </style>
@@ -328,10 +343,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <div class="scroll-progress" id="scroll-progress"></div>
     <a href="#main-content" class="skip-link">Skip to content</a>
 
-    <header role="banner">
-      <div class="container">
-        <nav role="navigation" aria-label="Main navigation">
-          <div class="masthead">
+    <header role="banner" class={layout}>
+      <div class="masthead">
             <h4 class="masthead-title">
               <a href="/" aria-label="Home">Bhaumik <span class="text-grey">Kaji</span></a>
             </h4>
@@ -343,24 +356,20 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
                 <span class="theme-toggle-label">Dark</span>
               </button>
             </span>
-          </div>
-        </nav>
       </div>
     </header>
 
-    <main id="main-content" role="main" class="container content">
+    <main id="main-content" role="main" class={`content ${layout}`}>
       <slot />
     </main>
 
-    <footer>
-      <div class="container">
-        <span>© {new Date().getFullYear()} Bhaumik Kaji</span>
-        <span>
-          <a href="https://twitter.com/bhaumikkaji">Twitter</a>
-          <a href="mailto:bhaumik@bhaumikkaji.com">Email</a>
-          <a href="/feed.xml">RSS</a>
-        </span>
-      </div>
+    <footer class={layout}>
+      <span>© {new Date().getFullYear()} Bhaumik Kaji</span>
+      <span>
+        <a href="https://twitter.com/bhaumikkaji">Twitter</a>
+        <a href="mailto:bhaumik@bhaumikkaji.com">Email</a>
+        <a href="/feed.xml">RSS</a>
+      </span>
     </footer>
 
     <script is:inline>
