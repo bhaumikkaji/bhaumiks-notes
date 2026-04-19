@@ -16,6 +16,10 @@ const featured = notes.slice(0, 3);
       <p class="intro-cta">After reading, if you have a different perspective, feel free to ping me on <a href="https://twitter.com/bhaumikkaji">Twitter</a> or email <strong>bhaumik@bhaumikkaji.com</strong>.</p>
     </div>
 
+    <div class="about-card">
+      <p>Senior Product Designer at <strong>Microsoft</strong> — Copilot, Teams, Office Mobile. I write about product, design, and AI from empirical learnings.</p>
+    </div>
+
     <div class="notes-featured">
       <h2 class="section-label">Start reading here</h2>
       <div class="notes-list">
@@ -73,6 +77,25 @@ const featured = notes.slice(0, 3);
 
   .intro-cta a {
     color: var(--accent);
+  }
+
+  .about-card {
+    background: color-mix(in srgb, var(--text-primary) 4%, transparent);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 48px;
+  }
+
+  .about-card p {
+    color: var(--text-secondary);
+    line-height: 1.55;
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  .about-card p strong {
+    color: var(--text-primary);
   }
 
   .notes-featured {

@@ -46,11 +46,6 @@ const side = featured.slice(1);
         </a>
       ))}
 
-      <!-- About card -->
-      <div class="bento-card bento-about">
-        <span class="card-label">About</span>
-        <p>Senior Product Designer at <strong>Microsoft</strong> — Copilot, Teams, Office Mobile. I write about product, design, and AI from empirical learnings.</p>
-      </div>
     </div>
 
   </div>
@@ -114,10 +109,6 @@ const side = featured.slice(1);
 
   .bento-side {
     grid-column: span 2;
-  }
-
-  .bento-about {
-    grid-column: 1 / -1;
   }
 
   .bento-card {
@@ -217,30 +208,6 @@ const side = featured.slice(1);
   }
 
   /* About & Contact cards */
-  .card-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-tertiary);
-    margin-bottom: 8px;
-    flex-shrink: 0;
-  }
-
-  .bento-about p {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    line-height: 1.55;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-  }
-
-  .bento-about p strong {
-    color: var(--text-primary);
-  }
-
   /* ===== DENSITY: COMPACT (2-col) ===== */
   .home[data-density="compact"] .bento {
     grid-template-columns: 1fr 1fr;
@@ -256,10 +223,6 @@ const side = featured.slice(1);
     grid-column: span 1;
   }
 
-  .home[data-density="compact"] .bento-about {
-    grid-column: 1 / -1;
-  }
-
   .home[data-density="compact"] .card-desc-default { display: none !important; }
   .home[data-density="compact"] .card-desc-compact {
     display: -webkit-box !important;
@@ -268,10 +231,6 @@ const side = featured.slice(1);
     overflow: hidden;
   }
   .home[data-density="compact"] .card-desc-expanded { display: none !important; }
-
-  .home[data-density="compact"] .bento-about p {
-    -webkit-line-clamp: 2;
-  }
 
   /* ===== DENSITY: EXPANDED (4-col) ===== */
   .home[data-density="expanded"] .bento {
@@ -283,10 +242,6 @@ const side = featured.slice(1);
   .home[data-density="expanded"] .card-desc-compact { display: none !important; }
   .home[data-density="expanded"] .card-desc-expanded {
     display: block !important;
-  }
-
-  .home[data-density="expanded"] .bento-about p {
-    -webkit-line-clamp: unset;
   }
 
   /* ===== DENSITY TOGGLE ===== */
@@ -354,10 +309,6 @@ const side = featured.slice(1);
       grid-column: span 1;
     }
 
-    .bento-about {
-      grid-column: 1 / -1;
-    }
-
     .bento-hero .card-title {
       font-size: 1.3rem;
     }
@@ -381,8 +332,7 @@ const side = featured.slice(1);
     }
 
     .bento-hero,
-    .bento-side,
-    .bento-about {
+    .bento-side {
       grid-column: 1 / -1;
     }
 

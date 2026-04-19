@@ -202,6 +202,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         align-items: center;
       }
 
+      .header-icon {
+        color: var(--accent);
+        transition: color 0.15s ease;
+      }
+
+      .header-icon :global(svg) {
+        display: block;
+      }
+
+      a:hover .header-icon {
+        color: var(--accent-hover);
+      }
+
       .masthead-title a:hover {
         color: var(--text-secondary);
       }
@@ -313,10 +326,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         <nav role="navigation" aria-label="Main navigation">
           <div class="masthead">
             <h4 class="masthead-title">
-              <a href="/" aria-label="Home"><Icon name="pen-tool" size={20} /></a>
+              <a href="/" aria-label="Home"><Icon name="pen-tool" size={20} class="header-icon" /></a>
             </h4>
             <span class="masthead-nav" role="list">
-              <a href="/notes" aria-label="Read my notes" class={Astro.url.pathname.startsWith('/notes') ? 'nav-active' : ''}>Notes</a>
+              <a href="/notes" aria-label="Read my notes" class={Astro.url.pathname.startsWith('/notes') ? 'nav-active' : ''}><Icon name="list" size={16} class="header-icon" /></a>
               <Personalize />
             </span>
           </div>
