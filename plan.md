@@ -79,27 +79,155 @@ But: this is Bhaumik's call. If he wants stack consistency with the portfolio, t
 
 ---
 
-## Design Direction — Inspired by hvpandya.com/notes
+## Reference Site Analysis — hvpandya.com
 
-**Reference site:** https://hvpandya.com/notes/ — Hardik Pandya's notes page
+**Reference site:** https://hvpandya.com/notes/ — Hardik Pandya's personal site
+
+### Overall site structure
+
+The site is a personal homepage with multiple sections:
+
+```
+hvpandya.com/
+├── /               → Home (intro + latest notes + projects + contact)
+├── /work           → Work experience page
+├── /notes           → Notes index (the main blog)
+├── /interviews     → Talks/interviews page
+├── /working-with-me → "Manual" — how to work with Hardik
+├── /what-i-use     → Stuff/tools page
+├── /iconic         → Curated photo collection
+├── /solari         → Project: split-flap display
+└── /[slug]         → Individual note pages
+```
+
+### Navigation pattern
+
+- **Top nav:** Minimal. Author name left-aligned, section links right.
+  - `Hardik Pandya` | `Work` `Notes` `Talks` `Manual` `Stuff`
+- **No hamburger menu.** All nav items visible on desktop.
+- **Mobile:** Likely collapses to simpler nav.
+- **Active state:** Current section highlighted (`nav-active` class).
+
+### Notes index page structure
+
+```
+/notes
+├── Title: "Notes on products, design & leadership."
+├── Intro paragraph (personal, honest voice)
+├── Newsletter signup (Substack link)
+├── Contact links (Twitter, email)
+├── Divider
+├── "Start reading here" — 3 curated/featured notes
+├── Full chronological list of all notes
+│   ├── Each note: title (linked) + category tag (lozenge/pill)
+│   ├── No dates visible in the list
+│   ├── No thumbnails or excerpts
+│   └── No pagination (infinite scroll or single page)
+└── Footer
+```
+
+Key observations:
+- **No dates on the index.** Notes are ordered by recency but dates aren't shown.
+- **No excerpts.** Just title + category tag.
+- **Category tags are small colored pills/lozenges.** They appear inline after the title.
+- **Notes are grouped in small clusters of 3–5** (visible in the HTML structure), creating subtle visual rhythm.
+- **"Start reading here" section** — 3 curated notes to onboard new readers.
+- **Clean, no-sidebar layout.** Two-column on desktop: heading left, list right.
+
+### Individual note page structure
+
+From the Solari note (which I could fetch):
+
+```
+/[slug]
+├── Title (h1)
+├── Body content (long-form, markdown-rendered)
+│   ├── Rich text with links
+│   ├── Images (with lightbox support)
+│   ├── Code blocks (syntax highlighted)
+│   └── Blockquotes
+├── Reaction buttons (thoughtful / relatable / good / loved it / blew my mind)
+├── "Read more" section — 4 related notes
+└── Footer with links
+```
+
+Key observations:
+- **Clean single-column reading layout**
+- **Rich typography** — Tiempos Text (body) + Tiempos Headline (headings) + Geist Mono (code)
+- **Self-hosted fonts** (WOFF2, preloaded)
+- **Code blocks with syntax highlighting** (via code-block.js)
+- **Image lightbox** — click to expand
+- **Reactions** — custom emoji-free reaction buttons (not likes, not comments)
+- **"Read more" section** at the bottom with related notes
+- **No comments**
+- **No visible date on the note itself** (though likely in metadata)
+
+### Typography choices
+
+- **Body:** Tiempos Text (variable font, roman + italic)
+- **Headings:** Tiempos Headline (variable font)
+- **Code:** Geist Mono (variable)
+- All **self-hosted WOFF2** with `preload` and `fetchpriority="high"`
+- **Monospace for code, serif for everything else** — editorial feel
+
+### SEO & metadata
+
+- Full JSON-LD structured data (BlogPosting, BreadcrumbList)
+- OpenGraph tags (title, description, image, type, site_name)
+- Twitter Card tags (summary_large_image)
+- RSS feed (`/feed.xml`)
+- Atom feed (`/atom.xml`)
+- Sitemap (`/sitemap.xml`)
+- Canonical URLs
+- `robots` meta: index, follow
+- `color-scheme` meta: light dark (dark mode support)
+
+### CSS & performance
+
+- Single CSS file (`/styles.css?v=4.7.21`) — versioned for cache busting
+- No CSS framework detected (custom CSS)
+- Minimal JS — only `code-block.js` (deferred)
+- Image CDN: `images.hvpandya.com` (preconnect + dns-prefetch)
+- Accessibility: skip-to-main-content link, ARIA roles, semantic HTML
+
+### Category system
+
+Hardik's categories (used as tag pills):
+- AI experiments
+- Leadership
+- Career
+- Design
+- Product
+- Observations
+- Life
+- Travel
 
 ### What we're taking from the reference
 
-- **Minimal aesthetic** — almost no visual noise, content dominates
-- **Note-based format** — not "blog posts," notes. Short, opinionated, personal
-- **Flat chronological list** — newest first, title + category tag, no thumbnails or hero images needed
-- **Category tags** — small, unobtrusive labels (e.g., AI experiments, Design, Leadership, Career, Observations)
-- **No comments** — notes, not discussions
-- **Newsletter signup** — simple Substack integration for subscribers
-- **Personal voice** — "these are my notes," honest, biased, empirical
-- **Clean reading experience** — typography-first, minimal chrome
-- **Subtle interactivity** — dark mode, smooth transitions, nothing heavy
+1. **Minimal aesthetic** — almost no visual noise, content dominates
+2. **Note-based format** — not "blog posts," notes. Short, opinionated, personal
+3. **Flat chronological list** — newest first, title + category tag
+4. **Category pills/lozenges** — small, unobtrusive labels
+5. **"Start reading here"** curated section for new visitors
+6. **No comments** — notes, not discussions
+7. **Newsletter signup** — Substack integration
+8. **Contact links** — social/email in the intro
+9. **Personal voice** — "these are my notes," honest, biased, empirical
+10. **Typography-first reading** — serif body, clean layout, minimal chrome
+11. **Self-hosted fonts** — performance + aesthetic control
+12. **Full SEO** — JSON-LD, OG tags, RSS, sitemap, canonical URLs
+13. **Dark mode** — via `color-scheme: light dark`
+14. **Code syntax highlighting** — for tech content
+15. **"Read more" related notes** at bottom of each note
+16. **Reaction buttons** — custom, emoji-free (optional for us)
 
 ### What we're doing differently
 
-- Bhaumik's categories will reflect his focus: Tech, Design, AI, Career, Observations, Life
+- Bhaumik's categories: Tech, Design, AI, Career, Observations, Life
 - Bhaumik's voice is his own — not emulating Hardik's writing style
-- We may add: RSS, code syntax highlighting, reading time (lightweight)
+- We may skip reaction buttons for MVP (or add later)
+- We may add reading time estimates
+- We may add a projects/showcase section later (Hardik has /iconic and /solari)
 
 ### General design principles
 
@@ -151,18 +279,89 @@ Custom domain: TBD (e.g., notes.bhaumikkaji.com or bhaumiksnotes.com or similar)
 
 ---
 
+## Page Structure (Based on Reference)
+
+### Homepage
+```
+/
+├── Intro: who Bhaumik is (1–2 sentences)
+├── Latest notes (3–5 recent)
+└── Contact / social links
+```
+
+### Notes Index
+```
+/notes
+├── Title + intro paragraph
+├── Newsletter signup (Substack or similar)
+├── "Start reading here" — 3 curated notes
+└── Full chronological list
+    └── Each note: linked title + category pill
+```
+
+### Individual Note
+```
+/notes/[slug]
+├── Title (h1)
+├── Body content (markdown-rendered)
+│   ├── Rich text, links, images
+│   ├── Code blocks (syntax highlighted)
+│   └── Blockquotes
+├── "Read more" — 3–4 related notes
+└── Back to notes index
+```
+
+### Other Pages (Post-MVP)
+```
+/about          → About Bhaumik
+/projects       → Showcase of side projects
+/stuff          → Tools & setup (like Hardik's /what-i-use)
+```
+
+### Navigation
+```
+Header: Bhaumik Kaji | Notes [About] [Projects] [Stuff]
+Footer: minimal — RSS, Twitter, email, © year
+```
+
 ## Project Structure (Astro draft)
 
 ```
 bhaumiks-notes/
 ├── src/
 │   ├── content/
-│   │   └── blog/          # MDX posts live here
-│   ├── layouts/           # Page layouts
-│   ├── components/        # UI components
-│   ├── styles/            # Global styles
-│   └── pages/             # Route pages
-├── public/                # Static assets
+│   │   └── notes/           # MDX notes live here
+│   │       ├── ai-experiments/
+│   │       ├── career/
+│   │       ├── design/
+│   │       ├── observations/
+│   │       ├── tech/
+│   │       └── life/
+│   ├── layouts/
+│   │   ├── BaseLayout.astro     # HTML shell, meta, fonts
+│   │   ├── NoteLayout.astro     # Individual note page
+│   │   └── NotesListLayout.astro # Notes index page
+│   ├── components/
+│   │   ├── Header.astro
+│   │   ├── Footer.astro
+│   │   ├── NoteCard.astro       # Title + category pill
+│   │   ├── CategoryPill.astro
+│   │   ├── ReadMore.astro       # Related notes section
+│   │   ├── NewsletterSignup.astro
+│   │   └── CodeBlock.astro       # Syntax highlighting wrapper
+│   ├── styles/
+│   │   └── global.css
+│   └── pages/
+│       ├── index.astro          # Homepage
+│       ├── notes/
+│       │   ├── index.astro      # Notes listing
+│       │   └── [...slug].astro   # Individual note
+│       ├── about.astro
+│       └── projects.astro
+├── public/
+│   ├── fonts/                  # Self-hosted WOFF2
+│   ├── images/
+│   └── favicon/
 ├── astro.config.mjs
 ├── package.json
 └── README.md
