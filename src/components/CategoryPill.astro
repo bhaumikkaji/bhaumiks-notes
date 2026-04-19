@@ -1,36 +1,52 @@
 ---
+import Icon from './Icon.astro';
+
 export interface Props {
   category: string;
 }
 
 const { category } = Astro.props;
 
-const colors: Record<string, { text: string; bg: string }> = {
-  Tech: { text: 'var(--tag-tech)', bg: 'color-mix(in srgb, var(--tag-tech) 12%, transparent)' },
-  Design: { text: 'var(--tag-design)', bg: 'color-mix(in srgb, var(--tag-design) 12%, transparent)' },
-  AI: { text: 'var(--tag-ai)', bg: 'color-mix(in srgb, var(--tag-ai) 12%, transparent)' },
-  Career: { text: 'var(--tag-career)', bg: 'color-mix(in srgb, var(--tag-career) 12%, transparent)' },
-  Observations: { text: 'var(--tag-observations)', bg: 'color-mix(in srgb, var(--tag-observations) 12%, transparent)' },
-  Life: { text: 'var(--tag-life)', bg: 'color-mix(in srgb, var(--tag-life) 12%, transparent)' },
+const categoryIcons: Record<string, string> = {
+  Design: 'pencil-ruler',
+  AI: 'sparkles',
+  Tech: 'code-2',
+  Career: 'trending-up',
+  Observations: 'eye',
+  Life: 'heart',
 };
 
-const color = colors[category] || colors['Observations'];
+const icon = categoryIcons[category] || 'circle';
 ---
 
-<span class="category-pill" style={`--pill-color: ${color.text}; --pill-bg: ${color.bg};`}>{category}</span>
+<span class="category-pill">
+  <Icon name={icon} size={12} class="pill-icon" />
+  {category}
+</span>
 
 <style>
   .category-pill {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    padding: 2px 8px;
-    border-radius: 10px;
-    color: var(--pill-color);
-    background: var(--pill-bg);
+    padding: 3px 10px 3px 7px;
+    border-radius: 12px;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
     line-height: 1.6;
     white-space: nowrap;
+  }
+
+  .pill-icon {
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+
+  .pill-icon :global(svg) {
+    display: block;
   }
 </style>

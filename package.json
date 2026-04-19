@@ -10,8 +10,9 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@chenglou/pretext": "^0.0.5",
     "astro": "^6.1.8",
-    "@chenglou/pretext": "^0.1.0"
+    "lucide-static": "^1.8.0"
   },
   "devDependencies": {
     "typescript": "^5.7.0"

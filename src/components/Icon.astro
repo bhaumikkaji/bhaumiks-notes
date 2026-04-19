@@ -1,0 +1,35 @@
+---
+// Lucide icon component — inlines SVG from lucide-static
+// Usage: <Icon name="sun" size={18} />
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+  strokeWidth?: number;
+}
+
+const { name, size = 18, class: className = '', strokeWidth = 2 } = Astro.props;
+
+const iconPath = join(process.cwd(), 'node_modules/lucide-static/icons', `${name}.svg`);
+let svg = '';
+try {
+  svg = readFileSync(iconPath, 'utf-8');
+  // Set width and height
+  svg = svg.replace('<svg ', `<svg width="${size}" height="${size}" `);
+  // Set stroke-width
+  if (strokeWidth !== 2) {
+    svg = svg.replace(/stroke-width="2"/g, `stroke-width="${strokeWidth}"`);
+  }
+  // Add class
+  if (className) {
+    svg = svg.replace('<svg ', `<svg class="${className}" `);
+  }
+} catch {
+  svg = `<span>Icon "${name}" not found</span>`;
+}
+---
+
+<Fragment set:html={svg} />

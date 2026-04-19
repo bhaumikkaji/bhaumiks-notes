@@ -1,4 +1,7 @@
 ---
+import Icon from '../components/Icon.astro';
+import Personalize from '../components/Personalize.astro';
+
 export interface Props {
   title: string;
   description?: string;
@@ -11,11 +14,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-mode="light" data-theme="ember">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#111111" />
+    <meta name="theme-color" content="#fafafa" />
     <meta name="color-scheme" content="light dark" />
     <meta name="description" content={description} />
     <meta name="author" content="Bhaumik Kaji" />
@@ -47,12 +50,53 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
     <script is:inline>
-      // Prevent theme flash — set theme before render
+      // Prevent flash — apply theme + mode before render
       (function() {
-        const stored = localStorage.getItem('theme');
-        const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        const theme = stored || preferred;
+        const theme = localStorage.getItem('theme') || 'ember';
+        const mode = localStorage.getItem('mode') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.setAttribute('data-mode', mode);
+
+        // Set accent CSS vars immediately
+        const themes = {
+          ember:    { light: { accent: '#c2410c', accentHover: '#a83608' }, dark: { accent: '#fb923c', accentHover: '#f97316' } },
+          electric: { light: { accent: '#2563eb', accentHover: '#1d4ed8' }, dark: { accent: '#60a5fa', accentHover: '#3b82f6' } },
+          violet:   { light: { accent: '#7c3aed', accentHover: '#6d28d9' }, dark: { accent: '#a78bfa', accentHover: '#8b5cf6' } },
+          emerald:  { light: { accent: '#059669', accentHover: '#047857' }, dark: { accent: '#34d399', accentHover: '#10b981' } },
+          rose:     { light: { accent: '#db2777', accentHover: '#be185d' }, dark: { accent: '#f472b6', accentHover: '#ec4899' } },
+          sunset:   { light: { accent: '#f97316', accentHover: '#ea580c', gf: '#f97316', gt: '#ec4899' }, dark: { accent: '#fb923c', accentHover: '#f97316', gf: '#fb923c', gt: '#f472b6' } },
+          aurora:   { light: { accent: '#06b6d4', accentHover: '#0891b2', gf: '#06b6d4', gt: '#8b5cf6' }, dark: { accent: '#22d3ee', accentHover: '#06b6d4', gf: '#22d3ee', gt: '#a78bfa' } },
+          lava:     { light: { accent: '#ef4444', accentHover: '#dc2626', gf: '#ef4444', gt: '#f59e0b' }, dark: { accent: '#f87171', accentHover: '#ef4444', gf: '#f87171', gt: '#fbbf24' } },
+        };
+        const t = themes[theme] || themes.ember;
+        const c = t[mode] || t.dark;
+        const r = document.documentElement.style;
+        r.setProperty('--accent', c.accent);
+        r.setProperty('--accent-hover', c.accentHover);
+        if (c.gf) {
+          r.setProperty('--accent-gradient', 'linear-gradient(135deg,' + c.gf + ',' + c.gt + ')');
+          r.setProperty('--accent-gradient-from', c.gf);
+          r.setProperty('--accent-gradient-to', c.gt);
+        } else {
+          r.setProperty('--accent-gradient', c.accent);
+          r.setProperty('--accent-gradient-from', c.accent);
+          r.setProperty('--accent-gradient-to', c.accentHover);
+        }
+
+        // Set neutral palette
+        if (mode === 'dark') {
+          r.setProperty('--bg', '#111111');
+          r.setProperty('--text-primary', '#f0f0f0');
+          r.setProperty('--text-secondary', '#a0a0a0');
+          r.setProperty('--text-tertiary', '#666666');
+          r.setProperty('--border', '#2a2a2a');
+        } else {
+          r.setProperty('--bg', '#fafafa');
+          r.setProperty('--text-primary', '#111111');
+          r.setProperty('--text-secondary', '#555555');
+          r.setProperty('--text-tertiary', '#888888');
+          r.setProperty('--border', '#e8e8e8');
+        }
       })();
     </script>
     <title>{title} ・ Bhaumik Kaji</title>
@@ -66,48 +110,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         --border: #e8e8e8;
         --accent: #c2410c;
         --accent-hover: #a83608;
-        --tag-design: #7c3aed;
-        --tag-ai: #d97706;
-        --tag-tech: #2563eb;
-        --tag-career: #059669;
-        --tag-observations: #6b7280;
-        --tag-life: #db2777;
+        --accent-gradient: #c2410c;
+        --accent-gradient-from: #c2410c;
+        --accent-gradient-to: #a83608;
         --max-width: 640px;
         --font-sans: 'Source Sans 3', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
         --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
         --progress-height: 2px;
-      }
-
-      [data-theme="light"] {
-        --bg: #fafafa;
-        --text-primary: #111111;
-        --text-secondary: #555555;
-        --text-tertiary: #888888;
-        --border: #e8e8e8;
-        --accent: #c2410c;
-        --accent-hover: #a83608;
-        --tag-design: #7c3aed;
-        --tag-ai: #d97706;
-        --tag-tech: #2563eb;
-        --tag-career: #059669;
-        --tag-observations: #6b7280;
-        --tag-life: #db2777;
-      }
-
-      [data-theme="dark"] {
-        --bg: #111111;
-        --text-primary: #f0f0f0;
-        --text-secondary: #a0a0a0;
-        --text-tertiary: #666666;
-        --border: #2a2a2a;
-        --accent: #fb923c;
-        --accent-hover: #f97316;
-        --tag-design: #a78bfa;
-        --tag-ai: #fbbf24;
-        --tag-tech: #60a5fa;
-        --tag-career: #34d399;
-        --tag-observations: #9ca3af;
-        --tag-life: #f472b6;
       }
 
       * {
@@ -211,47 +220,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         color: var(--text-primary);
       }
 
-      /* Theme toggle */
-      .theme-toggle {
-        background: none;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 4px 10px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 1rem;
-        color: var(--text-tertiary);
-        transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-        font-family: var(--font-sans);
-        line-height: 1;
-      }
-
-      .theme-toggle:hover {
-        color: var(--text-primary);
-        border-color: var(--text-tertiary);
-      }
-
-      .theme-toggle .icon-sun,
-      .theme-toggle .icon-moon {
-        display: none;
-        width: 14px;
-        height: 14px;
-      }
-
-      [data-theme="light"] .theme-toggle .icon-sun {
-        display: block;
-      }
-
-      [data-theme="dark"] .theme-toggle .icon-moon {
-        display: block;
-      }
-
-      .theme-toggle-label {
-        font-size: 1rem;
-      }
-
       /* Main content */
       .content {
         padding: 24px 0 64px;
@@ -337,11 +305,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             </h4>
             <span class="masthead-nav" role="list">
               <a href="/notes" aria-label="Read my notes" class={Astro.url.pathname.startsWith('/notes') ? 'nav-active' : ''}>Notes</a>
-              <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
-                <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-                <span class="theme-toggle-label">Dark</span>
-              </button>
             </span>
           </div>
         </nav>
@@ -354,7 +317,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <footer>
       <div class="container">
-        <span>© {new Date().getFullYear()} Bhaumik Kaji</span>
+        <span>&copy; {new Date().getFullYear()} Bhaumik Kaji</span>
         <span>
           <a href="https://twitter.com/bhaumikkaji">Twitter</a>
           <a href="mailto:bhaumik@bhaumikkaji.com">Email</a>
@@ -363,37 +326,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       </div>
     </footer>
 
+    <Personalize />
+
     <script is:inline>
-      // Theme toggle
-      function getPreferredTheme() {
-        const stored = localStorage.getItem('theme');
-        if (stored) return stored;
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
-
-      function setTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-        updateToggleLabel(theme);
-      }
-
-      function updateToggleLabel(theme) {
-        const label = document.querySelector('.theme-toggle-label');
-        if (label) label.textContent = theme === 'dark' ? 'Light' : 'Dark';
-      }
-
-      // Initialize theme immediately (prevent flash)
-      setTheme(getPreferredTheme());
-
-      // Toggle button
-      const toggle = document.getElementById('theme-toggle');
-      if (toggle) {
-        toggle.addEventListener('click', () => {
-          const current = document.documentElement.getAttribute('data-theme');
-          setTheme(current === 'dark' ? 'light' : 'dark');
-        });
-      }
-
       // Scroll progress
       const progressBar = document.getElementById('scroll-progress');
       function updateProgress() {

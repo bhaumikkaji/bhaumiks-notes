@@ -1,6 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import Icon from '../components/Icon.astro';
+
+const categoryIcons: Record<string, string> = {
+  Design: 'pencil-ruler',
+  AI: 'sparkles',
+  Tech: 'code-2',
+  Career: 'trending-up',
+  Observations: 'eye',
+  Life: 'heart',
+};
 
 const allNotes = await getCollection('notes');
 const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -17,7 +27,7 @@ const side = featured.slice(1);
 
       <!-- Hero card — largest -->
       <a href={`/notes/${hero.data.slug}`} class="bento-card bento-hero">
-        <span class="card-category" data-category={hero.data.category}>{hero.data.category}</span>
+        <span class="card-category"><Icon name={categoryIcons[hero.data.category] || 'circle'} size={12} class="card-pill-icon" />{hero.data.category}</span>
         <h2 class="card-title">{hero.data.title}</h2>
         <p class="card-desc">{hero.data.description}</p>
         <span class="card-cta">Read →</span>
@@ -26,7 +36,7 @@ const side = featured.slice(1);
       <!-- Side cards -->
       {side.map((note) => (
         <a href={`/notes/${note.data.slug}`} class="bento-card bento-side">
-          <span class="card-category" data-category={note.data.category}>{note.data.category}</span>
+          <span class="card-category"><Icon name={categoryIcons[note.data.category] || 'circle'} size={12} class="card-pill-icon" />{note.data.category}</span>
           <h3 class="card-title">{note.data.title}</h3>
           <span class="card-cta">Read →</span>
         </a>
@@ -104,40 +114,27 @@ const side = featured.slice(1);
 
   /* Card internals */
   .card-category {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    padding: 3px 10px;
+    padding: 3px 10px 3px 7px;
     border-radius: 12px;
     margin-bottom: 16px;
     align-self: flex-start;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
-  .card-category[data-category="Design"] {
-    color: var(--tag-design);
-    background: color-mix(in srgb, var(--tag-design) 12%, transparent);
+  .card-pill-icon {
+    opacity: 0.85;
   }
-  .card-category[data-category="AI"] {
-    color: var(--tag-ai);
-    background: color-mix(in srgb, var(--tag-ai) 12%, transparent);
-  }
-  .card-category[data-category="Tech"] {
-    color: var(--tag-tech);
-    background: color-mix(in srgb, var(--tag-tech) 12%, transparent);
-  }
-  .card-category[data-category="Career"] {
-    color: var(--tag-career);
-    background: color-mix(in srgb, var(--tag-career) 12%, transparent);
-  }
-  .card-category[data-category="Observations"] {
-    color: var(--tag-observations);
-    background: color-mix(in srgb, var(--tag-observations) 12%, transparent);
-  }
-  .card-category[data-category="Life"] {
-    color: var(--tag-life);
-    background: color-mix(in srgb, var(--tag-life) 12%, transparent);
+
+  .card-pill-icon :global(svg) {
+    display: block;
   }
 
   .card-title {

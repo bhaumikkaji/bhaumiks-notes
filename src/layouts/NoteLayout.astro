@@ -1,5 +1,15 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+
+const categoryIcons: Record<string, string> = {
+  Design: 'pencil-ruler',
+  AI: 'sparkles',
+  Tech: 'code-2',
+  Career: 'trending-up',
+  Observations: 'eye',
+  Life: 'heart',
+};
 
 export interface Props {
   title: string;
@@ -16,7 +26,10 @@ const { title, description, pubDate, category, image } = Astro.props;
   <article class="note">
     <header class="note-header">
       {category && (
-        <span class="note-category" data-category={category}>{category}</span>
+        <span class="note-category">
+          <Icon name={categoryIcons[category] || 'circle'} size={12} class="pill-icon" />
+          {category}
+        </span>
       )}
       <h1 class="note-title">{title}</h1>
     </header>
@@ -32,39 +45,26 @@ const { title, description, pubDate, category, image } = Astro.props;
   }
 
   .note-category {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    padding: 3px 10px;
+    padding: 3px 10px 3px 7px;
     border-radius: 12px;
     margin-bottom: 16px;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
-  .note-category[data-category="Design"] {
-    color: var(--tag-design);
-    background: color-mix(in srgb, var(--tag-design) 12%, transparent);
+  .pill-icon {
+    opacity: 0.85;
   }
-  .note-category[data-category="AI"] {
-    color: var(--tag-ai);
-    background: color-mix(in srgb, var(--tag-ai) 12%, transparent);
-  }
-  .note-category[data-category="Tech"] {
-    color: var(--tag-tech);
-    background: color-mix(in srgb, var(--tag-tech) 12%, transparent);
-  }
-  .note-category[data-category="Career"] {
-    color: var(--tag-career);
-    background: color-mix(in srgb, var(--tag-career) 12%, transparent);
-  }
-  .note-category[data-category="Observations"] {
-    color: var(--tag-observations);
-    background: color-mix(in srgb, var(--tag-observations) 12%, transparent);
-  }
-  .note-category[data-category="Life"] {
-    color: var(--tag-life);
-    background: color-mix(in srgb, var(--tag-life) 12%, transparent);
+
+  .pill-icon :global(svg) {
+    display: block;
   }
 
   .note-title {
