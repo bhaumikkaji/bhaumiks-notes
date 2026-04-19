@@ -313,6 +313,63 @@ Pretext is powerful but adds complexity. For v1:
 
 ---
 
+## Density Toggle (Bento Grid)
+
+A floating widget on the bottom-right of the homepage that controls information density across 3 breakpoints:
+
+### The 3 states
+
+| State | Grid | Card size | Content shown |
+|-------|------|-----------|---------------|
+| Compact | 2-column | Small, tight | `summaryCompact` — one-line takeaway |
+| Default | 4-column | Medium | `summary` — short paragraph |
+| Expanded | 4-column | Large, generous | `summaryExpanded` — longer paragraph with more context |
+
+### How it works
+
+1. **Toggle widget** — bottom-right floating pill with 3 density icons (e.g. `☰` / `≡` / `⊞` or similar). Clicking cycles through compact → default → expanded.
+2. **`data-density` attribute** — applied to the bento grid container. CSS uses this to swap `grid-template-columns`, card padding, font sizes, and transitions.
+3. **Content swap** — each card renders 3 summary elements, CSS shows/hides based on `data-density`.
+4. **Animated transitions** — CSS transitions on `grid-template-columns`, card `padding`, `max-height`, and `opacity` for smooth density changes.
+5. **Persists** — choice saved to `localStorage` so returning visitors see their preferred density.
+
+### Content model (frontmatter)
+
+Each note provides 3 summary lengths:
+
+```yaml
+---
+title: "Why Design Systems Fail"
+summaryCompact: "Most design systems fail because of trust, not tech."
+summary: "Most design systems fail because of trust, adoption, and the gap between prescription and reality."
+summaryExpanded: "Most design systems fail because of trust, adoption, and the gap between what we prescribe and what people actually need. I've seen this pattern repeat across three companies now."
+---
+```
+
+- `summaryCompact` — max ~60 chars, one sentence
+- `summary` — max ~150 chars, a short paragraph
+- `summaryExpanded` — max ~280 chars, a fuller paragraph
+- Author provides all 3 at publish time
+
+### Pretext integration
+
+For v1: **not using Pretext** for this feature. CSS transitions + `data-density` + author-provided summaries solve the problem cleanly.
+
+For v2: Pretext could add:
+- Auto-truncation at any card size (no need for 3 pre-written summaries)
+- Shrinkwrap width calculation for perfect text fitting
+- Canvas/SVG rendered decorative text in cards
+- Dynamic line-clamping that knows exact overflow state
+
+### Animation details
+
+- Grid columns: `transition: grid-template-columns 0.3s ease`
+- Card padding: `transition: padding 0.3s ease`
+- Card content (summary swap): fade in/out via opacity transition
+- Toggle widget: subtle scale bounce on click
+
+---
+
 ## Nice-to-Have (Post-MVP)
 
 - Search (full-text)
@@ -518,6 +575,11 @@ bhaumiks-notes/
 | Reactions | Yes, inspired by hvpandya.com | 2026-04-18 | Thoughtful / relatable / good / loved it / blew my mind |
 | Analytics | Private dashboard in same project | 2026-04-18 | Password-protected, not listed publicly |
 | Rich text rendering | Pretext (for HQ text + future rich content) | 2026-04-18 | Start with measurement/rich-inline, add canvas/SVG later |
+| Density toggle | Floating widget, 3 states (compact/default/expanded), CSS transitions + data-density | 2026-04-19 | v1: author-provided summaries, CSS transitions. v2: Pretext for auto-truncation |
+| Body text size | 11px root | 2026-04-18 | Compact, content-dense reading experience |
+| Font | Source Sans 3 (Google Fonts) | 2026-04-18 | Clean, slightly geometric, great at small sizes |
+| Dark mode toggle | JS-based with localStorage, sun/moon icons | 2026-04-19 | Respects OS preference on first visit, persists choice |
+| Homepage layout | Bento grid (4-col) | 2026-04-19 | Hero card (2×2), 2 side cards, about card, contact card |
 
 ---
 
