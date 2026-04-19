@@ -1,6 +1,9 @@
 ---
 title: 'The Front Door Effect'
 description: "The first thing people see shapes everything they believe about what is inside. This is as true for products as it is for buildings — and most teams underestimate it."
+summaryCompact: 'The first thing people see shapes everything they believe.'
+summary: 'The first thing people see shapes everything they believe about what is inside. This is as true for products as it is for buildings.'
+summaryExpanded: 'The first thing people see shapes everything they believe about what is inside. This is as true for products as it is for buildings — and most teams underestimate it. The front door is never neutral.'
 pubDate: '2026-04-05'
 category: 'Observations'
 slug: 'the-front-door-effect'

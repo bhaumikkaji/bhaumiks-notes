@@ -305,6 +305,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
             </h4>
             <span class="masthead-nav" role="list">
               <a href="/notes" aria-label="Read my notes" class={Astro.url.pathname.startsWith('/notes') ? 'nav-active' : ''}>Notes</a>
+              <Personalize />
             </span>
           </div>
         </nav>
@@ -325,8 +326,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         </span>
       </div>
     </footer>
-
-    <Personalize />
 
     <script is:inline>
       // Scroll progress

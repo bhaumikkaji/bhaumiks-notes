@@ -6,6 +6,9 @@ const notes = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    summaryCompact: z.string().optional(),
+    summary: z.string().optional(),
+    summaryExpanded: z.string().optional(),
     pubDate: z.coerce.date(),
     category: z.enum(['Tech', 'Design', 'AI', 'Career', 'Observations', 'Life']),
     slug: z.string(),

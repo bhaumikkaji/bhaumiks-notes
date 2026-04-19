@@ -1,6 +1,9 @@
 ---
 title: 'The Age of the Super IC'
 description: 'AI is changing what it means to be a strong individual contributor. Not by replacing craft, but by amplifying it — and the best designers are becoming one-person studios.'
+summaryCompact: 'The best designers are becoming one-person studios with AI.'
+summary: 'AI is changing what it means to be a strong IC. Not by replacing craft, but by amplifying it — the best designers are becoming one-person studios.'
+summaryExpanded: 'AI is changing what it means to be a strong individual contributor. Not by replacing craft, but by amplifying it — and the best designers are becoming one-person studios. I call this the Super IC: someone who leverages AI tools to produce work that previously required a team.'
 pubDate: '2026-04-10'
 category: 'AI'
 slug: 'age-of-the-super-ic'

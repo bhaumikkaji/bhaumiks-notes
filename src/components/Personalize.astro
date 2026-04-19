@@ -1,35 +1,31 @@
 ---
 import Icon from './Icon.astro';
 
-// Theme definitions
 const themes = [
-  { id: 'ember', label: 'Ember', type: 'solid', light: '#c2410c', dark: '#fb923c', gradient: false },
-  { id: 'electric', label: 'Electric', type: 'solid', light: '#2563eb', dark: '#60a5fa', gradient: false },
-  { id: 'violet', label: 'Violet', type: 'solid', light: '#7c3aed', dark: '#a78bfa', gradient: false },
-  { id: 'emerald', label: 'Emerald', type: 'solid', light: '#059669', dark: '#34d399', gradient: false },
-  { id: 'rose', label: 'Rose', type: 'solid', light: '#db2777', dark: '#f472b6', gradient: false },
-  { id: 'sunset', label: 'Sunset', type: 'gradient', light: 'linear-gradient(135deg, #f97316, #ec4899)', dark: 'linear-gradient(135deg, #fb923c, #f472b6)', gradient: true },
-  { id: 'aurora', label: 'Aurora', type: 'gradient', light: 'linear-gradient(135deg, #06b6d4, #8b5cf6)', dark: 'linear-gradient(135deg, #22d3ee, #a78bfa)', gradient: true },
-  { id: 'lava', label: 'Lava', type: 'gradient', light: 'linear-gradient(135deg, #ef4444, #f59e0b)', dark: 'linear-gradient(135deg, #f87171, #fbbf24)', gradient: true },
+  { id: 'ember', label: 'Ember', dark: '#fb923c', gradient: false },
+  { id: 'electric', label: 'Electric', dark: '#60a5fa', gradient: false },
+  { id: 'violet', label: 'Violet', dark: '#a78bfa', gradient: false },
+  { id: 'emerald', label: 'Emerald', dark: '#34d399', gradient: false },
+  { id: 'rose', label: 'Rose', dark: '#f472b6', gradient: false },
+  { id: 'sunset', label: 'Sunset', dark: 'linear-gradient(135deg, #fb923c, #f472b6)', gradient: true },
+  { id: 'aurora', label: 'Aurora', dark: 'linear-gradient(135deg, #22d3ee, #a78bfa)', gradient: true },
+  { id: 'lava', label: 'Lava', dark: 'linear-gradient(135deg, #f87171, #fbbf24)', gradient: true },
 ];
 ---
 
-<div class="personalize-trigger" id="personalize-trigger">
-  <button class="trigger-btn" id="trigger-btn" aria-label="Customize theme">
-    <Icon name="palette" size={18} />
+<span class="personalize-wrapper">
+  <button class="personalize-trigger" id="personalize-trigger" aria-label="Customize theme">
+    <Icon name="palette" size={16} />
   </button>
-</div>
 
-<div class="personalize-panel" id="personalize-panel">
-  <div class="panel-header">
-    <span class="panel-title">Personalize</span>
-    <button class="panel-close" id="panel-close" aria-label="Close">
-      <Icon name="x" size={16} />
-    </button>
-  </div>
+  <div class="personalize-panel" id="personalize-panel">
+    <div class="panel-header">
+      <span class="panel-title">Theme</span>
+      <button class="panel-close" id="panel-close" aria-label="Close">
+        <Icon name="x" size={14} />
+      </button>
+    </div>
 
-  <div class="panel-section">
-    <span class="section-label">Theme</span>
     <div class="theme-grid">
       {themes.map((theme) => (
         <button
@@ -42,77 +38,64 @@ const themes = [
             : `background: ${theme.dark}`
           }
         >
-          <span class="swatch-check">
-            <Icon name="check" size={12} />
-          </span>
+          <span class="swatch-check"><Icon name="check" size={10} /></span>
         </button>
       ))}
     </div>
-  </div>
 
-  <div class="panel-section">
-    <span class="section-label">Mode</span>
-    <div class="mode-toggle">
+    <div class="mode-section">
       <button class="mode-btn" data-mode="light" aria-label="Light mode">
-        <Icon name="sun" size={16} />
-        <span>Light</span>
+        <Icon name="sun" size={14} />
       </button>
       <button class="mode-btn" data-mode="dark" aria-label="Dark mode">
-        <Icon name="moon" size={16} />
-        <span>Dark</span>
+        <Icon name="moon" size={14} />
       </button>
     </div>
   </div>
-</div>
+</span>
 
 <style>
-  .personalize-trigger {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 1000;
+  .personalize-wrapper {
+    position: relative;
+    display: inline-flex;
   }
 
-  .trigger-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: color-mix(in srgb, var(--text-primary) 6%, var(--bg));
-    color: var(--text-secondary);
+  .personalize-trigger {
+    background: none;
+    border: none;
+    color: var(--text-tertiary);
     cursor: pointer;
+    padding: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.15s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: color 0.15s ease;
   }
 
-  .trigger-btn:hover {
-    border-color: var(--accent);
+  .personalize-trigger:hover {
     color: var(--accent);
-    transform: scale(1.05);
   }
 
-  .trigger-btn :global(svg) {
+  .personalize-trigger :global(svg) {
     display: block;
   }
 
   .personalize-panel {
-    position: fixed;
-    bottom: 80px;
-    right: 24px;
-    z-index: 1001;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-    min-width: 220px;
+    border-radius: 14px;
+    padding: 16px;
+    min-width: 200px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.12);
     opacity: 0;
-    transform: translateY(8px) scale(0.96);
+    transform: translateY(-4px) scale(0.97);
     pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    z-index: 1000;
   }
 
   .personalize-panel.open {
@@ -125,14 +108,15 @@ const themes = [
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   .panel-title {
-    font-size: 1.18rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    color: var(--text-primary);
-    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
   }
 
   .panel-close {
@@ -140,7 +124,7 @@ const themes = [
     border: none;
     color: var(--text-tertiary);
     cursor: pointer;
-    padding: 4px;
+    padding: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -155,34 +139,17 @@ const themes = [
     display: block;
   }
 
-  .panel-section {
-    margin-bottom: 16px;
-  }
-
-  .panel-section:last-child {
-    margin-bottom: 0;
-  }
-
-  .section-label {
-    display: block;
-    font-size: 0.68rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-tertiary);
-    margin-bottom: 10px;
-  }
-
   .theme-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 8px;
+    margin-bottom: 12px;
   }
 
   .theme-swatch {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
     border: 2px solid transparent;
     cursor: pointer;
     position: relative;
@@ -190,10 +157,11 @@ const themes = [
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
   }
 
   .theme-swatch:hover {
-    transform: scale(1.1);
+    transform: scale(1.08);
   }
 
   .theme-swatch.active {
@@ -207,7 +175,6 @@ const themes = [
   .swatch-check {
     display: none;
     color: white;
-    mix-blend-mode: difference;
   }
 
   .theme-swatch.active .swatch-check {
@@ -220,9 +187,9 @@ const themes = [
     display: block;
   }
 
-  .mode-toggle {
+  .mode-section {
     display: flex;
-    gap: 8px;
+    gap: 6px;
   }
 
   .mode-btn {
@@ -230,15 +197,12 @@ const themes = [
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 8px 12px;
-    border-radius: 10px;
+    padding: 6px;
+    border-radius: 8px;
     border: 1px solid var(--border);
     background: transparent;
     color: var(--text-tertiary);
     cursor: pointer;
-    font-size: 1rem;
-    font-family: var(--font-sans);
     transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
   }
 
@@ -249,110 +213,78 @@ const themes = [
 
   .mode-btn.active {
     border-color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
     color: var(--accent);
   }
 
   .mode-btn :global(svg) {
     display: block;
   }
-
-  @media (max-width: 480px) {
-    .personalize-trigger {
-      bottom: 16px;
-      right: 16px;
-    }
-
-    .personalize-panel {
-      bottom: 72px;
-      right: 16px;
-      left: 16px;
-      min-width: auto;
-    }
-  }
 </style>
 
 <script is:inline>
-  // Theme definitions (must match server-side)
   const themes = {
     ember:    { light: { accent: '#c2410c', accentHover: '#a83608' }, dark: { accent: '#fb923c', accentHover: '#f97316' } },
     electric: { light: { accent: '#2563eb', accentHover: '#1d4ed8' }, dark: { accent: '#60a5fa', accentHover: '#3b82f6' } },
     violet:   { light: { accent: '#7c3aed', accentHover: '#6d28d9' }, dark: { accent: '#a78bfa', accentHover: '#8b5cf6' } },
     emerald:  { light: { accent: '#059669', accentHover: '#047857' }, dark: { accent: '#34d399', accentHover: '#10b981' } },
     rose:     { light: { accent: '#db2777', accentHover: '#be185d' }, dark: { accent: '#f472b6', accentHover: '#ec4899' } },
-    sunset:   { light: { accent: '#f97316', accentHover: '#ea580c', gradientFrom: '#f97316', gradientTo: '#ec4899' }, dark: { accent: '#fb923c', accentHover: '#f97316', gradientFrom: '#fb923c', gradientTo: '#f472b6' } },
-    aurora:   { light: { accent: '#06b6d4', accentHover: '#0891b2', gradientFrom: '#06b6d4', gradientTo: '#8b5cf6' }, dark: { accent: '#22d3ee', accentHover: '#06b6d4', gradientFrom: '#22d3ee', gradientTo: '#a78bfa' } },
-    lava:     { light: { accent: '#ef4444', accentHover: '#dc2626', gradientFrom: '#ef4444', gradientTo: '#f59e0b' }, dark: { accent: '#f87171', accentHover: '#ef4444', gradientFrom: '#f87171', gradientTo: '#fbbf24' } },
+    sunset:   { light: { accent: '#f97316', accentHover: '#ea580c', gf: '#f97316', gt: '#ec4899' }, dark: { accent: '#fb923c', accentHover: '#f97316', gf: '#fb923c', gt: '#f472b6' } },
+    aurora:   { light: { accent: '#06b6d4', accentHover: '#0891b2', gf: '#06b6d4', gt: '#8b5cf6' }, dark: { accent: '#22d3ee', accentHover: '#06b6d4', gf: '#22d3ee', gt: '#a78bfa' } },
+    lava:     { light: { accent: '#ef4444', accentHover: '#dc2626', gf: '#ef4444', gt: '#f59e0b' }, dark: { accent: '#f87171', accentHover: '#ef4444', gf: '#f87171', gt: '#fbbf24' } },
   };
 
   function applyTheme(themeId, mode) {
     const theme = themes[themeId];
     if (!theme) return;
-    const colors = theme[mode] || theme.dark;
-    const root = document.documentElement;
-
-    root.setAttribute('data-theme', themeId);
-    root.setAttribute('data-mode', mode);
-
-    root.style.setProperty('--accent', colors.accent);
-    root.style.setProperty('--accent-hover', colors.accentHover);
-
-    if (colors.gradientFrom) {
-      root.style.setProperty('--accent-gradient', `linear-gradient(135deg, ${colors.gradientFrom}, ${colors.gradientTo})`);
-      root.style.setProperty('--accent-gradient-from', colors.gradientFrom);
-      root.style.setProperty('--accent-gradient-to', colors.gradientTo);
+    const c = theme[mode] || theme.dark;
+    const r = document.documentElement.style;
+    r.setProperty('--accent', c.accent);
+    r.setProperty('--accent-hover', c.accentHover);
+    if (c.gf) {
+      r.setProperty('--accent-gradient', 'linear-gradient(135deg,' + c.gf + ',' + c.gt + ')');
+      r.setProperty('--accent-gradient-from', c.gf);
+      r.setProperty('--accent-gradient-to', c.gt);
     } else {
-      root.style.setProperty('--accent-gradient', colors.accent);
-      root.style.setProperty('--accent-gradient-from', colors.accent);
-      root.style.setProperty('--accent-gradient-to', colors.accent);
+      r.setProperty('--accent-gradient', c.accent);
+      r.setProperty('--accent-gradient-from', c.accent);
+      r.setProperty('--accent-gradient-to', c.accentHover);
     }
-
-    // Scroll progress bar
-    const progressBar = document.getElementById('scroll-progress');
-    if (progressBar) {
-      progressBar.style.background = colors.gradientFrom
-        ? `linear-gradient(90deg, ${colors.gradientFrom}, ${colors.gradientTo})`
-        : `linear-gradient(90deg, ${colors.accent}, ${colors.accentHover})`;
+    document.documentElement.setAttribute('data-theme', themeId);
+    document.documentElement.setAttribute('data-mode', mode);
+    if (mode === 'dark') {
+      r.setProperty('--bg', '#111111');
+      r.setProperty('--text-primary', '#f0f0f0');
+      r.setProperty('--text-secondary', '#a0a0a0');
+      r.setProperty('--text-tertiary', '#666666');
+      r.setProperty('--border', '#2a2a2a');
+    } else {
+      r.setProperty('--bg', '#fafafa');
+      r.setProperty('--text-primary', '#111111');
+      r.setProperty('--text-secondary', '#555555');
+      r.setProperty('--text-tertiary', '#888888');
+      r.setProperty('--border', '#e8e8e8');
     }
-
+    const pb = document.getElementById('scroll-progress');
+    if (pb) pb.style.background = c.gf ? 'linear-gradient(90deg,' + c.gf + ',' + c.gt + ')' : 'linear-gradient(90deg,' + c.accent + ',' + c.accentHover + ')';
     localStorage.setItem('theme', themeId);
     localStorage.setItem('mode', mode);
-
-    // Update swatches
-    document.querySelectorAll('.theme-swatch').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.themeId === themeId);
-    });
-    document.querySelectorAll('.mode-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.mode === mode);
-    });
+    document.querySelectorAll('.theme-swatch').forEach(b => b.classList.toggle('active', b.dataset.themeId === themeId));
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
   }
 
-  // Initialize
   const storedTheme = localStorage.getItem('theme') || 'ember';
   const storedMode = localStorage.getItem('mode') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   applyTheme(storedTheme, storedMode);
 
-  // Toggle panel
-  const trigger = document.getElementById('trigger-btn');
+  const trigger = document.getElementById('personalize-trigger');
   const panel = document.getElementById('personalize-panel');
   const close = document.getElementById('panel-close');
 
-  trigger.addEventListener('click', () => {
-    panel.classList.toggle('open');
-  });
+  trigger.addEventListener('click', (e) => { e.stopPropagation(); panel.classList.toggle('open'); });
+  close.addEventListener('click', () => panel.classList.remove('open'));
+  document.addEventListener('click', (e) => { if (!panel.contains(e.target) && !trigger.contains(e.target)) panel.classList.remove('open'); });
 
-  close.addEventListener('click', () => {
-    panel.classList.remove('open');
-  });
-
-  // Close on outside click
-  document.addEventListener('click', (e) => {
-    if (!panel.contains(e.target) && !trigger.contains(e.target)) {
-      panel.classList.remove('open');
-    }
-  });
-
-  // Theme swatches
   document.querySelectorAll('.theme-swatch').forEach(btn => {
     btn.addEventListener('click', () => {
       const themeId = btn.dataset.themeId;
@@ -361,7 +293,6 @@ const themes = [
     });
   });
 
-  // Mode buttons
   document.querySelectorAll('.mode-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const mode = btn.dataset.mode;
