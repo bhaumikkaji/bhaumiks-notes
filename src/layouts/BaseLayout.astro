@@ -174,7 +174,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
       /* Header */
       header {
-        padding: 48px 0 24px;
+        padding: 16px 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
       }
 
       .masthead {
@@ -222,16 +227,20 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
       /* Main content */
       .content {
-        padding: 24px 0 64px;
+        padding: 24px 0 24px;
         flex: 1;
       }
 
       /* Footer */
       footer {
-        padding: 24px 0;
+        padding: 16px 0;
         border-top: 1px solid var(--border);
         font-size: 1rem;
         color: var(--text-tertiary);
+        position: sticky;
+        bottom: 0;
+        z-index: 100;
+        background: var(--bg);
       }
 
       footer .container {

@@ -82,12 +82,9 @@ const side = featured.slice(1);
     const home = document.querySelector('.home');
     const stored = localStorage.getItem('density') || 'default';
     home.setAttribute('data-density', stored);
-
-    // Set active button
     densityToggle.querySelectorAll('.density-btn').forEach(btn => {
       btn.classList.toggle('density-active', btn.dataset.density === stored);
     });
-
     densityToggle.querySelectorAll('.density-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const density = btn.dataset.density;
@@ -102,16 +99,21 @@ const side = featured.slice(1);
 
 <style>
   .home {
-    padding-top: 40px;
-    transition: all 0.3s ease;
+    padding-top: 24px;
+    /* Fixed height for the bento — viewport minus header and footer */
+    height: calc(100vh - 120px);
+    display: flex;
+    align-items: stretch;
   }
 
   /* ===== BENTO GRID — Default (4-col) ===== */
   .bento {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: auto auto;
+    grid-template-rows: 1fr 1fr;
     gap: 12px;
+    width: 100%;
+    height: 100%;
     transition: grid-template-columns 0.3s ease, gap 0.3s ease;
   }
 
@@ -136,15 +138,15 @@ const side = featured.slice(1);
     background: color-mix(in srgb, var(--text-primary) 4%, transparent);
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 28px 24px;
+    padding: 24px 20px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.2s ease, background 0.2s ease, padding 0.3s ease, border-radius 0.3s ease;
+    transition: border-color 0.2s ease, background 0.2s ease;
     position: relative;
     overflow: hidden;
+    min-height: 0;
   }
 
   .bento-card:hover {
@@ -163,8 +165,9 @@ const side = featured.slice(1);
     text-transform: uppercase;
     padding: 3px 10px 3px 7px;
     border-radius: 12px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     align-self: flex-start;
+    flex-shrink: 0;
     color: var(--accent);
     background: color-mix(in srgb, var(--accent) 12%, transparent);
   }
@@ -180,37 +183,46 @@ const side = featured.slice(1);
   .card-title {
     font-weight: 600;
     letter-spacing: -0.02em;
-    line-height: 1.25;
-    margin-bottom: 8px;
-    transition: font-size 0.3s ease;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    flex-shrink: 0;
   }
 
   .bento-hero .card-title {
-    font-size: 1.72rem;
+    font-size: 1.45rem;
   }
 
   .bento-side .card-title {
-    font-size: 1.27rem;
+    font-size: 1.09rem;
   }
 
-  /* Description visibility by density */
+  /* Description — default state uses line-clamp */
   .card-desc {
     color: var(--text-secondary);
-    line-height: 1.55;
-    margin-bottom: 16px;
+    line-height: 1.5;
     flex: 1;
-    transition: opacity 0.2s ease, max-height 0.3s ease, font-size 0.3s ease;
+    min-height: 0;
+    overflow: hidden;
   }
 
-  .card-desc-default { font-size: 1.09rem; }
+  .card-desc-default {
+    font-size: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   .card-desc-compact { display: none; }
   .card-desc-expanded { display: none; }
 
   .card-cta {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
     color: var(--accent);
     margin-top: auto;
+    flex-shrink: 0;
+    padding-top: 8px;
   }
 
   /* About & Contact cards */
@@ -220,13 +232,18 @@ const side = featured.slice(1);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--text-tertiary);
-    margin-bottom: 12px;
+    margin-bottom: 8px;
+    flex-shrink: 0;
   }
 
   .bento-about p {
-    font-size: 1.09rem;
+    font-size: 1rem;
     color: var(--text-secondary);
-    line-height: 1.6;
+    line-height: 1.55;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
 
   .bento-about p strong {
@@ -241,87 +258,110 @@ const side = featured.slice(1);
   .contact-links {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
   }
 
   .contact-links a {
     color: var(--accent);
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
   }
 
   /* ===== DENSITY: COMPACT (2-col, tight) ===== */
   .home[data-density="compact"] .bento {
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     gap: 8px;
   }
 
   .home[data-density="compact"] .bento-hero {
     grid-column: 1 / -1;
     grid-row: auto;
-    padding: 20px 18px;
   }
 
   .home[data-density="compact"] .bento-side {
     grid-column: span 1;
-    padding: 18px 14px;
   }
 
   .home[data-density="compact"] .bento-about {
     grid-column: 1 / -1;
-    padding: 18px 14px;
   }
 
   .home[data-density="compact"] .bento-contact {
     grid-column: 1 / -1;
-    padding: 18px 14px;
+  }
+
+  .home[data-density="compact"] .bento-card {
+    padding: 16px 14px;
   }
 
   .home[data-density="compact"] .bento-hero .card-title {
-    font-size: 1.36rem;
+    font-size: 1.18rem;
   }
 
   .home[data-density="compact"] .bento-side .card-title {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 
   .home[data-density="compact"] .card-desc-default { display: none; }
-  .home[data-density="compact"] .card-desc-compact { display: block; font-size: 0.95rem; }
-  .home[data-density="compact"] .card-desc-expanded { display: none; }
-
-  .home[data-density="compact"] .bento-side .card-desc-compact {
+  .home[data-density="compact"] .card-desc-compact {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    font-size: 0.9rem;
+  }
+  .home[data-density="compact"] .card-desc-expanded { display: none; }
+
+  .home[data-density="compact"] .card-category {
+    font-size: 9px;
+    padding: 2px 7px 2px 5px;
+    margin-bottom: 8px;
+  }
+
+  .home[data-density="compact"] .card-cta {
+    font-size: 0.9rem;
+  }
+
+  .home[data-density="compact"] .bento-about p {
+    -webkit-line-clamp: 2;
+    font-size: 0.9rem;
   }
 
   /* ===== DENSITY: EXPANDED (4-col, generous) ===== */
   .home[data-density="expanded"] .bento {
     grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 1fr;
     gap: 16px;
   }
 
   .home[data-density="expanded"] .bento-card {
-    padding: 36px 28px;
+    padding: 32px 28px;
     border-radius: 20px;
   }
 
   .home[data-density="expanded"] .bento-hero .card-title {
-    font-size: 2rem;
+    font-size: 1.72rem;
   }
 
   .home[data-density="expanded"] .bento-side .card-title {
-    font-size: 1.45rem;
+    font-size: 1.27rem;
   }
 
   .home[data-density="expanded"] .card-desc-default { display: none; }
   .home[data-density="expanded"] .card-desc-compact { display: none; }
-  .home[data-density="expanded"] .card-desc-expanded { display: block; font-size: 1.18rem; line-height: 1.65; }
+  .home[data-density="expanded"] .card-desc-expanded {
+    display: block;
+    font-size: 1.09rem;
+    line-height: 1.55;
+    overflow: hidden;
+    -webkit-line-clamp: 5;
+  }
 
   .home[data-density="expanded"] .bento-about p {
-    font-size: 1.18rem;
-    line-height: 1.7;
+    -webkit-line-clamp: unset;
+    font-size: 1.09rem;
+    line-height: 1.6;
   }
 
   /* ===== DENSITY TOGGLE ===== */
@@ -369,38 +409,49 @@ const side = featured.slice(1);
 
   /* ===== Responsive ===== */
   @media (max-width: 768px) {
+    .home {
+      height: auto;
+      min-height: auto;
+    }
+
     .bento {
       grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+      height: auto;
     }
+
     .bento-hero {
       grid-column: 1 / -1;
       grid-row: auto;
     }
+
     .bento-side {
       grid-column: span 1;
     }
+
     .bento-about {
       grid-column: 1 / -1;
     }
+
     .bento-contact {
       grid-column: 1 / -1;
     }
-    /* Override density for mobile */
+
+    .bento-hero .card-title {
+      font-size: 1.45rem;
+    }
+
+    .bento-card {
+      padding: 20px 16px;
+    }
+
+    /* Override density on mobile */
     .home[data-density="compact"] .bento,
     .home[data-density="default"] .bento,
     .home[data-density="expanded"] .bento {
       grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
       gap: 10px;
-    }
-    .home[data-density="expanded"] .bento-card {
-      padding: 24px 18px;
-      border-radius: 16px;
-    }
-    .home[data-density="expanded"] .bento-hero .card-title {
-      font-size: 1.72rem;
-    }
-    .bento-hero .card-title {
-      font-size: 1.72rem;
     }
   }
 
@@ -408,15 +459,18 @@ const side = featured.slice(1);
     .bento {
       grid-template-columns: 1fr;
     }
+
     .bento-hero,
     .bento-side,
     .bento-about,
     .bento-contact {
       grid-column: 1 / -1;
     }
+
     .bento-hero .card-title {
-      font-size: 1.45rem;
+      font-size: 1.36rem;
     }
+
     .density-toggle {
       bottom: 16px;
       right: 16px;
