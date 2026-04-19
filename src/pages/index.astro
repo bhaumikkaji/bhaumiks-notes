@@ -51,15 +51,6 @@ const side = featured.slice(1);
         <span class="card-label">About</span>
         <p>Senior Product Designer at <strong>Microsoft</strong> — Copilot, Teams, Office Mobile. I write about product, design, and AI from empirical learnings.</p>
       </div>
-
-      <!-- Contact card -->
-      <div class="bento-card bento-contact">
-        <span class="card-label">Get in touch</span>
-        <div class="contact-links">
-          <a href="https://twitter.com/bhaumikkaji">Twitter</a>
-          <a href="mailto:bhaumik@bhaumikkaji.com">Email</a>
-        </div>
-      </div>
     </div>
 
   </div>
@@ -126,11 +117,7 @@ const side = featured.slice(1);
   }
 
   .bento-about {
-    grid-column: span 3;
-  }
-
-  .bento-contact {
-    grid-column: span 1;
+    grid-column: 1 / -1;
   }
 
   .bento-card {
@@ -254,23 +241,6 @@ const side = featured.slice(1);
     color: var(--text-primary);
   }
 
-  .bento-contact {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .contact-links {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .contact-links a {
-    color: var(--accent);
-    font-size: 0.95rem;
-    font-weight: 500;
-  }
-
   /* ===== DENSITY: COMPACT (2-col) ===== */
   .home[data-density="compact"] .bento {
     grid-template-columns: 1fr 1fr;
@@ -287,10 +257,6 @@ const side = featured.slice(1);
   }
 
   .home[data-density="compact"] .bento-about {
-    grid-column: 1 / -1;
-  }
-
-  .home[data-density="compact"] .bento-contact {
     grid-column: 1 / -1;
   }
 
@@ -392,10 +358,6 @@ const side = featured.slice(1);
       grid-column: 1 / -1;
     }
 
-    .bento-contact {
-      grid-column: 1 / -1;
-    }
-
     .bento-hero .card-title {
       font-size: 1.3rem;
     }
@@ -420,8 +382,7 @@ const side = featured.slice(1);
 
     .bento-hero,
     .bento-side,
-    .bento-about,
-    .bento-contact {
+    .bento-about {
       grid-column: 1 / -1;
     }
 

@@ -198,6 +198,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       .masthead-title a {
         color: var(--text-primary);
         text-decoration: none;
+        display: flex;
+        align-items: center;
       }
 
       .masthead-title a:hover {
@@ -311,7 +313,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         <nav role="navigation" aria-label="Main navigation">
           <div class="masthead">
             <h4 class="masthead-title">
-              <a href="/" aria-label="Home">Bhaumik <span class="text-grey">Kaji</span></a>
+              <a href="/" aria-label="Home"><Icon name="pen-tool" size={20} /></a>
             </h4>
             <span class="masthead-nav" role="list">
               <a href="/notes" aria-label="Read my notes" class={Astro.url.pathname.startsWith('/notes') ? 'nav-active' : ''}>Notes</a>
