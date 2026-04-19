@@ -26,10 +26,14 @@ Tertiary: Recruiters/hiring managers who find it (but it's not written for them)
 
 ## Content Types
 
-- Short essays on design decisions, tradeoffs, failures
-- Tech observations and opinions
-- Design+tech intersection pieces
-- Possibly: case study fragments, process notes, hot takes
+Inspired by Hardik's format: short notes, not long-form essays.
+
+- **Notes** — short, opinionated, personal (2–10 min reads)
+- Design observations and opinions
+- Tech experiments and learnings
+- AI + design intersection notes
+- Career reflections
+- Process notes and hot takes
 - Not: company-confidential work, press-release content, performative thought leadership
 
 ---
@@ -75,9 +79,30 @@ But: this is Bhaumik's call. If he wants stack consistency with the portfolio, t
 
 ---
 
-## Design Direction
+## Design Direction — Inspired by hvpandya.com/notes
 
-- **Clean, readable, opinionated** — not generic
+**Reference site:** https://hvpandya.com/notes/ — Hardik Pandya's notes page
+
+### What we're taking from the reference
+
+- **Minimal aesthetic** — almost no visual noise, content dominates
+- **Note-based format** — not "blog posts," notes. Short, opinionated, personal
+- **Flat chronological list** — newest first, title + category tag, no thumbnails or hero images needed
+- **Category tags** — small, unobtrusive labels (e.g., AI experiments, Design, Leadership, Career, Observations)
+- **No comments** — notes, not discussions
+- **Newsletter signup** — simple Substack integration for subscribers
+- **Personal voice** — "these are my notes," honest, biased, empirical
+- **Clean reading experience** — typography-first, minimal chrome
+- **Subtle interactivity** — dark mode, smooth transitions, nothing heavy
+
+### What we're doing differently
+
+- Bhaumik's categories will reflect his focus: Tech, Design, AI, Career, Observations, Life
+- Bhaumik's voice is his own — not emulating Hardik's writing style
+- We may add: RSS, code syntax highlighting, reading time (lightweight)
+
+### General design principles
+
 - **Typography-first** — this is a reading experience
 - **Dark mode** supported
 - **Minimal distractions** — content is the product
@@ -88,27 +113,29 @@ But: this is Bhaumik's call. If he wants stack consistency with the portfolio, t
 
 ## Core Features (MVP)
 
-1. **Blog index** — list of posts, chronological
-2. **Individual post pages** — clean reading experience
+1. **Notes index** — flat chronological list, newest first, title + category tag (like hvpandya.com/notes)
+2. **Individual note pages** — clean, minimal reading experience
 3. **MDX/Markdown authoring** — write in files, not a CMS
-4. **Tags/categories** — at minimum: Tech, Design, and intersections
+4. **Category tags** — Tech, Design, AI, Career, Observations, Life (customizable)
 5. **RSS feed** — respect the medium
 6. **Responsive** — mobile-first, desktop-great
 7. **Dark mode** — expected for this audience
 8. **SEO basics** — meta tags, Open Graph, clean URLs
+9. **Newsletter signup** — Substack integration (like reference site)
+10. **Contact/social links** — Twitter/email, minimal footer
 
 ---
 
 ## Nice-to-Have (Post-MVP)
 
 - Search (full-text)
-- Newsletter/subscribe
 - Code syntax highlighting with copy button
 - Reading time estimates
 - Series/linked posts
-- Comments (unlikely — most blogs are better without)
+- "Start reading here" curated section (like hvpandya.com)
 - Analytics (privacy-respecting, probably Plausible or none)
 - Obsidian-to-blog pipeline (if Bhaumik wants to author there)
+- Projects showcase section (like Hardik's Solari, Stop Slop, etc.)
 
 ---
 
