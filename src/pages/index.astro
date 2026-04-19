@@ -22,19 +22,6 @@ const side = featured.slice(1);
 <BaseLayout title="Bhaumik Kaji ・ Design & product thinker" description="Senior Product Designer at Microsoft. Sharing notes on tech, design and AI." showScrollProgress={false}>
   <div class="home" data-density="default">
 
-    <!-- Density toggle -->
-    <div class="density-toggle" id="density-toggle">
-      <button class="density-btn" data-density="compact" aria-label="Compact view">
-        <Icon name="layout-list" size={14} />
-      </button>
-      <button class="density-btn density-active" data-density="default" aria-label="Default view">
-        <Icon name="layout-grid" size={14} />
-      </button>
-      <button class="density-btn" data-density="expanded" aria-label="Expanded view">
-        <Icon name="layout-dashboard" size={14} />
-      </button>
-    </div>
-
     <!-- Bento Grid -->
     <div class="bento">
       <!-- Hero card -->
@@ -89,7 +76,6 @@ const side = featured.slice(1);
     height: calc(100vh - 80px);
     display: flex;
     align-items: stretch;
-    position: relative;
   }
 
   /* ===== BENTO GRID — Default (4-col) ===== */
@@ -245,25 +231,12 @@ const side = featured.slice(1);
     display: block !important;
   }
 
-  /* ===== DENSITY TOGGLE ===== */
-  .density-toggle {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 10;
-    display: flex;
-    gap: 2px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 3px;
-  }
-
+  /* ===== Density buttons (in header) ===== */
   .density-btn {
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
     border: none;
-    border-radius: 8px;
+    border-radius: 999px;
     background: transparent;
     color: var(--text-tertiary);
     cursor: pointer;
@@ -338,11 +311,6 @@ const side = featured.slice(1);
 
     .bento-hero .card-title {
       font-size: 1.2rem;
-    }
-
-    .density-toggle {
-      bottom: 16px;
-      right: 16px;
     }
   }
 </style>
