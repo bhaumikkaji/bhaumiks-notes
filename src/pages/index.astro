@@ -19,7 +19,7 @@ const hero = featured[0];
 const side = featured.slice(1);
 ---
 
-<BaseLayout title="Bhaumik Kaji ・ Design & product thinker" description="Senior Product Designer at Microsoft. Sharing notes on tech, design and AI.">
+<BaseLayout title="Bhaumik Kaji ・ Design & product thinker" description="Senior Product Designer at Microsoft. Sharing notes on tech, design and AI." showScrollProgress={false}>
   <div class="home" data-density="default">
 
     <!-- Bento Grid -->
@@ -114,7 +114,7 @@ const side = featured.slice(1);
     gap: 12px;
     width: 100%;
     height: 100%;
-    transition: grid-template-columns 0.3s ease, gap 0.3s ease;
+    transition: grid-template-columns 0.3s ease;
   }
 
   .bento-hero {
@@ -277,7 +277,6 @@ const side = featured.slice(1);
   .home[data-density="compact"] .bento {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 8px;
   }
 
   .home[data-density="compact"] .bento-hero {
@@ -295,10 +294,6 @@ const side = featured.slice(1);
 
   .home[data-density="compact"] .bento-contact {
     grid-column: 1 / -1;
-  }
-
-  .home[data-density="compact"] .bento-card {
-    padding: 16px 14px;
   }
 
   .home[data-density="compact"] .bento-hero .card-title {
@@ -338,12 +333,6 @@ const side = featured.slice(1);
   .home[data-density="expanded"] .bento {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 1fr 1fr;
-    gap: 16px;
-  }
-
-  .home[data-density="expanded"] .bento-card {
-    padding: 32px 28px;
-    border-radius: 20px;
   }
 
   .home[data-density="expanded"] .bento-hero .card-title {
