@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <rect width="800" height="400" fill="#f5f5f5"/>
+  <text x="400" y="180" text-anchor="middle" font-family="system-ui, sans-serif" font-size="32" font-weight="600" fill="#1a1a1a">Bhaumik's Notes</text>
+  <text x="400" y="230" text-anchor="middle" font-family="system-ui, sans-serif" font-size="16" fill="#666">Design</text>
+</svg>

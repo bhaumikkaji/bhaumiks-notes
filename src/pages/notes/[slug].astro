@@ -1,0 +1,28 @@
+---
+import { getCollection, render } from 'astro:content';
+import NoteLayout from '../../layouts/NoteLayout.astro';
+import ReadMore from '../../components/ReadMore.astro';
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes');
+  return notes.map((note) => ({
+    params: { slug: note.data.slug },
+    props: { note },
+  }));
+}
+
+const { note } = Astro.props;
+const { Content } = await render(note);
+
+// Get related notes (same category, excluding current)
+const allNotes = await getCollection('notes');
+const relatedNotes = allNotes
+  .filter((n) => n.data.slug !== note.data.slug)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
+---
+
+<NoteLayout title={note.data.title} description={note.data.description} pubDate={note.data.pubDate} category={note.data.category} image={note.data.image}>
+  <Content />
+  <ReadMore notes={relatedNotes} />
+</NoteLayout>

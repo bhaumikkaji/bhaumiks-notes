@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#1a1a1a"/>
+  <text x="600" y="280" text-anchor="middle" font-family="system-ui, sans-serif" font-size="56" font-weight="700" fill="#e5e5e5">Bhaumik's Notes</text>
+  <text x="600" y="340" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" fill="#999">Notes on tech, design &amp; AI</text>
+  <rect x="560" y="380" width="80" height="4" rx="2" fill="#c2410c"/>
+</svg>

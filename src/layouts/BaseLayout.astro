@@ -1,0 +1,261 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+
+const { title, description = 'Notes on tech, design, and AI by Bhaumik Kaji.', image = '/images/og-default.jpg', type = 'website' } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Bhaumik Kaji" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:site_name" content="Bhaumik's Notes" />
+    <meta property="og:url" content={canonicalURL} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@bhaumikkaji" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" title="Bhaumik's Notes RSS Feed" href="/feed.xml" />
+
+    <!-- Fonts -->
+    <link rel="preload" href="/fonts/geist-sans/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/geist-mono/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin />
+
+    <title>{title} ・ Bhaumik Kaji</title>
+
+    <!-- Scroll progress bar -->
+    <style is:global>
+      @font-face {
+        font-family: 'Geist Sans';
+        src: url('/fonts/geist-sans/Geist-Variable.woff2') format('woff2');
+        font-weight: 100 900;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Geist Mono';
+        src: url('/fonts/geist-mono/GeistMono-Variable.woff2') format('woff2');
+        font-weight: 100 900;
+        font-display: swap;
+      }
+
+      :root {
+        --color-bg: #fafafa;
+        --color-text: #1a1a1a;
+        --color-text-secondary: #666666;
+        --color-text-tertiary: #999999;
+        --color-border: #e5e5e5;
+        --color-accent: #c2410c;
+        --color-tag-bg: #f5f5f5;
+        --color-tag-text: #666666;
+        --font-body: 'Geist Sans', system-ui, -apple-system, sans-serif;
+        --font-mono: 'Geist Mono', ui-monospace, monospace;
+        --max-width: 680px;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --color-bg: #111111;
+          --color-text: #e5e5e5;
+          --color-text-secondary: #999999;
+          --color-text-tertiary: #666666;
+          --color-border: #2a2a2a;
+          --color-accent: #fb923c;
+          --color-tag-bg: #1a1a1a;
+          --color-tag-text: #999999;
+        }
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        font-family: var(--font-body);
+        font-size: 17px;
+        line-height: 1.7;
+        color: var(--color-text);
+        background: var(--color-bg);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+        min-height: 100vh;
+      }
+
+      a {
+        color: var(--color-accent);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      /* Scroll progress bar */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        background: var(--color-accent);
+        z-index: 1000;
+        width: 0%;
+        transition: width 0.1s linear;
+      }
+
+      /* Layout */
+      .container {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* Header */
+      header {
+        padding: 40px 0 32px;
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      .masthead {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .masthead-title {
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+      }
+
+      .masthead-title a {
+        color: var(--color-text);
+      }
+
+      .masthead-title .text-grey {
+        color: var(--color-text-tertiary);
+      }
+
+      .masthead-nav {
+        display: flex;
+        gap: 20px;
+        font-size: 14px;
+      }
+
+      .masthead-nav a {
+        color: var(--color-text-secondary);
+        transition: color 0.15s ease;
+      }
+
+      .masthead-nav a:hover,
+      .masthead-nav a.nav-active {
+        color: var(--color-text);
+      }
+
+      /* Content */
+      .content {
+        padding: 48px 0;
+      }
+
+      /* Footer */
+      footer {
+        padding: 32px 0;
+        border-top: 1px solid var(--color-border);
+        font-size: 13px;
+        color: var(--color-text-tertiary);
+        display: flex;
+        justify-content: space-between;
+      }
+
+      footer a {
+        color: var(--color-text-secondary);
+      }
+
+      /* Responsive */
+      @media (max-width: 640px) {
+        .masthead {
+          flex-direction: column;
+          gap: 8px;
+        }
+        html {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="scroll-progress" id="scroll-progress"></div>
+    <a href="#main-content" class="skip-to-main-content-link" tabindex="0" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" onfocus="this.style.position='static';this.style.width='auto';this.style.height='auto';this.style.overflow='visible';" onblur="this.style.position='absolute';this.style.left='-9999px';this.style.width='1px';this.style.height='1px';this.style.overflow='hidden';">Skip to main content</a>
+
+    <header role="banner">
+      <div class="container">
+        <nav role="navigation" aria-label="Main navigation">
+          <h4 class="masthead-title">
+            <a href="/" aria-label="Home">Bhaumik <span class="text-grey">Kaji</span></a>
+            <span class="masthead-nav" role="list">
+              <a href="/notes" aria-label="Read my notes" class={Astro.url.pathname.startsWith('/notes') ? 'nav-active' : ''}>Notes</a>
+            </span>
+          </h4>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content" role="main" class="container content">
+      <slot />
+    </main>
+
+    <footer>
+      <div class="container">
+        <span>© {new Date().getFullYear()} Bhaumik Kaji</span>
+        <span>
+          <a href="https://twitter.com/bhaumikkaji">Twitter</a> ·
+          <a href="mailto:bhaumik@bhaumikkaji.com">Email</a> ·
+          <a href="/feed.xml">RSS</a>
+        </span>
+      </div>
+    </footer>
+
+    <script>
+      // Scroll progress bar
+      const progressBar = document.getElementById('scroll-progress');
+      function updateProgress() {
+        if (!progressBar) return;
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progressBar.style.width = progress + '%';
+      }
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress, { passive: true });
+      updateProgress();
+    </script>
+  </body>
+</html>

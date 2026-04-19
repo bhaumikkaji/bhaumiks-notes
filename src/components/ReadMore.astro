@@ -1,0 +1,68 @@
+---
+import CategoryPill from './CategoryPill.astro';
+
+export interface Props {
+  notes: Array<{
+    slug: string;
+    title: string;
+    description: string;
+    category: string;
+    pubDate: Date;
+  }>;
+}
+
+const { notes } = Astro.props;
+---
+
+{notes.length > 0 && (
+  <div class="read-more">
+    <h2>Read more</h2>
+    <div class="read-more-list">
+      {notes.map((note) => (
+        <h3 class="read-more-entry">
+          <a href={`/notes/${note.slug}`}>{note.title}</a>
+          <CategoryPill category={note.category} />
+        </h3>
+      ))}
+    </div>
+  </div>
+)}
+
+<style>
+  .read-more {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .read-more h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--color-text-secondary);
+  }
+
+  .read-more-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .read-more-entry {
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .read-more-entry a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .read-more-entry a:hover {
+    text-decoration: underline;
+  }
+</style>

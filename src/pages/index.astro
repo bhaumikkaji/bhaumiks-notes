@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import CategoryPill from '../components/CategoryPill.astro';
+
+const allNotes = await getCollection('notes');
+const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const latestNotes = notes.slice(0, 5);
+---
+
+<BaseLayout title="Bhaumik Kaji ・ Design & product thinker" description="Senior Product Designer at Microsoft. Sharing notes on tech, design and AI.">
+  <div class="home">
+    <div class="home-intro">
+      <h1>I'm a design & product leader at <strong>Microsoft</strong>.</h1>
+      <p>Via Copilot, Teams, Office Mobile & more.</p>
+      <p>Throughout my career, I've helped build and grow products with thoughtful design. I've worked across AI, productivity, mobile, and consumer domains.</p>
+    </div>
+
+    <div class="home-section">
+      <h2>Latest notes</h2>
+      <p class="section-desc">Notes on tech, design and AI, born out of empirical learnings and everyday observations.</p>
+      <div class="notes-preview">
+        {latestNotes.map((note) => (
+          <h3 class="note-entry">
+            <a href={`/notes/${note.data.slug}`}>{note.data.title}</a>
+            <CategoryPill category={note.data.category} />
+          </h3>
+        ))}
+      </div>
+      <a href="/notes" class="view-all">View all notes →</a>
+    </div>
+
+    <div class="home-section">
+      <h2>Get in touch</h2>
+      <p>I enjoy conversations about design craft, product thinking, and building things that matter. Say hello anytime.</p>
+      <p><a href="https://twitter.com/bhaumikkaji">Twitter</a> · <a href="mailto:bhaumik@bhaumikkaji.com">Email</a></p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .home {
+    padding-top: 24px;
+  }
+
+  .home-intro {
+    margin-bottom: 64px;
+  }
+
+  .home-intro h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+
+  .home-intro p {
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    margin-bottom: 8px;
+  }
+
+  .home-section {
+    margin-bottom: 48px;
+  }
+
+  .home-section h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .section-desc {
+    color: var(--color-text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .notes-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .note-entry {
+    font-size: 1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .note-entry a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .note-entry a:hover {
+    text-decoration: underline;
+  }
+
+  .view-all {
+    display: inline-block;
+    font-size: 14px;
+    color: var(--color-accent);
+  }
+
+  .home-section p a {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 640px) {
+    .home-intro h1 {
+      font-size: 1.6rem;
+    }
+  }
+</style>

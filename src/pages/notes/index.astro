@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CategoryPill from '../../components/CategoryPill.astro';
+import { getCollection } from 'astro:content';
+
+const allNotes = await getCollection('notes');
+const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const featured = notes.slice(0, 3);
+---
+
+<BaseLayout title="Notes on tech, design & AI." description="Notes on tech, design and AI by Bhaumik Kaji. Born out of empirical learnings and everyday observations.">
+  <div class="notes-page">
+    <div class="notes-intro">
+      <h1>Notes on tech, design & AI.</h1>
+      <p>These are my notes — like a semi-frequently updated journal. Everything I write is born out of empirical learnings and everyday observations. There's obviously bias in these notes, but since honest personal accounts from people in tech are rare, I hope this serves as a useful one.</p>
+      <p>After reading, if you have a different perspective, feel free to ping me on <a href="https://twitter.com/bhaumikkaji">Twitter</a> or email <strong>bhaumik@bhaumikkaji.com</strong>.</p>
+    </div>
+
+    <div class="notes-featured">
+      <h2>Start reading here</h2>
+      <div class="notes-list">
+        {featured.map((note) => (
+          <h3 class="note-entry">
+            <a href={`/notes/${note.data.slug}`}>{note.data.title}</a>
+            <CategoryPill category={note.data.category} />
+          </h3>
+        ))}
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="notes-list">
+      {notes.map((note) => (
+        <h3 class="note-entry">
+          <a href={`/notes/${note.data.slug}`}>{note.data.title}</a>
+          <CategoryPill category={note.data.category} />
+        </h3>
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .notes-page {
+    padding-top: 24px;
+  }
+
+  .notes-intro {
+    margin-bottom: 48px;
+  }
+
+  .notes-intro h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .notes-intro p {
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+
+  .notes-intro a {
+    color: var(--color-accent);
+  }
+
+  .notes-featured {
+    margin-bottom: 32px;
+  }
+
+  .notes-featured h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 32px 0;
+  }
+
+  .notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .note-entry {
+    font-size: 1.05rem;
+    font-weight: 500;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .note-entry a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .note-entry a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 640px) {
+    .notes-intro h1 {
+      font-size: 1.6rem;
+    }
+  }
+</style>
