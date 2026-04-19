@@ -203,15 +203,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }
 
       .header-icon {
-        color: var(--accent);
+        color: var(--accent) !important;
         transition: color 0.15s ease;
       }
 
       .header-icon :global(svg) {
         display: block;
+        color: var(--accent);
       }
 
-      a:hover .header-icon {
+      a:hover .header-icon :global(svg) {
         color: var(--accent-hover);
       }
 
