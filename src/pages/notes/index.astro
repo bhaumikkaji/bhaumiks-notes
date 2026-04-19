@@ -12,30 +12,30 @@ const featured = notes.slice(0, 3);
   <div class="notes-page">
     <div class="notes-intro">
       <h1>Notes on tech, design & AI.</h1>
-      <p>These are my notes — like a semi-frequently updated journal. Everything I write is born out of empirical learnings and everyday observations. There's obviously bias in these notes, but since honest personal accounts from people in tech are rare, I hope this serves as a useful one.</p>
-      <p>After reading, if you have a different perspective, feel free to ping me on <a href="https://twitter.com/bhaumikkaji">Twitter</a> or email <strong>bhaumik@bhaumikkaji.com</strong>.</p>
+      <p class="intro-text">These are my notes — like a semi-frequently updated journal. Everything I write is born out of empirical learnings and everyday observations. There's obviously bias in these notes, but since honest personal accounts from people in tech are rare, I hope this serves as a useful one.</p>
+      <p class="intro-cta">After reading, if you have a different perspective, feel free to ping me on <a href="https://twitter.com/bhaumikkaji">Twitter</a> or email <strong>bhaumik@bhaumikkaji.com</strong>.</p>
     </div>
 
     <div class="notes-featured">
-      <h2>Start reading here</h2>
+      <h2 class="section-label">Start reading here</h2>
       <div class="notes-list">
         {featured.map((note) => (
-          <h3 class="note-entry">
-            <a href={`/notes/${note.data.slug}`}>{note.data.title}</a>
+          <div class="note-entry">
+            <a href={`/notes/${note.data.slug}`} class="note-title">{note.data.title}</a>
             <CategoryPill category={note.data.category} />
-          </h3>
+          </div>
         ))}
       </div>
     </div>
 
-    <hr />
+    <hr class="divider" />
 
     <div class="notes-list">
       {notes.map((note) => (
-        <h3 class="note-entry">
-          <a href={`/notes/${note.data.slug}`}>{note.data.title}</a>
+        <div class="note-entry">
+          <a href={`/notes/${note.data.slug}`} class="note-title">{note.data.title}</a>
           <CategoryPill category={note.data.category} />
-        </h3>
+        </div>
       ))}
     </div>
   </div>
@@ -43,74 +43,86 @@ const featured = notes.slice(0, 3);
 
 <style>
   .notes-page {
-    padding-top: 24px;
+    padding-top: 32px;
   }
 
   .notes-intro {
-    margin-bottom: 48px;
+    margin-bottom: 56px;
   }
 
   .notes-intro h1 {
-    font-size: 2rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
     line-height: 1.2;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
 
-  .notes-intro p {
-    color: var(--color-text-secondary);
-    line-height: 1.65;
+  .intro-text {
+    color: var(--text-secondary);
+    line-height: 1.7;
     margin-bottom: 12px;
+    font-size: 0.95rem;
   }
 
-  .notes-intro a {
-    color: var(--color-accent);
+  .intro-cta {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 0.9rem;
+  }
+
+  .intro-cta a {
+    color: var(--accent);
   }
 
   .notes-featured {
-    margin-bottom: 32px;
+    margin-bottom: 40px;
   }
 
-  .notes-featured h2 {
-    font-size: 1.1rem;
+  .section-label {
+    font-size: 0.75rem;
     font-weight: 600;
-    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    margin-bottom: 20px;
   }
 
-  hr {
+  .divider {
     border: none;
-    border-top: 1px solid var(--color-border);
-    margin: 32px 0;
+    border-top: 1px solid var(--border);
+    margin: 40px 0;
   }
 
   .notes-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 14px;
   }
 
   .note-entry {
-    font-size: 1.05rem;
-    font-weight: 500;
     display: flex;
     align-items: baseline;
     gap: 10px;
     flex-wrap: wrap;
+    line-height: 1.5;
   }
 
-  .note-entry a {
-    color: var(--color-text);
+  .note-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
     text-decoration: none;
+    transition: color 0.15s ease;
   }
 
-  .note-entry a:hover {
-    text-decoration: underline;
+  .note-title:hover {
+    color: var(--accent);
   }
 
   @media (max-width: 640px) {
     .notes-intro h1 {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
     }
   }
 </style>

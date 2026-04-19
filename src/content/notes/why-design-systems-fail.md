@@ -1,6 +1,6 @@
 ---
 title: 'Why Design Systems Fail'
-description: 'Most design systems don''t fail because of technology. They fail because of trust, adoption, and the gap between what we prescribe and what people actually need.'
+description: "Most design systems don't fail because of technology. They fail because of trust, adoption, and the gap between what we prescribe and what people actually need."
 pubDate: '2026-04-15'
 category: 'Design'
 slug: 'why-design-systems-fail'
@@ -11,6 +11,8 @@ Most design systems don't fail because of technology. They fail because of trust
 
 I've seen this pattern repeat across three companies now. The system launches with excitement. A central team polishes tokens, components, and documentation. And then... adoption stalls. Teams build their own things anyway. The system becomes a reference, not a standard.
 
+![Design systems are about trust, not just technology](/images/placeholder-design.svg)
+
 ## The trust problem
 
 Design systems require trust — trust that the system will evolve with you, not against you. Trust that contributing back isn't a black hole. Trust that the team maintaining it actually uses it.
@@ -19,7 +21,9 @@ When teams don't trust the system, they fork. Quietly at first. A custom button 
 
 ## The adoption gap
 
-The best design system I ever worked with wasn't the most comprehensive. It was the most predictable. Teams knew what they'd get. They knew it would work. They knew the maintainers would respond to issues.
+The best design system I ever worked with wasn't the most comprehensive. It was the most **predictable**. Teams knew what they'd get. They knew it would work. They knew the maintainers would respond to issues.
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/wDBEBpNlLXE" title="Design systems at scale" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px; margin: 1.5em 0;"></iframe>
 
 Adoption isn't about coverage. It's about **reliability**. A system that covers 60% of cases but never breaks beats one that covers 95% but breaks often.
 
@@ -33,9 +37,9 @@ From what I've seen, these patterns hold:
 - **Be opinionated about the right things.** Typography, spacing, and color should be strict. Layout and composition can be flexible.
 - **Eat your own cooking.** The system team should use the system for their own work. Nothing kills trust faster than "do as I say, not as I do."
 
-## The real measure
+> A design system's success isn't measured by how many components it has. It's measured by whether teams choose it when they don't have to.
 
-A design system's success isn't measured by how many components it has. It's measured by whether teams choose it when they don't have to.
+## The real measure
 
 If they do, you've built something worth maintaining. If they don't, no amount of documentation will save it.
 

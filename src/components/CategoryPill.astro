@@ -5,30 +5,32 @@ export interface Props {
 
 const { category } = Astro.props;
 
-const categoryColors: Record<string, string> = {
-  'Tech': '#3b82f6',
-  'Design': '#8b5cf6',
-  'AI': '#f59e0b',
-  'Career': '#10b981',
-  'Observations': '#6b7280',
-  'Life': '#ec4899',
+const colors: Record<string, { text: string; bg: string }> = {
+  Tech: { text: 'var(--tag-tech)', bg: 'color-mix(in srgb, var(--tag-tech) 12%, transparent)' },
+  Design: { text: 'var(--tag-design)', bg: 'color-mix(in srgb, var(--tag-design) 12%, transparent)' },
+  AI: { text: 'var(--tag-ai)', bg: 'color-mix(in srgb, var(--tag-ai) 12%, transparent)' },
+  Career: { text: 'var(--tag-career)', bg: 'color-mix(in srgb, var(--tag-career) 12%, transparent)' },
+  Observations: { text: 'var(--tag-observations)', bg: 'color-mix(in srgb, var(--tag-observations) 12%, transparent)' },
+  Life: { text: 'var(--tag-life)', bg: 'color-mix(in srgb, var(--tag-life) 12%, transparent)' },
 };
 
-const color = categoryColors[category] || '#6b7280';
+const color = colors[category] || colors['Observations'];
 ---
 
-<span class="category-pill" style={`--pill-color: ${color}`}>{category}</span>
+<span class="category-pill" style={`--pill-color: ${color.text}; --pill-bg: ${color.bg};`}>{category}</span>
 
 <style>
   .category-pill {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--pill-color);
-    background: color-mix(in srgb, var(--pill-color) 10%, transparent);
     padding: 2px 8px;
     border-radius: 10px;
+    color: var(--pill-color);
+    background: var(--pill-bg);
+    line-height: 1.6;
     white-space: nowrap;
   }
 </style>

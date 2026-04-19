@@ -14,7 +14,6 @@ export async function getStaticPaths() {
 const { note } = Astro.props;
 const { Content } = await render(note);
 
-// Get related notes (same category, excluding current)
 const allNotes = await getCollection('notes');
 const relatedNotes = allNotes
   .filter((n) => n.data.slug !== note.data.slug)

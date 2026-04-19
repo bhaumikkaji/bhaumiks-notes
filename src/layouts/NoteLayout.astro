@@ -15,10 +15,10 @@ const { title, description, pubDate, category, image } = Astro.props;
 <BaseLayout title={title} description={description} image={image} type="article">
   <article class="note">
     <header class="note-header">
-      <h1 class="note-title">{title}</h1>
       {category && (
-        <span class="note-category">{category}</span>
+        <span class="note-category" data-category={category}>{category}</span>
       )}
+      <h1 class="note-title">{title}</h1>
     </header>
     <div class="note-body">
       <slot />
@@ -28,45 +28,70 @@ const { title, description, pubDate, category, image } = Astro.props;
 
 <style>
   .note-header {
-    margin-bottom: 40px;
-  }
-
-  .note-title {
-    font-size: 2rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
-    margin-bottom: 8px;
+    margin-bottom: 48px;
   }
 
   .note-category {
     display: inline-block;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--color-accent);
-    background: var(--color-tag-bg);
     padding: 3px 10px;
     border-radius: 12px;
+    margin-bottom: 16px;
+  }
+
+  .note-category[data-category="Design"] {
+    color: var(--tag-design);
+    background: color-mix(in srgb, var(--tag-design) 12%, transparent);
+  }
+  .note-category[data-category="AI"] {
+    color: var(--tag-ai);
+    background: color-mix(in srgb, var(--tag-ai) 12%, transparent);
+  }
+  .note-category[data-category="Tech"] {
+    color: var(--tag-tech);
+    background: color-mix(in srgb, var(--tag-tech) 12%, transparent);
+  }
+  .note-category[data-category="Career"] {
+    color: var(--tag-career);
+    background: color-mix(in srgb, var(--tag-career) 12%, transparent);
+  }
+  .note-category[data-category="Observations"] {
+    color: var(--tag-observations);
+    background: color-mix(in srgb, var(--tag-observations) 12%, transparent);
+  }
+  .note-category[data-category="Life"] {
+    color: var(--tag-life);
+    background: color-mix(in srgb, var(--tag-life) 12%, transparent);
+  }
+
+  .note-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
   }
 
   .note-body {
-    font-size: 17px;
+    font-size: 1rem;
     line-height: 1.75;
   }
 
   .note-body :global(h2) {
     font-size: 1.35rem;
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
     margin-top: 2.5em;
     margin-bottom: 0.75em;
+    line-height: 1.3;
   }
 
   .note-body :global(h3) {
     font-size: 1.1rem;
     font-weight: 600;
+    letter-spacing: -0.01em;
     margin-top: 2em;
     margin-bottom: 0.5em;
   }
@@ -80,48 +105,58 @@ const { title, description, pubDate, category, image } = Astro.props;
   }
 
   .note-body :global(a) {
-    color: var(--color-accent);
+    color: var(--accent);
     text-decoration: none;
+    text-decoration-line: underline;
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    transition: text-decoration-color 0.15s ease, color 0.15s ease;
   }
 
   .note-body :global(a:hover) {
-    text-decoration: underline;
+    text-decoration-color: var(--accent);
   }
 
   .note-body :global(blockquote) {
-    border-left: 3px solid var(--color-border);
-    padding-left: 16px;
-    color: var(--color-text-secondary);
+    border-left: 3px solid var(--accent);
+    padding: 12px 0 12px 20px;
     margin: 1.5em 0;
-    font-style: italic;
+    color: var(--text-secondary);
+    font-style: normal;
+    font-size: 1.05rem;
+    line-height: 1.65;
   }
 
   .note-body :global(code) {
     font-family: var(--font-mono);
-    font-size: 0.9em;
-    background: var(--color-tag-bg);
+    font-size: 0.85em;
+    background: color-mix(in srgb, var(--text-primary) 6%, transparent);
     padding: 2px 6px;
     border-radius: 4px;
   }
 
   .note-body :global(pre) {
-    background: var(--color-tag-bg);
-    padding: 16px;
-    border-radius: 8px;
+    background: color-mix(in srgb, var(--text-primary) 4%, transparent);
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 10px;
     overflow-x: auto;
     margin: 1.5em 0;
-    font-size: 14px;
+    font-size: 0.85rem;
+    line-height: 1.6;
   }
 
   .note-body :global(pre code) {
     background: none;
     padding: 0;
     border-radius: 0;
+    font-size: inherit;
   }
 
   .note-body :global(hr) {
     border: none;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--border);
     margin: 2em 0;
   }
 
@@ -137,13 +172,20 @@ const { title, description, pubDate, category, image } = Astro.props;
 
   .note-body :global(img) {
     max-width: 100%;
-    border-radius: 8px;
+    border-radius: 10px;
+    margin: 1.5em 0;
+    border: 1px solid var(--border);
+  }
+
+  .note-body :global(iframe) {
+    max-width: 100%;
+    border-radius: 10px;
     margin: 1.5em 0;
   }
 
   @media (max-width: 640px) {
     .note-title {
-      font-size: 1.6rem;
+      font-size: 1.75rem;
     }
   }
 </style>

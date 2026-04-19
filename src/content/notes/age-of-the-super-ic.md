@@ -11,6 +11,8 @@ AI is changing what it means to be a strong individual contributor. Not by repla
 
 I call this the **Super IC**: someone who leverages AI tools to produce work that previously required a team. Not a generalist who does everything poorly. A specialist who uses leverage to do their specialty at a scale that wasn't possible before.
 
+![The best designers are becoming one-person studios](/images/placeholder-ai.svg)
+
 ## What makes a Super IC
 
 Three things:
@@ -27,6 +29,8 @@ This has implications for how teams are structured:
 - The **bottleneck moves** from production to direction. More people can make things. Fewer people can decide *what* to make.
 - **Review and curation** become the core leadership skill, not delegation.
 
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/jvBMtVUNXA8" title="AI and the future of design" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 12px; margin: 1.5em 0;"></iframe>
+
 ## The uncomfortable truth
 
 Not everyone becomes a Super IC. It requires a combination of craft depth, taste, and technical comfort that's still rare. And it requires the discipline to use AI as leverage rather than a crutch.
@@ -40,7 +44,7 @@ The designers who thrive aren't the ones who generate the most. They're the ones
 - Whether "AI-assisted" becomes a meaningless qualifier (like "internet-assisted" did)
 - Whether taste becomes a more explicit hiring criterion
 
-The age of the Super IC isn't about AI replacing designers. It's about designers who understand leverage outperforming those who don't.
+> The age of the Super IC isn't about AI replacing designers. It's about designers who understand leverage outperforming those who don't.
 
 ---
 
