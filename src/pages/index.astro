@@ -26,7 +26,7 @@ const side = featured.slice(1);
     <div class="bento">
       <!-- Hero card -->
       <a href={`/notes/${hero.data.slug}`} class="bento-card bento-hero">
-        <span class="card-category"><Icon name={categoryIcons[hero.data.category] || 'circle'} size={12} class="card-pill-icon" />{hero.data.category}</span>
+        <span class="card-category"><Icon name={categoryIcons[hero.data.category] || 'circle'} size={6} class="card-pill-icon" />{hero.data.category}</span>
         <h2 class="card-title">{hero.data.title}</h2>
         <p class="card-desc card-desc-default">{hero.data.summary || hero.data.description}</p>
         <p class="card-desc card-desc-compact">{hero.data.summaryCompact || hero.data.summary || hero.data.description}</p>
@@ -37,7 +37,7 @@ const side = featured.slice(1);
       <!-- Side cards -->
       {side.map((note) => (
         <a href={`/notes/${note.data.slug}`} class="bento-card bento-side">
-          <span class="card-category"><Icon name={categoryIcons[note.data.category] || 'circle'} size={12} class="card-pill-icon" />{note.data.category}</span>
+          <span class="card-category"><Icon name={categoryIcons[note.data.category] || 'circle'} size={6} class="card-pill-icon" />{note.data.category}</span>
           <h3 class="card-title">{note.data.title}</h3>
           <p class="card-desc card-desc-default">{note.data.summary || note.data.description}</p>
           <p class="card-desc card-desc-compact">{note.data.summaryCompact || note.data.summary || note.data.description}</p>
@@ -100,7 +100,6 @@ const side = featured.slice(1);
 <style>
   .home {
     padding-top: 24px;
-    /* Fixed height for the bento — viewport minus header and footer */
     height: calc(100vh - 120px);
     display: flex;
     align-items: stretch;
@@ -189,25 +188,24 @@ const side = featured.slice(1);
   }
 
   .bento-hero .card-title {
-    font-size: 1.45rem;
+    font-size: 1.3rem;
   }
 
   .bento-side .card-title {
-    font-size: 1.09rem;
+    font-size: 1rem;
   }
 
-  /* Description — default state uses line-clamp */
+  /* Description — same font size across all densities, only content changes */
   .card-desc {
     color: var(--text-secondary);
     line-height: 1.5;
     flex: 1;
     min-height: 0;
     overflow: hidden;
+    font-size: 0.95rem;
   }
 
-  /* Default: show summary with line-clamp, hide others */
   .card-desc-default {
-    font-size: 1rem;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -243,7 +241,7 @@ const side = featured.slice(1);
   }
 
   .bento-about p {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--text-secondary);
     line-height: 1.55;
     overflow: hidden;
@@ -273,7 +271,7 @@ const side = featured.slice(1);
     font-weight: 500;
   }
 
-  /* ===== DENSITY: COMPACT (2-col, tight) ===== */
+  /* ===== DENSITY: COMPACT (2-col) ===== */
   .home[data-density="compact"] .bento {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
@@ -296,65 +294,33 @@ const side = featured.slice(1);
     grid-column: 1 / -1;
   }
 
-  .home[data-density="compact"] .bento-hero .card-title {
-    font-size: 1.18rem;
-  }
-
-  .home[data-density="compact"] .bento-side .card-title {
-    font-size: 0.95rem;
-  }
-
   .home[data-density="compact"] .card-desc-default { display: none !important; }
   .home[data-density="compact"] .card-desc-compact {
     display: -webkit-box !important;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    font-size: 0.9rem;
   }
   .home[data-density="compact"] .card-desc-expanded { display: none !important; }
 
-  .home[data-density="compact"] .card-category {
-    font-size: 9px;
-    padding: 2px 7px 2px 5px;
-    margin-bottom: 8px;
-  }
-
-  .home[data-density="compact"] .card-cta {
-    font-size: 0.9rem;
-  }
-
   .home[data-density="compact"] .bento-about p {
     -webkit-line-clamp: 2;
-    font-size: 0.9rem;
   }
 
-  /* ===== DENSITY: EXPANDED (4-col, generous) ===== */
+  /* ===== DENSITY: EXPANDED (4-col) ===== */
   .home[data-density="expanded"] .bento {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 1fr 1fr;
-  }
-
-  .home[data-density="expanded"] .bento-hero .card-title {
-    font-size: 1.72rem;
-  }
-
-  .home[data-density="expanded"] .bento-side .card-title {
-    font-size: 1.27rem;
   }
 
   .home[data-density="expanded"] .card-desc-default { display: none !important; }
   .home[data-density="expanded"] .card-desc-compact { display: none !important; }
   .home[data-density="expanded"] .card-desc-expanded {
     display: block !important;
-    font-size: 1.09rem;
-    line-height: 1.55;
   }
 
   .home[data-density="expanded"] .bento-about p {
     -webkit-line-clamp: unset;
-    font-size: 1.09rem;
-    line-height: 1.6;
   }
 
   /* ===== DENSITY TOGGLE ===== */
@@ -431,14 +397,13 @@ const side = featured.slice(1);
     }
 
     .bento-hero .card-title {
-      font-size: 1.45rem;
+      font-size: 1.3rem;
     }
 
     .bento-card {
       padding: 20px 16px;
     }
 
-    /* Override density on mobile */
     .home[data-density="compact"] .bento,
     .home[data-density="default"] .bento,
     .home[data-density="expanded"] .bento {
@@ -461,7 +426,7 @@ const side = featured.slice(1);
     }
 
     .bento-hero .card-title {
-      font-size: 1.36rem;
+      font-size: 1.2rem;
     }
 
     .density-toggle {

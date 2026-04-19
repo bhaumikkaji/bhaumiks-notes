@@ -27,7 +27,7 @@ const { title, description, pubDate, category, image } = Astro.props;
     <header class="note-header">
       {category && (
         <span class="note-category">
-          <Icon name={categoryIcons[category] || 'circle'} size={12} class="pill-icon" />
+          <Icon name={categoryIcons[category] || 'circle'} size={6} class="pill-icon" />
           {category}
         </span>
       )}
