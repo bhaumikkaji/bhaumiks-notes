@@ -11,7 +11,12 @@ interface Props {
   strokeWidth?: number;
 }
 
-const { name, size = 18, class: className = '', strokeWidth = 2 } = Astro.props;
+const { name, size = 18, class: className = '', strokeWidth = undefined } = Astro.props;
+
+// Auto-calculate stroke-width for small icons
+// Lucide default viewBox is 24x24 with stroke-width 2
+// For small sizes, thinner strokes look better
+const effectiveStrokeWidth = strokeWidth ?? (size <= 12 ? 1.5 : size <= 8 ? 1 : 2);
 
 const iconPath = join(process.cwd(), 'node_modules/lucide-static/icons', `${name}.svg`);
 let svg = '';
@@ -20,8 +25,8 @@ try {
   // Set width and height
   svg = svg.replace('<svg ', `<svg width="${size}" height="${size}" `);
   // Set stroke-width
-  if (strokeWidth !== 2) {
-    svg = svg.replace(/stroke-width="2"/g, `stroke-width="${strokeWidth}"`);
+  if (effectiveStrokeWidth !== 2) {
+    svg = svg.replace(/stroke-width="2"/g, `stroke-width="${effectiveStrokeWidth}"`);
   }
   // Add class
   if (className) {
