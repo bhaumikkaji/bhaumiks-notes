@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import CategoryPill from '../components/CategoryPill.astro';
 
 const allNotes = await getCollection('notes');
 const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -50,19 +49,6 @@ const side = featured.slice(1);
 
     </div>
 
-    <!-- Full notes list below the bento -->
-    <div class="notes-list-section">
-      <h2 class="section-label">All notes</h2>
-      <div class="notes-list">
-        {notes.map((note) => (
-          <div class="note-entry">
-            <a href={`/notes/${note.data.slug}`} class="note-title">{note.data.title}</a>
-            <CategoryPill category={note.data.category} />
-          </div>
-        ))}
-      </div>
-    </div>
-
   </div>
 </BaseLayout>
 
@@ -77,7 +63,6 @@ const side = featured.slice(1);
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: auto auto;
     gap: 12px;
-    margin-bottom: 64px;
   }
 
   .bento-hero {
@@ -220,42 +205,6 @@ const side = featured.slice(1);
     color: var(--accent);
     font-size: 1rem;
     font-weight: 500;
-  }
-
-  /* ===== Notes list ===== */
-  .section-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-tertiary);
-    margin-bottom: 20px;
-  }
-
-  .notes-list {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
-  .note-entry {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    flex-wrap: wrap;
-    line-height: 1.5;
-  }
-
-  .note-title {
-    font-size: 1.18rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-
-  .note-title:hover {
-    color: var(--accent);
   }
 
   /* ===== Responsive ===== */
