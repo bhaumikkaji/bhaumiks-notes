@@ -269,6 +269,50 @@ Key observations:
 
 ---
 
+## Rich Text Rendering — Pretext
+
+**Library:** [@chenglou/pretext](https://github.com/chenglou/pretext) — MIT licensed, 44k+ stars
+
+### What it does
+Pretext is a pure JS/TS library for multiline text measurement and layout. It:
+- Measures text height without DOM layout reflow
+- Handles line breaking, word wrapping, and multi-language text
+- Renders to DOM, Canvas, SVG
+- Supports rich inline flow (code spans, mentions, chips)
+- Enables custom text layouts: masonry, dynamic width, text-around-image, shrinkwrap
+- Works with `Intl.Segmenter` for grapheme-aware breaking
+
+### Why we're using it
+Bhaumik wants high-quality text rendering and support for rich content blocks. Pretext gives us:
+
+1. **HQ text rendering** — precise line measurement, no DOM reflow, clean typography
+2. **Dynamic text layouts** — text around images, balanced multiline, shrinkwrap widths
+3. **Rich inline flow** — code spans, inline chips/mentions, mixed fonts in one line
+4. **Canvas/SVG rendering** — opens the door to custom visualizations, decorative text elements
+5. **Future-rich content** — embedded visualizations, interactive text, kinetic typography
+
+### Where it fits in the blog
+- **Note pages:** precise paragraph measurement, better line breaks, balanced text
+- **Code blocks:** rich inline rendering for inline code spans mixed with regular text
+- **Category pills:** shrink-wrap width calculation
+- **Dynamic layouts:** text flowing around images, custom hero layouts
+- **Future:** interactive demos, canvas-based visualizations, decorative text treatments
+
+### Integration approach
+- Install as a dependency: `npm install @chenglou/pretext`
+- Use for note page layout: measure paragraphs for virtualization and precise height
+- Use for rich inline content: mixed formatting in note body text
+- Use for dynamic layout elements: text-around-image, balanced headings
+- Don't over-engineer in v1 — start with measurement and rich inline, add canvas/SVG rendering in later phases
+
+### Important caveat
+Pretext is powerful but adds complexity. For v1:
+- Use it for text measurement and rich inline flow
+- Don't build custom canvas renderers yet
+- Add visual richness incrementally, not all at once
+
+---
+
 ## Nice-to-Have (Post-MVP)
 
 - Search (full-text)
@@ -278,6 +322,9 @@ Key observations:
 - "Start reading here" curated section (like hvpandya.com)
 - Obsidian-to-blog pipeline (if Bhaumik wants to author there)
 - Projects showcase section (like Hardik's Solari, Stop Slop, etc.)
+- Canvas/SVG text rendering with Pretext
+- Interactive visualizations and decorative text treatments
+- Kinetic typography or animated text effects
 
 ---
 
@@ -470,6 +517,7 @@ bhaumiks-notes/
 | Comments | No comments | 2026-04-18 | |
 | Reactions | Yes, inspired by hvpandya.com | 2026-04-18 | Thoughtful / relatable / good / loved it / blew my mind |
 | Analytics | Private dashboard in same project | 2026-04-18 | Password-protected, not listed publicly |
+| Rich text rendering | Pretext (for HQ text + future rich content) | 2026-04-18 | Start with measurement/rich-inline, add canvas/SVG later |
 
 ---
 
