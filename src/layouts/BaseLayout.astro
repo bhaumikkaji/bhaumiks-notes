@@ -31,7 +31,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(image, Astro.site).href} />
-    <meta property="og:site_name" content="Bhaumik Kaji Notes" />
+    <meta property="og:site_name" content="Bhaumik's Notes" />
     <meta property="og:url" content={canonicalURL} />
 
     <!-- Twitter Card -->
@@ -42,7 +42,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:image" content={new URL(image, Astro.site).href} />
 
     <!-- RSS -->
-    <link rel="alternate" type="application/rss+xml" title="Bhaumik Kaji Notes" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Bhaumik's Notes" href="/feed.xml" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -121,6 +121,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           default:  { fontSize: '11px', lineHeight: '1.7', paraSpacing: '1em' },
           cozy:     { fontSize: '12.5px', lineHeight: '1.85', paraSpacing: '1.4em' },
         };
+        var storedFontSize = localStorage.getItem('fontSize') || 'medium';
+        var fontSizes = { small: { scale: '0.9' }, medium: { scale: '1' }, large: { scale: '1.15' } };
+        var fs = fontSizes[storedFontSize];
+        if (fs) r.setProperty('--font-size-scale', fs.scale);
+
         var storedDensity = localStorage.getItem('density') || 'default';
         var d = densities[storedDensity];
         if (d) {
@@ -130,7 +135,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         }
       })();
     </script>
-    <title>{title} ・ Bhaumik Kaji Notes</title>
+    <title>{title} ・ Bhaumik's Notes</title>
 
     <style is:global>
       :root {
@@ -151,6 +156,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         --base-font-size: 11px;
         --base-line-height: 1.7;
         --para-spacing: 1em;
+        --font-size-scale: 1;
       }
 
       * {
@@ -161,7 +167,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
       html {
         font-family: var(--font-sans);
-        font-size: var(--base-font-size);
+        font-size: calc(var(--base-font-size) * var(--font-size-scale));
         line-height: var(--base-line-height);
         color: var(--text-primary);
         background: var(--bg);
@@ -364,10 +370,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         <nav role="navigation" aria-label="Main navigation">
           <div class="masthead">
             <h4 class="masthead-title">
-              <a href="/" aria-label="Home">Bhaumik Kaji Notes</a>
+              <a href="/" aria-label="Home">Bhaumik's Notes</a>
             </h4>
             <div class="masthead-right">
-              <a href="/notes" class={Astro.url.pathname.startsWith('/notes') ? 'nav-active' : ''}>Notes</a>
+              <a href="/notes" class={Astro.url.pathname.startsWith('/notes') ? 'nav-active' : ''}>Pages</a>
               <a href="/resources" class={Astro.url.pathname === '/resources' ? 'nav-active' : ''}>Resources</a>
               <Personalize />
             </div>

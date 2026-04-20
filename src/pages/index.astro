@@ -4,21 +4,13 @@ import { getCollection } from 'astro:content';
 
 const allNotes = await getCollection('notes');
 const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const categories = [...new Set(notes.map(n => n.data.category))];
 ---
 
-<BaseLayout title="Bhaumik Kaji Notes" description="Notes on tech, design, and AI. By Bhaumik Kaji." showScrollProgress={false}>
+<BaseLayout title="Bhaumik's Notes" description="Notes on tech, design, and AI. By Bhaumik Kaji." showScrollProgress={false}>
   <div class="home">
-    <div class="bento-filter" id="bento-filter">
-      <button class="filter-btn active" data-filter="all">All</button>
-      {categories.map((cat) => (
-        <button class="filter-btn" data-filter={cat}>{cat}</button>
-      ))}
-    </div>
-
     <div class="bento">
       {notes.slice(0, 6).map((note, i) => (
-        <a href={`/notes/${note.data.slug}`} class={`bento-card ${i === 0 ? 'bento-hero' : 'bento-side'}`} data-category={note.data.category} style={`animation-delay: ${i * 0.05}s`}>
+        <a href={`/notes/${note.data.slug}`} class={`bento-card ${i === 0 ? 'bento-hero' : 'bento-side'}`} style={`animation-delay: ${i * 0.05}s`}>
           <span class="card-category">{note.data.category}</span>
           <h2 class="card-title">{note.data.title}</h2>
           <p class="card-desc">{note.data.summary || note.data.description}</p>
@@ -27,37 +19,6 @@ const categories = [...new Set(notes.map(n => n.data.category))];
       ))}
     </div>
   </div>
-
-  <script is:inline>
-    const filterBtns = document.querySelectorAll('.bento-filter .filter-btn');
-    const cards = document.querySelectorAll('.bento-card');
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const filter = btn.dataset.filter;
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        if (filter === 'all') {
-          cards.forEach((card, i) => {
-            card.style.display = '';
-            card.style.animation = `fadeUp 0.25s ease ${i * 0.03}s both`;
-          });
-        } else {
-          let idx = 0;
-          cards.forEach(card => {
-            if (card.dataset.category === filter) {
-              card.style.display = '';
-              card.style.animation = `fadeUp 0.25s ease ${idx * 0.05}s both`;
-              idx++;
-            } else {
-              card.style.display = 'none';
-            }
-          });
-        }
-      });
-    });
-  </script>
 </BaseLayout>
 
 <style>
@@ -65,58 +26,21 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     padding-top: 24px;
     height: calc(100vh - 120px);
     display: flex;
-    flex-direction: column;
-  }
-
-  .bento-filter {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-  }
-
-  .filter-btn {
-    padding: 4px 12px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: transparent;
-    color: var(--text-tertiary);
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-
-  .filter-btn:hover {
-    border-color: var(--text-tertiary);
-    color: var(--text-secondary);
-  }
-
-  .filter-btn.active {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    align-items: stretch;
   }
 
   @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(6px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .bento {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 1fr 1fr;
     gap: 12px;
     width: 100%;
-    flex: 1;
-    min-height: 0;
+    height: 100%;
   }
 
   .bento-hero {
@@ -133,7 +57,7 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     background: color-mix(in srgb, var(--text-primary) 4%, transparent);
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 18px 16px;
+    padding: 20px 18px;
     display: flex;
     flex-direction: column;
     text-decoration: none;
@@ -174,7 +98,7 @@ const categories = [...new Set(notes.map(n => n.data.category))];
   }
 
   .bento-hero .card-title {
-    font-size: 1.15rem;
+    font-size: 1.2rem;
   }
 
   .bento-side .card-title {
@@ -189,7 +113,7 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     overflow: hidden;
     font-size: 0.85rem;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
   }
 
@@ -203,16 +127,31 @@ const categories = [...new Set(notes.map(n => n.data.category))];
   }
 
   /* ===== Responsive ===== */
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
+    .bento {
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 1fr 1fr 1fr;
+    }
+
+    .bento-hero {
+      grid-column: 1 / 3;
+      grid-row: 1 / 3;
+    }
+
+    .bento-side {
+      grid-column: span 2;
+    }
+  }
+
+  @media (max-width: 640px) {
     .home {
       height: auto;
-      min-height: auto;
     }
 
     .bento {
       grid-template-columns: 1fr 1fr;
       grid-template-rows: auto;
-      flex: none;
+      height: auto;
     }
 
     .bento-hero {
@@ -229,7 +168,7 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     }
 
     .bento-card {
-      padding: 20px 16px;
+      padding: 18px 14px;
     }
   }
 
@@ -241,10 +180,6 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     .bento-hero,
     .bento-side {
       grid-column: 1 / -1;
-    }
-
-    .bento-hero .card-title {
-      font-size: 1.2rem;
     }
   }
 </style>

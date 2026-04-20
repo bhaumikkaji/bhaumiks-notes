@@ -3,78 +3,138 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const resources = [
   {
-    name: 'Lucide Icons',
-    url: 'https://github.com/lucide-icons/lucide',
-    description: 'Beautiful, consistent icon toolkit. 1,800+ open-source SVG icons with React, Vue, and Svelte support. ISC licensed.',
-    tag: 'Design',
-  },
-  {
-    name: 'Astro',
-    url: 'https://github.com/withastro/astro',
-    description: 'The web framework for content-driven websites. Ship less JavaScript, build faster sites, and enjoy the best developer experience.',
-    tag: 'Framework',
-  },
-  {
-    name: 'shadcn/ui',
-    url: 'https://github.com/shadcn-ui/ui',
-    description: 'Beautifully designed components built with Radix and Tailwind CSS. Copy and paste into your apps — not a dependency.',
-    tag: 'Design',
-  },
-  {
-    name: 'Tailwind CSS',
-    url: 'https://github.com/tailwindlabs/tailwindcss',
-    description: 'A utility-first CSS framework for rapid UI development. Packed with classes that can be composed to build any design.',
-    tag: 'CSS',
-  },
-  {
-    name: 'Pretext',
-    url: 'https://github.com/chenglou/pretext',
-    description: 'Interesting text layout engine exploring new paradigms for how we interact with written content on screens.',
-    tag: 'Typography',
-  },
-  {
-    name: 'Vercel AI SDK',
-    url: 'https://github.com/vercel/ai',
-    description: 'The AI toolkit for building AI-powered apps with React, Next.js, Vue, Svelte, and more. Streaming, tool calling, and RAG built in.',
+    name: 'Cognee',
+    url: 'https://github.com/topoteretes/cognee',
+    description: 'Memory and knowledge management layer for AI systems. Graph-based retrieval with vector databases.',
     tag: 'AI',
   },
   {
-    name: 'OpenProps',
-    url: 'https://github.com/argyleink/open-props',
-    description: 'Super-charged CSS custom properties. A set of expertly crafted CSS custom properties for design systems and rapid prototyping.',
-    tag: 'CSS',
+    name: 'Scrapling',
+    url: 'https://github.com/D4Vinci/Scrapling',
+    description: 'High-performance web scraping library with anti-detection features. Built for resilience.',
+    tag: 'Dev Tools',
   },
   {
-    name: 'Motion',
-    url: 'https://github.com/motiondivision/motion',
-    description: 'A modern animation library for React and the web. Animate anything with a minimal API. Production-ready by default.',
-    tag: 'Animation',
+    name: 'Caveman',
+    url: 'https://github.com/JuliusBrussee/caveman',
+    description: 'Minimalist knowledge management. Local-first, markdown-based personal wiki.',
+    tag: 'Knowledge',
   },
   {
-    name: 'MDX',
-    url: 'https://github.com/mdx-js/mdx',
-    description: 'Markdown for the component era. Use JSX in your markdown, import components, and export metadata. The best of both worlds.',
-    tag: 'Content',
-  },
-  {
-    name: 'Phosphor Icons',
-    url: 'https://github.com/phosphor-icons/homepage',
-    description: 'Flexible icon family for interfaces, diagrams, and presentations. 9,000+ icons in 6 weights. MIT licensed.',
+    name: 'Design Extract',
+    url: 'https://github.com/Manavarya09/design-extract',
+    description: 'Extract design tokens and styles from any URL. Useful for design system research.',
     tag: 'Design',
+  },
+  {
+    name: 'MetaClaw',
+    url: 'https://github.com/aiming-lab/MetaClaw',
+    description: 'AI agent framework with tool-use capabilities. Open-source alternative for agentic workflows.',
+    tag: 'AI',
+  },
+  {
+    name: 'Browser Harness',
+    url: 'https://github.com/browser-use/browser-harness',
+    description: 'Browser automation framework designed for AI agents. Headless control with cognitive overlays.',
+    tag: 'AI',
+  },
+  {
+    name: 'Paseo',
+    url: 'https://github.com/getpaseo/paseo',
+    description: 'E2E testing framework with natural language test specs. Write tests in plain English.',
+    tag: 'Dev Tools',
+  },
+  {
+    name: 'Awesome OpenClaw Usecases',
+    url: 'https://github.com/hesamsheikh/awesome-openclaw-usecases',
+    description: 'Curated list of OpenClaw use cases and patterns. Community-driven.',
+    tag: 'OpenClaw',
+  },
+  {
+    name: 'Awesome Claude Code',
+    url: 'https://github.com/hesreallyhim/awesome-claude-code',
+    description: 'Curated list of Claude Code tips, patterns, and workflows. Essential reference.',
+    tag: 'AI',
+  },
+  {
+    name: 'OMLX',
+    url: 'https://github.com/jundot/omlx',
+    description: 'Open machine learning exchange. Tools for model comparison and benchmarking.',
+    tag: 'ML',
+  },
+  {
+    name: 'Memex',
+    url: 'https://github.com/memex-lab/memex',
+    description: 'Personal knowledge engine. Capture, organize, and retrieve anything you\'ve seen online.',
+    tag: 'Knowledge',
+  },
+  {
+    name: 'Mempalace',
+    url: 'https://github.com/milla-jovovich/mempalace',
+    description: 'Memory palace technique for AI. Structured spatial memory for LLM agents.',
+    tag: 'AI',
+  },
+  {
+    name: 'PureMac',
+    url: 'https://github.com/momenbasel/PureMac',
+    description: 'Curated list of the best macOS apps. Quality over quantity curation.',
+    tag: 'Mac',
+  },
+  {
+    name: 'Pixel Agents',
+    url: 'https://github.com/pablodelucca/pixel-agents',
+    description: 'Multi-modal AI agents with pixel-level understanding. Vision-first approach.',
+    tag: 'AI',
+  },
+  {
+    name: 'OpenClaw Claude Bridge',
+    url: 'https://github.com/tomatobdev/openclaw-claude-bridge',
+    description: 'Bridge between OpenClaw and Claude. Integration patterns for agent workflows.',
+    tag: 'OpenClaw',
+  },
+  {
+    name: 'The Book of Secret Knowledge',
+    url: 'https://github.com/trimstray/the-book-of-secret-knowledge',
+    description: 'Massive curated collection of guides, tools, and resources for developers and ops.',
+    tag: 'Dev Tools',
+  },
+  {
+    name: 'Mac Code',
+    url: 'https://github.com/walter-grace/mac-code',
+    description: 'Setup scripts and configs for macOS development environments. Opinionated and thorough.',
+    tag: 'Mac',
+  },
+  {
+    name: 'Clicky',
+    url: 'https://github.com/farzaa/clicky',
+    description: 'Keyboard-driven productivity launcher for macOS. Fast, minimal, extensible.',
+    tag: 'Mac',
+  },
+  {
+    name: 'Build Your Own OpenClaw',
+    url: 'https://github.com/czl9707/build-your-own-openclaw',
+    description: 'Step-by-step guide to building an OpenClaw-compatible agent from scratch.',
+    tag: 'OpenClaw',
+  },
+  {
+    name: 'LLMFit',
+    url: 'https://github.com/AlexsJones/llmfit',
+    description: 'Fine-tuning toolkit for large language models. Simplified training pipelines.',
+    tag: 'ML',
   },
 ];
 
 const tags = [...new Set(resources.map(r => r.tag))];
 ---
 
-<BaseLayout title="Resources" description="Curated collection of tools, libraries, and repositories that inspire and inform my work." showScrollProgress={true}>
+<BaseLayout title="Resources" description="Interesting repos and tools worth revisiting." showScrollProgress={true}>
   <div class="resources-page">
     <div class="resources-header">
       <h1>Resources</h1>
-      <p>Tools, libraries, and repos I find interesting. No personal info here — just things worth sharing.</p>
+      <p>Repos and tools I find interesting. No personal info here — just things worth sharing and revisiting.</p>
     </div>
 
-    <div class="resources-filter" id="resources-filter">
+    <div class="resources-filter">
       <button class="filter-btn active" data-filter="all">All</button>
       {tags.map((tag) => (
         <button class="filter-btn" data-filter={tag}>{tag}</button>
@@ -83,36 +143,31 @@ const tags = [...new Set(resources.map(r => r.tag))];
 
     <div class="resources-list">
       {resources.map((resource) => (
-        <a href={resource.url} class="resource-card" data-tag={resource.tag} target="_blank" rel="noopener noreferrer">
+        <a href={resource.url} class="resource-entry" data-tag={resource.tag} target="_blank" rel="noopener noreferrer">
           <span class="resource-tag">{resource.tag}</span>
-          <h3 class="resource-name">{resource.name}</h3>
-          <p class="resource-desc">{resource.description}</p>
-          <span class="resource-link">{new URL(resource.url).hostname.replace('github.com/', 'github.com/')} →</span>
+          <span class="resource-name">{resource.name}</span>
+          <span class="resource-arrow">↗</span>
         </a>
       ))}
     </div>
   </div>
-</BaseLayout>
 
-<script is:inline>
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const cards = document.querySelectorAll('.resource-card');
+  <script is:inline>
+    const filterBtns = document.querySelectorAll('.resources-filter .filter-btn');
+    const entries = document.querySelectorAll('.resource-entry');
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const filter = btn.dataset.filter;
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      cards.forEach(card => {
-        if (filter === 'all' || card.dataset.tag === filter) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        entries.forEach(entry => {
+          entry.style.display = (filter === 'all' || entry.dataset.tag === filter) ? '' : 'none';
+        });
       });
     });
-  });
-</script>
+  </script>
+</BaseLayout>
 
 <style>
   .resources-page {
@@ -129,12 +184,12 @@ const tags = [...new Set(resources.map(r => r.tag))];
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.2;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
 
   .resources-header p {
     color: var(--text-secondary);
-    font-size: 1.1rem;
+    font-size: 1rem;
     line-height: 1.5;
   }
 
@@ -146,15 +201,16 @@ const tags = [...new Set(resources.map(r => r.tag))];
   }
 
   .filter-btn {
-    padding: 5px 14px;
+    padding: 4px 12px;
     border: 1px solid var(--border);
     border-radius: 999px;
     background: transparent;
     color: var(--text-tertiary);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.15s ease;
+    font-family: inherit;
   }
 
   .filter-btn:hover {
@@ -169,66 +225,61 @@ const tags = [...new Set(resources.map(r => r.tag))];
   }
 
   .resources-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
 
-  .resource-card {
-    display: block;
-    padding: 20px 24px;
-    border: 1px solid var(--border);
-    border-radius: 14px;
+  .resource-entry {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    transition: color 0.15s ease;
   }
 
-  .resource-card:hover {
-    border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
-    background: color-mix(in srgb, var(--text-primary) 4%, transparent);
+  .resource-entry:last-child {
+    border-bottom: none;
+  }
+
+  .resource-entry:hover {
+    color: var(--accent);
   }
 
   .resource-tag {
-    display: inline-block;
     font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     padding: 2px 10px;
     border-radius: 12px;
-    margin-bottom: 10px;
     color: var(--accent);
     background: color-mix(in srgb, var(--accent) 12%, transparent);
+    flex-shrink: 0;
   }
 
   .resource-name {
-    font-size: 1.1rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    margin-bottom: 6px;
-  }
-
-  .resource-desc {
-    color: var(--text-secondary);
     font-size: 0.95rem;
-    line-height: 1.5;
-    margin-bottom: 10px;
+    font-weight: 500;
+    flex: 1;
   }
 
-  .resource-link {
-    font-size: 0.85rem;
-    font-weight: 500;
+  .resource-arrow {
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  .resource-entry:hover .resource-arrow {
     color: var(--accent);
   }
 
   @media (max-width: 640px) {
     .resources-header h1 {
       font-size: 1.6rem;
-    }
-
-    .resource-card {
-      padding: 16px 18px;
     }
   }
 </style>

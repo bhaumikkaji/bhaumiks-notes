@@ -2,14 +2,11 @@
 import Icon from './Icon.astro';
 
 const themes = [
-  { id: 'ember', label: 'Ember', color: '#fb923c', gradient: false },
-  { id: 'electric', label: 'Electric', color: '#60a5fa', gradient: false },
-  { id: 'violet', label: 'Violet', color: '#a78bfa', gradient: false },
-  { id: 'emerald', label: 'Emerald', color: '#34d399', gradient: false },
-  { id: 'rose', label: 'Rose', color: '#f472b6', gradient: false },
-  { id: 'sunset', label: 'Sunset', from: '#fb923c', to: '#f472b6', gradient: true },
-  { id: 'aurora', label: 'Aurora', from: '#22d3ee', to: '#a78bfa', gradient: true },
-  { id: 'lava', label: 'Lava', from: '#f87171', to: '#fbbf24', gradient: true },
+  { id: 'ember', label: 'Ember', color: '#fb923c' },
+  { id: 'electric', label: 'Electric', color: '#60a5fa' },
+  { id: 'violet', label: 'Violet', color: '#a78bfa' },
+  { id: 'emerald', label: 'Emerald', color: '#34d399' },
+  { id: 'rose', label: 'Rose', color: '#f472b6' },
 ];
 
 const fonts = [
@@ -18,6 +15,12 @@ const fonts = [
   { id: 'lora', label: 'Lora', family: "'Lora', Georgia, serif" },
   { id: 'ibm-plex', label: 'IBM Plex', family: "'IBM Plex Sans', system-ui, sans-serif" },
   { id: 'geist', label: 'Geist', family: "'Geist', 'Inter', system-ui, sans-serif" },
+];
+
+const fontSizes = [
+  { id: 'small', label: 'S' },
+  { id: 'medium', label: 'M' },
+  { id: 'large', label: 'L' },
 ];
 
 const densities = [
@@ -35,7 +38,7 @@ const modes = [
 
 <span class="personalize-wrapper">
   <button class="personalize-trigger" id="personalize-trigger" aria-label="Customize">
-    <Icon name="palette" size={16} />
+    <Icon name="sliders-horizontal" size={16} />
   </button>
 
   <div class="personalize-panel" id="personalize-panel">
@@ -49,22 +52,18 @@ const modes = [
       </div>
     </div>
 
-    <!-- Theme colors — two rows: solids then gradients -->
+    <!-- Theme colors — solids only -->
     <div class="panel-section">
       <span class="section-label">Color</span>
-      <div class="color-grid">
+      <div class="color-row">
         {themes.map((theme) => (
           <button
-            class={`color-chip ${theme.gradient ? 'chip-gradient' : 'chip-solid'}`}
+            class="color-chip"
             data-theme-id={theme.id}
             aria-label={theme.label}
-            style={theme.gradient
-              ? `background: linear-gradient(135deg, ${theme.from}, ${theme.to})`
-              : `background: ${theme.color}`
-            }
-          >
-            <span class="chip-label">{theme.label}</span>
-          </button>
+            title={theme.label}
+            style={`background: ${theme.color}`}
+          />
         ))}
       </div>
     </div>
@@ -77,6 +76,16 @@ const modes = [
           <button class="font-btn" data-font-id={font.id} style={`font-family: ${font.family}`}>
             {font.label}
           </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Font size -->
+    <div class="panel-section">
+      <span class="section-label">Size</span>
+      <div class="segmented-control size-seg">
+        {fontSizes.map((size) => (
+          <button class="seg-btn" data-font-size={size.id}>{size.label}</button>
         ))}
       </div>
     </div>
@@ -128,7 +137,7 @@ const modes = [
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 16px;
-    width: 260px;
+    width: 256px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.06);
     opacity: 0;
     transform: translateY(-4px);
@@ -194,52 +203,41 @@ const modes = [
     box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   }
 
-  /* Color chips — horizontal scrollable row, larger swatches */
-  .color-grid {
+  .density-seg .seg-btn.active {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    box-shadow: none;
+  }
+
+  .size-seg .seg-btn.active {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    box-shadow: none;
+  }
+
+  /* Color row */
+  .color-row {
     display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
   }
 
   .color-chip {
-    position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
     border: 2px solid transparent;
-    border-radius: 8px;
     cursor: pointer;
     transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
-    overflow: hidden;
     padding: 0;
   }
 
-  .chip-solid {
-    width: 36px;
-    height: 36px;
-  }
-
-  .chip-gradient {
-    width: 52px;
-    height: 36px;
-  }
-
   .color-chip:hover {
-    transform: scale(1.06);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    transform: scale(1.1);
   }
 
   .color-chip.active {
     border-color: var(--text-primary);
-    box-shadow: 0 0 0 1px var(--bg), 0 0 0 3px var(--text-primary);
-  }
-
-  .chip-label {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    font-size: 0;
-    line-height: 0;
-    overflow: hidden;
-    color: transparent;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--text-primary);
   }
 
   /* Font options */
@@ -271,12 +269,6 @@ const modes = [
     background: color-mix(in srgb, var(--accent) 10%, transparent);
     color: var(--accent);
   }
-
-  .density-seg .seg-btn.active {
-    color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 8%, transparent);
-    box-shadow: none;
-  }
 </style>
 
 <script is:inline>
@@ -286,9 +278,6 @@ const modes = [
     violet:   { light: { accent: '#7c3aed', accentHover: '#6d28d9' }, sepia: { accent: '#6d28d9', accentHover: '#5b21b6' }, dark: { accent: '#a78bfa', accentHover: '#8b5cf6' } },
     emerald:  { light: { accent: '#059669', accentHover: '#047857' }, sepia: { accent: '#047857', accentHover: '#065f46' }, dark: { accent: '#34d399', accentHover: '#10b981' } },
     rose:     { light: { accent: '#db2777', accentHover: '#be185d' }, sepia: { accent: '#be185d', accentHover: '#9d174d' }, dark: { accent: '#f472b6', accentHover: '#ec4899' } },
-    sunset:   { light: { accent: '#f97316', accentHover: '#ea580c', gf: '#f97316', gt: '#ec4899' }, sepia: { accent: '#ea580c', accentHover: '#c2410c', gf: '#ea580c', gt: '#be185d' }, dark: { accent: '#fb923c', accentHover: '#f97316', gf: '#fb923c', gt: '#f472b6' } },
-    aurora:   { light: { accent: '#06b6d4', accentHover: '#0891b2', gf: '#06b6d4', gt: '#8b5cf6' }, sepia: { accent: '#0891b2', accentHover: '#0e7490', gf: '#0891b2', gt: '#6d28d9' }, dark: { accent: '#22d3ee', accentHover: '#06b6d4', gf: '#22d3ee', gt: '#a78bfa' } },
-    lava:     { light: { accent: '#ef4444', accentHover: '#dc2626', gf: '#ef4444', gt: '#f59e0b' }, sepia: { accent: '#dc2626', accentHover: '#b91c1c', gf: '#dc2626', gt: '#d97706' }, dark: { accent: '#f87171', accentHover: '#ef4444', gf: '#f87171', gt: '#fbbf24' } },
   };
 
   const fonts = {
@@ -297,6 +286,12 @@ const modes = [
     'lora': "'Lora', Georgia, serif",
     'ibm-plex': "'IBM Plex Sans', system-ui, sans-serif",
     'geist': "'Geist', 'Inter', system-ui, sans-serif",
+  };
+
+  const fontSizes = {
+    small:  { scale: '0.9' },
+    medium: { scale: '1' },
+    large:  { scale: '1.15' },
   };
 
   const densities = {
@@ -312,44 +307,32 @@ const modes = [
     const r = document.documentElement.style;
     r.setProperty('--accent', c.accent);
     r.setProperty('--accent-hover', c.accentHover);
-    if (c.gf) {
-      r.setProperty('--accent-gradient', 'linear-gradient(135deg,' + c.gf + ',' + c.gt + ')');
-      r.setProperty('--accent-gradient-from', c.gf);
-      r.setProperty('--accent-gradient-to', c.gt);
-    } else {
-      r.setProperty('--accent-gradient', c.accent);
-      r.setProperty('--accent-gradient-from', c.accent);
-      r.setProperty('--accent-gradient-to', c.accentHover);
-    }
+    r.setProperty('--accent-gradient', c.accent);
+    r.setProperty('--accent-gradient-from', c.accent);
+    r.setProperty('--accent-gradient-to', c.accentHover);
     document.documentElement.setAttribute('data-theme', themeId);
     document.documentElement.setAttribute('data-mode', mode);
 
     if (mode === 'dark') {
-      r.setProperty('--bg', '#111111');
-      r.setProperty('--text-primary', '#f0f0f0');
-      r.setProperty('--text-secondary', '#a0a0a0');
-      r.setProperty('--text-tertiary', '#666666');
+      r.setProperty('--bg', '#111111'); r.setProperty('--text-primary', '#f0f0f0');
+      r.setProperty('--text-secondary', '#a0a0a0'); r.setProperty('--text-tertiary', '#666666');
       r.setProperty('--border', '#2a2a2a');
     } else if (mode === 'sepia') {
-      r.setProperty('--bg', '#f4edd8');
-      r.setProperty('--text-primary', '#3e3529');
-      r.setProperty('--text-secondary', '#6b5f50');
-      r.setProperty('--text-tertiary', '#9a8d7d');
+      r.setProperty('--bg', '#f4edd8'); r.setProperty('--text-primary', '#3e3529');
+      r.setProperty('--text-secondary', '#6b5f50'); r.setProperty('--text-tertiary', '#9a8d7d');
       r.setProperty('--border', '#d6ccaf');
     } else {
-      r.setProperty('--bg', '#fafafa');
-      r.setProperty('--text-primary', '#111111');
-      r.setProperty('--text-secondary', '#555555');
-      r.setProperty('--text-tertiary', '#888888');
+      r.setProperty('--bg', '#fafafa'); r.setProperty('--text-primary', '#111111');
+      r.setProperty('--text-secondary', '#555555'); r.setProperty('--text-tertiary', '#888888');
       r.setProperty('--border', '#e8e8e8');
     }
 
     const pb = document.getElementById('scroll-progress');
-    if (pb) pb.style.background = c.gf ? 'linear-gradient(90deg,' + c.gf + ',' + c.gt + ')' : 'linear-gradient(90deg,' + c.accent + ',' + c.accentHover + ')';
+    if (pb) pb.style.background = 'linear-gradient(90deg,' + c.accent + ',' + c.accentHover + ')';
     localStorage.setItem('theme', themeId);
     localStorage.setItem('mode', mode);
     document.querySelectorAll('.color-chip').forEach(b => b.classList.toggle('active', b.dataset.themeId === themeId));
-    updateSegBtns('[data-mode]', mode);
+    refreshSegActive();
   }
 
   function applyFont(fontId) {
@@ -360,6 +343,14 @@ const modes = [
     document.querySelectorAll('.font-btn').forEach(b => b.classList.toggle('active', b.dataset.fontId === fontId));
   }
 
+  function applyFontSize(sizeId) {
+    const s = fontSizes[sizeId];
+    if (!s) return;
+    document.documentElement.style.setProperty('--font-size-scale', s.scale);
+    localStorage.setItem('fontSize', sizeId);
+    refreshSegActive();
+  }
+
   function applyDensity(densityId) {
     const d = densities[densityId];
     if (!d) return;
@@ -368,19 +359,20 @@ const modes = [
     r.setProperty('--base-line-height', d.lineHeight);
     r.setProperty('--para-spacing', d.paraSpacing);
     localStorage.setItem('density', densityId);
-    updateSegBtns('[data-density]', densityId);
+    refreshSegActive();
   }
 
-  function updateSegBtns(attr, activeVal) {
-    document.querySelectorAll('.seg-btn' + attr).forEach(b => {
-      b.classList.toggle('active', b.getAttribute(attr.replace('[', '').replace(']', '')) === activeVal || b.getAttribute(attr) === activeVal);
-    });
-    // Broader approach
+  function refreshSegActive() {
+    const mode = document.documentElement.getAttribute('data-mode') || 'light';
+    const fontSize = localStorage.getItem('fontSize') || 'medium';
+    const density = localStorage.getItem('density') || 'default';
     document.querySelectorAll('.seg-btn').forEach(b => {
-      const mode = b.dataset.mode;
-      const density = b.dataset.density;
-      if (mode !== undefined) b.classList.toggle('active', mode === activeVal);
-      if (density !== undefined) b.classList.toggle('active', density === activeVal);
+      const m = b.dataset.mode;
+      const fs = b.dataset.fontSize;
+      const d = b.dataset.density;
+      if (m !== undefined) b.classList.toggle('active', m === mode);
+      if (fs !== undefined) b.classList.toggle('active', fs === fontSize);
+      if (d !== undefined) b.classList.toggle('active', d === density);
     });
   }
 
@@ -388,10 +380,12 @@ const modes = [
   const storedTheme = localStorage.getItem('theme') || 'ember';
   const storedMode = localStorage.getItem('mode') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   const storedFont = localStorage.getItem('font') || 'source-sans';
+  const storedFontSize = localStorage.getItem('fontSize') || 'medium';
   const storedDensity = localStorage.getItem('density') || 'default';
 
   applyTheme(storedTheme, storedMode);
   applyFont(storedFont);
+  applyFontSize(storedFontSize);
   applyDensity(storedDensity);
 
   // Panel toggle
@@ -417,6 +411,10 @@ const modes = [
 
   document.querySelectorAll('.font-btn').forEach(btn => {
     btn.addEventListener('click', () => applyFont(btn.dataset.fontId));
+  });
+
+  document.querySelectorAll('.seg-btn[data-font-size]').forEach(btn => {
+    btn.addEventListener('click', () => applyFontSize(btn.dataset.fontSize));
   });
 
   document.querySelectorAll('.seg-btn[data-density]').forEach(btn => {

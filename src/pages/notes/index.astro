@@ -7,11 +7,19 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
 const categories = [...new Set(notes.map(n => n.data.category))];
 ---
 
-<BaseLayout title="Notes" description="Notes on tech, design, and AI by Bhaumik Kaji." showScrollProgress={true}>
+<BaseLayout title="Pages" description="Notes on tech, design, and AI by Bhaumik Kaji." showScrollProgress={true}>
   <div class="notes-page">
-    <div class="notes-header">
-      <h1>Notes</h1>
-      <p>Writing about tech, design, and AI — born out of empirical learnings and everyday observations.</p>
+    <div class="notes-intro">
+      <h1>Pages</h1>
+      <p class="intro-tagline">Notes on tech, design, and AI.</p>
+      <p class="intro-body">These are my notes — like a semi-frequently updated journal. Everything I write is born out of empirical learnings and everyday observations. There's obviously bias in these notes, but since honest personal accounts from people in tech are rare, I hope this serves as a useful one.</p>
+      <div class="intro-meta">
+        <span class="meta-item">Written by <strong>Bhaumik Kaji</strong></span>
+        <span class="meta-divider">·</span>
+        <span class="meta-item">Senior Product Designer at <strong>Microsoft</strong></span>
+        <span class="meta-divider">·</span>
+        <span class="meta-item">Copilot, Teams, Office Mobile</span>
+      </div>
     </div>
 
     <div class="notes-filter">
@@ -23,22 +31,17 @@ const categories = [...new Set(notes.map(n => n.data.category))];
 
     <div class="notes-list">
       {notes.map((note) => (
-        <a href={`/notes/${note.data.slug}`} class="note-card" data-category={note.data.category}>
-          <div class="note-card-top">
-            <span class="note-category">{note.data.category}</span>
-            <span class="note-date">{note.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-          </div>
-          <h2 class="note-title">{note.data.title}</h2>
-          <p class="note-summary">{note.data.summary || note.data.description}</p>
-          <span class="note-cta">Read →</span>
-        </a>
+        <div class="note-entry" data-category={note.data.category}>
+          <a href={`/notes/${note.data.slug}`} class="note-title">{note.data.title}</a>
+          <span class="note-category">{note.data.category}</span>
+        </div>
       ))}
     </div>
   </div>
 
   <script is:inline>
     const filterBtns = document.querySelectorAll('.notes-filter .filter-btn');
-    const cards = document.querySelectorAll('.note-card');
+    const entries = document.querySelectorAll('.note-entry');
 
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -46,14 +49,8 @@ const categories = [...new Set(notes.map(n => n.data.category))];
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        cards.forEach((card, i) => {
-          const show = filter === 'all' || card.dataset.category === filter;
-          if (show) {
-            card.style.display = '';
-            card.style.animation = `fadeUp 0.25s ease ${i * 0.03}s both`;
-          } else {
-            card.style.display = 'none';
-          }
+        entries.forEach(entry => {
+          entry.style.display = (filter === 'all' || entry.dataset.category === filter) ? '' : 'none';
         });
       });
     });
@@ -66,22 +63,49 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     padding-bottom: 60px;
   }
 
-  .notes-header {
-    margin-bottom: 32px;
+  .notes-intro {
+    margin-bottom: 40px;
   }
 
-  .notes-header h1 {
+  .notes-intro h1 {
     font-size: 2rem;
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.2;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
-  .notes-header p {
+  .intro-tagline {
+    font-size: 1.2rem;
     color: var(--text-secondary);
-    font-size: 1.1rem;
-    line-height: 1.5;
+    margin-bottom: 16px;
+    font-weight: 400;
+  }
+
+  .intro-body {
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    max-width: 520px;
+  }
+
+  .intro-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+  }
+
+  .intro-meta strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .meta-divider {
+    color: var(--border);
   }
 
   .notes-filter {
@@ -118,30 +142,34 @@ const categories = [...new Set(notes.map(n => n.data.category))];
   .notes-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0;
   }
 
-  .note-card {
-    display: block;
-    padding: 18px 20px;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
-  }
-
-  .note-card:hover {
-    border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
-    background: color-mix(in srgb, var(--text-primary) 4%, transparent);
-    transform: translateY(-1px);
-  }
-
-  .note-card-top {
+  .note-entry {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 12px 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+    line-height: 1.5;
+    transition: background 0.15s ease;
+  }
+
+  .note-entry:last-child {
+    border-bottom: none;
+  }
+
+  .note-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .note-title:hover {
+    color: var(--accent);
   }
 
   .note-category {
@@ -155,54 +183,13 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     background: color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
-  .note-date {
-    font-size: 0.85rem;
-    color: var(--text-tertiary);
-  }
-
-  .note-title {
-    font-size: 1.15rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    margin-bottom: 6px;
-    line-height: 1.3;
-  }
-
-  .note-summary {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    line-height: 1.5;
-    margin-bottom: 8px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .note-cta {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--accent);
-  }
-
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(6px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
   @media (max-width: 640px) {
-    .notes-header h1 {
+    .notes-intro h1 {
       font-size: 1.6rem;
     }
 
-    .note-card {
-      padding: 14px 16px;
+    .intro-meta {
+      font-size: 0.8rem;
     }
   }
 </style>
