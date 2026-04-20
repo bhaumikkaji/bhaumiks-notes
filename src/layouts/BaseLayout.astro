@@ -31,7 +31,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(image, Astro.site).href} />
-    <meta property="og:site_name" content="Bhaumik's Notes" />
+    <meta property="og:site_name" content="Bhaumik Kaji Notes" />
     <meta property="og:url" content={canonicalURL} />
 
     <!-- Twitter Card -->
@@ -42,7 +42,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:image" content={new URL(image, Astro.site).href} />
 
     <!-- RSS -->
-    <link rel="alternate" type="application/rss+xml" title="Bhaumik's Notes" href="/feed.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Bhaumik Kaji Notes" href="/feed.xml" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -130,7 +130,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         }
       })();
     </script>
-    <title>{title} ・ Bhaumik.sudo</title>
+    <title>{title} ・ Bhaumik Kaji Notes</title>
 
     <style is:global>
       :root {
@@ -364,7 +364,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         <nav role="navigation" aria-label="Main navigation">
           <div class="masthead">
             <h4 class="masthead-title">
-              <a href="/" aria-label="Home">Bhaumik.sudo</a>
+              <a href="/" aria-label="Home">Bhaumik Kaji Notes</a>
             </h4>
             <div class="masthead-right">
               <a href="/notes" class={Astro.url.pathname.startsWith('/notes') ? 'nav-active' : ''}>Notes</a>

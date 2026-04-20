@@ -7,7 +7,7 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
 const categories = [...new Set(notes.map(n => n.data.category))];
 ---
 
-<BaseLayout title="Bhaumik.sudo" description="Notes on tech, design, and AI. By Bhaumik Kaji." showScrollProgress={false}>
+<BaseLayout title="Bhaumik Kaji Notes" description="Notes on tech, design, and AI. By Bhaumik Kaji." showScrollProgress={false}>
   <div class="home">
     <div class="bento-filter" id="bento-filter">
       <button class="filter-btn active" data-filter="all">All</button>

@@ -2,14 +2,14 @@
 import Icon from './Icon.astro';
 
 const themes = [
-  { id: 'ember', label: 'Ember', light: '#c2410c', dark: '#fb923c', gradient: false },
-  { id: 'electric', label: 'Electric', light: '#2563eb', dark: '#60a5fa', gradient: false },
-  { id: 'violet', label: 'Violet', light: '#7c3aed', dark: '#a78bfa', gradient: false },
-  { id: 'emerald', label: 'Emerald', light: '#059669', dark: '#34d399', gradient: false },
-  { id: 'rose', label: 'Rose', light: '#db2777', dark: '#f472b6', gradient: false },
-  { id: 'sunset', label: 'Sunset', light: 'linear-gradient(135deg, #f97316, #ec4899)', dark: 'linear-gradient(135deg, #fb923c, #f472b6)', gradient: true },
-  { id: 'aurora', label: 'Aurora', light: 'linear-gradient(135deg, #06b6d4, #8b5cf6)', dark: 'linear-gradient(135deg, #22d3ee, #a78bfa)', gradient: true },
-  { id: 'lava', label: 'Lava', light: 'linear-gradient(135deg, #ef4444, #f59e0b)', dark: 'linear-gradient(135deg, #f87171, #fbbf24)', gradient: true },
+  { id: 'ember', label: 'Ember', color: '#fb923c', gradient: false },
+  { id: 'electric', label: 'Electric', color: '#60a5fa', gradient: false },
+  { id: 'violet', label: 'Violet', color: '#a78bfa', gradient: false },
+  { id: 'emerald', label: 'Emerald', color: '#34d399', gradient: false },
+  { id: 'rose', label: 'Rose', color: '#f472b6', gradient: false },
+  { id: 'sunset', label: 'Sunset', from: '#fb923c', to: '#f472b6', gradient: true },
+  { id: 'aurora', label: 'Aurora', from: '#22d3ee', to: '#a78bfa', gradient: true },
+  { id: 'lava', label: 'Lava', from: '#f87171', to: '#fbbf24', gradient: true },
 ];
 
 const fonts = [
@@ -21,15 +21,15 @@ const fonts = [
 ];
 
 const densities = [
-  { id: 'compact', label: 'Compact', icon: 'align-justify' },
-  { id: 'default', label: 'Default', icon: 'align-justify' },
-  { id: 'cozy', label: 'Cozy', icon: 'align-justify' },
+  { id: 'compact', label: 'Compact' },
+  { id: 'default', label: 'Default' },
+  { id: 'cozy', label: 'Cozy' },
 ];
 
 const modes = [
-  { id: 'light', label: 'Light', icon: 'sun' },
-  { id: 'sepia', label: 'Sepia', icon: 'book-open' },
-  { id: 'dark', label: 'Dark', icon: 'moon' },
+  { id: 'light', label: 'Light' },
+  { id: 'sepia', label: 'Sepia' },
+  { id: 'dark', label: 'Dark' },
 ];
 ---
 
@@ -39,39 +39,31 @@ const modes = [
   </button>
 
   <div class="personalize-panel" id="personalize-panel">
-    <div class="panel-header">
-      <span class="panel-title">Customize</span>
-      <button class="panel-close" id="panel-close" aria-label="Close">
-        <Icon name="x" size={14} />
-      </button>
-    </div>
-
-    <!-- Mode: Light / Sepia / Dark -->
+    <!-- Mode -->
     <div class="panel-section">
       <span class="section-label">Appearance</span>
-      <div class="mode-row">
+      <div class="segmented-control">
         {modes.map((mode) => (
-          <button class="mode-btn" data-mode={mode.id} aria-label={mode.label}>
-            <Icon name={mode.icon} size={14} />
-            <span>{mode.label}</span>
-          </button>
+          <button class="seg-btn" data-mode={mode.id}>{mode.label}</button>
         ))}
       </div>
     </div>
 
-    <!-- Theme colors -->
+    <!-- Theme colors — two rows: solids then gradients -->
     <div class="panel-section">
       <span class="section-label">Color</span>
-      <div class="theme-grid">
+      <div class="color-grid">
         {themes.map((theme) => (
           <button
-            class={`theme-swatch ${theme.gradient ? 'swatch-gradient' : 'swatch-solid'}`}
+            class={`color-chip ${theme.gradient ? 'chip-gradient' : 'chip-solid'}`}
             data-theme-id={theme.id}
             aria-label={theme.label}
-            title={theme.label}
-            style={`background: ${theme.gradient ? theme.dark : theme.dark}`}
+            style={theme.gradient
+              ? `background: linear-gradient(135deg, ${theme.from}, ${theme.to})`
+              : `background: ${theme.color}`
+            }
           >
-            <span class="swatch-check"><Icon name="check" size={10} /></span>
+            <span class="chip-label">{theme.label}</span>
           </button>
         ))}
       </div>
@@ -80,9 +72,9 @@ const modes = [
     <!-- Font -->
     <div class="panel-section">
       <span class="section-label">Typeface</span>
-      <div class="font-list">
+      <div class="font-options">
         {fonts.map((font) => (
-          <button class="font-option" data-font-id={font.id} style={`font-family: ${font.family}`}>
+          <button class="font-btn" data-font-id={font.id} style={`font-family: ${font.family}`}>
             {font.label}
           </button>
         ))}
@@ -92,16 +84,9 @@ const modes = [
     <!-- Density -->
     <div class="panel-section">
       <span class="section-label">Density</span>
-      <div class="density-row">
-        {densities.map((density, i) => (
-          <button class="density-btn" data-density={density.id} aria-label={density.label}>
-            <span class="density-lines">
-              <span class="density-line" style={`height: ${4 + i}px; margin-bottom: ${1 + i}px`}></span>
-              <span class="density-line" style={`height: ${4 + i}px; margin-bottom: ${1 + i}px`}></span>
-              <span class="density-line" style={`height: ${4 + i}px`}></span>
-            </span>
-            <span class="density-label">{density.label}</span>
-          </button>
+      <div class="segmented-control density-seg">
+        {densities.map((density) => (
+          <button class="seg-btn" data-density={density.id}>{density.label}</button>
         ))}
       </div>
     </div>
@@ -134,68 +119,32 @@ const modes = [
     display: block;
   }
 
+  /* Panel */
   .personalize-panel {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 8px);
     right: 0;
-    margin-top: 8px;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 20px;
-    min-width: 280px;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    border-radius: 14px;
+    padding: 16px;
+    width: 260px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.06);
     opacity: 0;
-    transform: translateY(-6px) scale(0.97);
+    transform: translateY(-4px);
     pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition: opacity 0.18s ease, transform 0.18s ease;
     z-index: 1000;
   }
 
   .personalize-panel.open {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
     pointer-events: auto;
   }
 
-  .panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-
-  .panel-title {
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    color: var(--text-primary);
-  }
-
-  .panel-close {
-    background: none;
-    border: none;
-    color: var(--text-tertiary);
-    cursor: pointer;
-    padding: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.15s ease;
-    border-radius: 6px;
-  }
-
-  .panel-close:hover {
-    color: var(--text-primary);
-    background: color-mix(in srgb, var(--text-primary) 6%, transparent);
-  }
-
-  .panel-close :global(svg) {
-    display: block;
-  }
-
   .panel-section {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
   .panel-section:last-child {
@@ -204,29 +153,28 @@ const modes = [
 
   .section-label {
     display: block;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     color: var(--text-tertiary);
     margin-bottom: 8px;
   }
 
-  /* Mode buttons */
-  .mode-row {
+  /* Segmented control */
+  .segmented-control {
     display: flex;
-    gap: 6px;
+    background: color-mix(in srgb, var(--text-primary) 5%, transparent);
+    border-radius: 8px;
+    padding: 2px;
+    gap: 2px;
   }
 
-  .mode-btn {
+  .seg-btn {
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    padding: 8px 6px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
+    padding: 6px 4px;
+    border: none;
+    border-radius: 6px;
     background: transparent;
     color: var(--text-tertiary);
     cursor: pointer;
@@ -236,152 +184,98 @@ const modes = [
     font-family: inherit;
   }
 
-  .mode-btn:hover {
-    border-color: var(--text-tertiary);
+  .seg-btn:hover {
     color: var(--text-secondary);
   }
 
-  .mode-btn.active {
-    border-color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 10%, transparent);
-    color: var(--accent);
-  }
-
-  .mode-btn :global(svg) {
-    display: block;
-    flex-shrink: 0;
-  }
-
-  /* Theme grid */
-  .theme-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-  }
-
-  .theme-swatch {
-    width: 100%;
-    aspect-ratio: 1;
-    border-radius: 10px;
-    border: 2px solid transparent;
-    cursor: pointer;
-    position: relative;
-    transition: border-color 0.15s ease, transform 0.15s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-  }
-
-  .theme-swatch:hover {
-    transform: scale(1.08);
-  }
-
-  .theme-swatch.active {
-    border-color: var(--text-primary);
-  }
-
-  .swatch-gradient {
-    background-size: 100% 100%;
-  }
-
-  .swatch-check {
-    display: none;
-    color: white;
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
-  }
-
-  .theme-swatch.active .swatch-check {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .swatch-check :global(svg) {
-    display: block;
-  }
-
-  /* Font list */
-  .font-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .font-option {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: 8px 12px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    background: transparent;
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-size: 0.95rem;
-    transition: all 0.15s ease;
-  }
-
-  .font-option:hover {
-    background: color-mix(in srgb, var(--text-primary) 5%, transparent);
+  .seg-btn.active {
+    background: var(--bg);
     color: var(--text-primary);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   }
 
-  .font-option.active {
-    border-color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 8%, transparent);
-    color: var(--accent);
-  }
-
-  /* Density */
-  .density-row {
+  /* Color chips — horizontal scrollable row, larger swatches */
+  .color-grid {
     display: flex;
+    flex-wrap: wrap;
     gap: 6px;
   }
 
-  .density-btn {
-    flex: 1;
+  .color-chip {
+    position: relative;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .chip-solid {
+    width: 36px;
+    height: 36px;
+  }
+
+  .chip-gradient {
+    width: 52px;
+    height: 36px;
+  }
+
+  .color-chip:hover {
+    transform: scale(1.06);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+
+  .color-chip.active {
+    border-color: var(--text-primary);
+    box-shadow: 0 0 0 1px var(--bg), 0 0 0 3px var(--text-primary);
+  }
+
+  .chip-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 0;
+    line-height: 0;
+    overflow: hidden;
+    color: transparent;
+  }
+
+  /* Font options */
+  .font-options {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 10px 6px 8px;
-    border-radius: 10px;
-    border: 1px solid var(--border);
+    gap: 1px;
+  }
+
+  .font-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
     background: transparent;
-    color: var(--text-tertiary);
-    cursor: pointer;
-    transition: all 0.15s ease;
-  }
-
-  .density-btn:hover {
-    border-color: var(--text-tertiary);
     color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.12s ease;
   }
 
-  .density-btn.active {
-    border-color: var(--accent);
+  .font-btn:hover {
+    background: color-mix(in srgb, var(--text-primary) 5%, transparent);
+  }
+
+  .font-btn.active {
     background: color-mix(in srgb, var(--accent) 10%, transparent);
     color: var(--accent);
   }
 
-  .density-lines {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 16px;
-  }
-
-  .density-line {
-    width: 100%;
-    border-radius: 1px;
-    background: currentColor;
-  }
-
-  .density-label {
-    font-size: 0.65rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
+  .density-seg .seg-btn.active {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    box-shadow: none;
   }
 </style>
 
@@ -454,8 +348,8 @@ const modes = [
     if (pb) pb.style.background = c.gf ? 'linear-gradient(90deg,' + c.gf + ',' + c.gt + ')' : 'linear-gradient(90deg,' + c.accent + ',' + c.accentHover + ')';
     localStorage.setItem('theme', themeId);
     localStorage.setItem('mode', mode);
-    document.querySelectorAll('.theme-swatch').forEach(b => b.classList.toggle('active', b.dataset.themeId === themeId));
-    document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
+    document.querySelectorAll('.color-chip').forEach(b => b.classList.toggle('active', b.dataset.themeId === themeId));
+    updateSegBtns('[data-mode]', mode);
   }
 
   function applyFont(fontId) {
@@ -463,7 +357,7 @@ const modes = [
     if (!family) return;
     document.documentElement.style.setProperty('--font-sans', family);
     localStorage.setItem('font', fontId);
-    document.querySelectorAll('.font-option').forEach(b => b.classList.toggle('active', b.dataset.fontId === fontId));
+    document.querySelectorAll('.font-btn').forEach(b => b.classList.toggle('active', b.dataset.fontId === fontId));
   }
 
   function applyDensity(densityId) {
@@ -474,7 +368,20 @@ const modes = [
     r.setProperty('--base-line-height', d.lineHeight);
     r.setProperty('--para-spacing', d.paraSpacing);
     localStorage.setItem('density', densityId);
-    document.querySelectorAll('.density-btn').forEach(b => b.classList.toggle('active', b.dataset.density === densityId));
+    updateSegBtns('[data-density]', densityId);
+  }
+
+  function updateSegBtns(attr, activeVal) {
+    document.querySelectorAll('.seg-btn' + attr).forEach(b => {
+      b.classList.toggle('active', b.getAttribute(attr.replace('[', '').replace(']', '')) === activeVal || b.getAttribute(attr) === activeVal);
+    });
+    // Broader approach
+    document.querySelectorAll('.seg-btn').forEach(b => {
+      const mode = b.dataset.mode;
+      const density = b.dataset.density;
+      if (mode !== undefined) b.classList.toggle('active', mode === activeVal);
+      if (density !== undefined) b.classList.toggle('active', density === activeVal);
+    });
   }
 
   // Init
@@ -490,33 +397,29 @@ const modes = [
   // Panel toggle
   const trigger = document.getElementById('personalize-trigger');
   const panel = document.getElementById('personalize-panel');
-  const close = document.getElementById('panel-close');
 
   trigger.addEventListener('click', (e) => { e.stopPropagation(); panel.classList.toggle('open'); });
-  close.addEventListener('click', () => panel.classList.remove('open'));
   document.addEventListener('click', (e) => { if (!panel.contains(e.target) && !trigger.contains(e.target)) panel.classList.remove('open'); });
 
-  document.querySelectorAll('.theme-swatch').forEach(btn => {
+  document.querySelectorAll('.color-chip').forEach(btn => {
     btn.addEventListener('click', () => {
-      const themeId = btn.dataset.themeId;
       const currentMode = document.documentElement.getAttribute('data-mode') || 'light';
-      applyTheme(themeId, currentMode);
+      applyTheme(btn.dataset.themeId, currentMode);
     });
   });
 
-  document.querySelectorAll('.mode-btn').forEach(btn => {
+  document.querySelectorAll('.seg-btn[data-mode]').forEach(btn => {
     btn.addEventListener('click', () => {
-      const mode = btn.dataset.mode;
       const currentTheme = document.documentElement.getAttribute('data-theme') || 'ember';
-      applyTheme(currentTheme, mode);
+      applyTheme(currentTheme, btn.dataset.mode);
     });
   });
 
-  document.querySelectorAll('.font-option').forEach(btn => {
+  document.querySelectorAll('.font-btn').forEach(btn => {
     btn.addEventListener('click', () => applyFont(btn.dataset.fontId));
   });
 
-  document.querySelectorAll('.density-btn').forEach(btn => {
+  document.querySelectorAll('.seg-btn[data-density]').forEach(btn => {
     btn.addEventListener('click', () => applyDensity(btn.dataset.density));
   });
 </script>
