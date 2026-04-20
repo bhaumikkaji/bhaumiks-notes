@@ -47,7 +47,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Merriweather:wght@400;500;700&family=Lora:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
     <script is:inline>
       // Prevent flash — apply theme + mode before render
@@ -90,12 +90,43 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           r.setProperty('--text-secondary', '#a0a0a0');
           r.setProperty('--text-tertiary', '#666666');
           r.setProperty('--border', '#2a2a2a');
+        } else if (mode === 'sepia') {
+          r.setProperty('--bg', '#f4edd8');
+          r.setProperty('--text-primary', '#3e3529');
+          r.setProperty('--text-secondary', '#6b5f50');
+          r.setProperty('--text-tertiary', '#9a8d7d');
+          r.setProperty('--border', '#d6ccaf');
         } else {
           r.setProperty('--bg', '#fafafa');
           r.setProperty('--text-primary', '#111111');
           r.setProperty('--text-secondary', '#555555');
           r.setProperty('--text-tertiary', '#888888');
           r.setProperty('--border', '#e8e8e8');
+        }
+
+        // Apply font
+        var fonts = {
+          'source-sans': "'Source Sans 3', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif",
+          'merriweather': "'Merriweather', Georgia, serif",
+          'lora': "'Lora', Georgia, serif",
+          'ibm-plex': "'IBM Plex Sans', system-ui, sans-serif",
+          'geist': "'Geist', 'Inter', system-ui, sans-serif",
+        };
+        var storedFont = localStorage.getItem('font') || 'source-sans';
+        if (fonts[storedFont]) r.setProperty('--font-sans', fonts[storedFont]);
+
+        // Apply density
+        var densities = {
+          compact:  { fontSize: '10px', lineHeight: '1.55', paraSpacing: '0.8em' },
+          default:  { fontSize: '11px', lineHeight: '1.7', paraSpacing: '1em' },
+          cozy:     { fontSize: '12.5px', lineHeight: '1.85', paraSpacing: '1.4em' },
+        };
+        var storedDensity = localStorage.getItem('density') || 'default';
+        var d = densities[storedDensity];
+        if (d) {
+          r.setProperty('--base-font-size', d.fontSize);
+          r.setProperty('--base-line-height', d.lineHeight);
+          r.setProperty('--para-spacing', d.paraSpacing);
         }
       })();
     </script>
@@ -117,6 +148,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         --font-sans: 'Source Sans 3', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
         --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
         --progress-height: 2px;
+        --base-font-size: 11px;
+        --base-line-height: 1.7;
+        --para-spacing: 1em;
       }
 
       * {
@@ -127,13 +161,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
       html {
         font-family: var(--font-sans);
-        font-size: 11px;
-        line-height: 1.7;
+        font-size: var(--base-font-size);
+        line-height: var(--base-line-height);
         color: var(--text-primary);
         background: var(--bg);
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         scroll-behavior: smooth;
+        transition: background 0.3s ease, color 0.3s ease;
       }
 
       body {
@@ -142,10 +177,26 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         flex-direction: column;
       }
 
+      /* Page transitions */
+      .content {
+        animation: fadeUp 0.3s ease both;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
       a {
         color: var(--accent);
         text-decoration: none;
-        transition: color 0.15s ease;
+        transition: color 0.15s ease, opacity 0.15s ease;
       }
 
       a:hover {
@@ -180,6 +231,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         z-index: 100;
         background: var(--bg);
         border-bottom: 1px solid var(--border);
+        transition: background 0.3s ease, border-color 0.3s ease;
       }
 
       .masthead {
@@ -246,6 +298,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         bottom: 0;
         z-index: 100;
         background: var(--bg);
+        transition: background 0.3s ease, border-color 0.3s ease;
       }
 
       footer .container {
@@ -291,7 +344,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       /* Responsive */
       @media (max-width: 640px) {
         html {
-          font-size: 10px;
+          --base-font-size: 10px;
         }
       }
 

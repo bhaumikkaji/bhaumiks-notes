@@ -18,7 +18,7 @@ const categories = [...new Set(notes.map(n => n.data.category))];
 
     <div class="bento">
       {notes.slice(0, 6).map((note, i) => (
-        <a href={`/notes/${note.data.slug}`} class={`bento-card ${i === 0 ? 'bento-hero' : 'bento-side'}`} data-category={note.data.category}>
+        <a href={`/notes/${note.data.slug}`} class={`bento-card ${i === 0 ? 'bento-hero' : 'bento-side'}`} data-category={note.data.category} style={`animation-delay: ${i * 0.05}s`}>
           <span class="card-category">{note.data.category}</span>
           <h2 class="card-title">{note.data.title}</h2>
           <p class="card-desc">{note.data.summary || note.data.description}</p>
@@ -29,7 +29,7 @@ const categories = [...new Set(notes.map(n => n.data.category))];
   </div>
 
   <script is:inline>
-    const filterBtns = document.querySelectorAll('.filter-btn');
+    const filterBtns = document.querySelectorAll('.bento-filter .filter-btn');
     const cards = document.querySelectorAll('.bento-card');
 
     filterBtns.forEach(btn => {
@@ -39,10 +39,20 @@ const categories = [...new Set(notes.map(n => n.data.category))];
         btn.classList.add('active');
 
         if (filter === 'all') {
-          cards.forEach(card => card.style.display = '');
+          cards.forEach((card, i) => {
+            card.style.display = '';
+            card.style.animation = `fadeUp 0.25s ease ${i * 0.03}s both`;
+          });
         } else {
+          let idx = 0;
           cards.forEach(card => {
-            card.style.display = card.dataset.category === filter ? '' : 'none';
+            if (card.dataset.category === filter) {
+              card.style.display = '';
+              card.style.animation = `fadeUp 0.25s ease ${idx * 0.05}s both`;
+              idx++;
+            } else {
+              card.style.display = 'none';
+            }
           });
         }
       });
@@ -88,6 +98,17 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     background: color-mix(in srgb, var(--accent) 8%, transparent);
   }
 
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .bento {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -108,6 +129,7 @@ const categories = [...new Set(notes.map(n => n.data.category))];
   }
 
   .bento-card {
+    animation: fadeUp 0.3s ease both;
     background: color-mix(in srgb, var(--text-primary) 4%, transparent);
     border: 1px solid var(--border);
     border-radius: 16px;

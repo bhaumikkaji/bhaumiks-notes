@@ -2,54 +2,108 @@
 import Icon from './Icon.astro';
 
 const themes = [
-  { id: 'ember', label: 'Ember', dark: '#fb923c', gradient: false },
-  { id: 'electric', label: 'Electric', dark: '#60a5fa', gradient: false },
-  { id: 'violet', label: 'Violet', dark: '#a78bfa', gradient: false },
-  { id: 'emerald', label: 'Emerald', dark: '#34d399', gradient: false },
-  { id: 'rose', label: 'Rose', dark: '#f472b6', gradient: false },
-  { id: 'sunset', label: 'Sunset', dark: 'linear-gradient(135deg, #fb923c, #f472b6)', gradient: true },
-  { id: 'aurora', label: 'Aurora', dark: 'linear-gradient(135deg, #22d3ee, #a78bfa)', gradient: true },
-  { id: 'lava', label: 'Lava', dark: 'linear-gradient(135deg, #f87171, #fbbf24)', gradient: true },
+  { id: 'ember', label: 'Ember', light: '#c2410c', dark: '#fb923c', gradient: false },
+  { id: 'electric', label: 'Electric', light: '#2563eb', dark: '#60a5fa', gradient: false },
+  { id: 'violet', label: 'Violet', light: '#7c3aed', dark: '#a78bfa', gradient: false },
+  { id: 'emerald', label: 'Emerald', light: '#059669', dark: '#34d399', gradient: false },
+  { id: 'rose', label: 'Rose', light: '#db2777', dark: '#f472b6', gradient: false },
+  { id: 'sunset', label: 'Sunset', light: 'linear-gradient(135deg, #f97316, #ec4899)', dark: 'linear-gradient(135deg, #fb923c, #f472b6)', gradient: true },
+  { id: 'aurora', label: 'Aurora', light: 'linear-gradient(135deg, #06b6d4, #8b5cf6)', dark: 'linear-gradient(135deg, #22d3ee, #a78bfa)', gradient: true },
+  { id: 'lava', label: 'Lava', light: 'linear-gradient(135deg, #ef4444, #f59e0b)', dark: 'linear-gradient(135deg, #f87171, #fbbf24)', gradient: true },
+];
+
+const fonts = [
+  { id: 'source-sans', label: 'Source Sans', family: "'Source Sans 3', 'Source Sans Pro', sans-serif" },
+  { id: 'merriweather', label: 'Merriweather', family: "'Merriweather', Georgia, serif" },
+  { id: 'lora', label: 'Lora', family: "'Lora', Georgia, serif" },
+  { id: 'ibm-plex', label: 'IBM Plex', family: "'IBM Plex Sans', system-ui, sans-serif" },
+  { id: 'geist', label: 'Geist', family: "'Geist', 'Inter', system-ui, sans-serif" },
+];
+
+const densities = [
+  { id: 'compact', label: 'Compact', icon: 'align-justify' },
+  { id: 'default', label: 'Default', icon: 'align-justify' },
+  { id: 'cozy', label: 'Cozy', icon: 'align-justify' },
+];
+
+const modes = [
+  { id: 'light', label: 'Light', icon: 'sun' },
+  { id: 'sepia', label: 'Sepia', icon: 'book-open' },
+  { id: 'dark', label: 'Dark', icon: 'moon' },
 ];
 ---
 
 <span class="personalize-wrapper">
-  <button class="personalize-trigger" id="personalize-trigger" aria-label="Customize theme">
+  <button class="personalize-trigger" id="personalize-trigger" aria-label="Customize">
     <Icon name="palette" size={16} />
   </button>
 
   <div class="personalize-panel" id="personalize-panel">
     <div class="panel-header">
-      <span class="panel-title">Theme</span>
+      <span class="panel-title">Customize</span>
       <button class="panel-close" id="panel-close" aria-label="Close">
         <Icon name="x" size={14} />
       </button>
     </div>
 
-    <div class="theme-grid">
-      {themes.map((theme) => (
-        <button
-          class={`theme-swatch ${theme.gradient ? 'swatch-gradient' : 'swatch-solid'}`}
-          data-theme-id={theme.id}
-          aria-label={theme.label}
-          title={theme.label}
-          style={theme.gradient
-            ? `background: ${theme.dark}`
-            : `background: ${theme.dark}`
-          }
-        >
-          <span class="swatch-check"><Icon name="check" size={10} /></span>
-        </button>
-      ))}
+    <!-- Mode: Light / Sepia / Dark -->
+    <div class="panel-section">
+      <span class="section-label">Appearance</span>
+      <div class="mode-row">
+        {modes.map((mode) => (
+          <button class="mode-btn" data-mode={mode.id} aria-label={mode.label}>
+            <Icon name={mode.icon} size={14} />
+            <span>{mode.label}</span>
+          </button>
+        ))}
+      </div>
     </div>
 
-    <div class="mode-section">
-      <button class="mode-btn" data-mode="light" aria-label="Light mode">
-        <Icon name="sun" size={14} />
-      </button>
-      <button class="mode-btn" data-mode="dark" aria-label="Dark mode">
-        <Icon name="moon" size={14} />
-      </button>
+    <!-- Theme colors -->
+    <div class="panel-section">
+      <span class="section-label">Color</span>
+      <div class="theme-grid">
+        {themes.map((theme) => (
+          <button
+            class={`theme-swatch ${theme.gradient ? 'swatch-gradient' : 'swatch-solid'}`}
+            data-theme-id={theme.id}
+            aria-label={theme.label}
+            title={theme.label}
+            style={`background: ${theme.gradient ? theme.dark : theme.dark}`}
+          >
+            <span class="swatch-check"><Icon name="check" size={10} /></span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Font -->
+    <div class="panel-section">
+      <span class="section-label">Typeface</span>
+      <div class="font-list">
+        {fonts.map((font) => (
+          <button class="font-option" data-font-id={font.id} style={`font-family: ${font.family}`}>
+            {font.label}
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- Density -->
+    <div class="panel-section">
+      <span class="section-label">Density</span>
+      <div class="density-row">
+        {densities.map((density, i) => (
+          <button class="density-btn" data-density={density.id} aria-label={density.label}>
+            <span class="density-lines">
+              <span class="density-line" style={`height: ${4 + i}px; margin-bottom: ${1 + i}px`}></span>
+              <span class="density-line" style={`height: ${4 + i}px; margin-bottom: ${1 + i}px`}></span>
+              <span class="density-line" style={`height: ${4 + i}px`}></span>
+            </span>
+            <span class="density-label">{density.label}</span>
+          </button>
+        ))}
+      </div>
     </div>
   </div>
 </span>
@@ -69,7 +123,7 @@ const themes = [
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: color 0.15s ease;
+    transition: color 0.2s ease;
   }
 
   .personalize-trigger:hover {
@@ -87,14 +141,14 @@ const themes = [
     margin-top: 8px;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    min-width: 200px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    border-radius: 16px;
+    padding: 20px;
+    min-width: 280px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
     opacity: 0;
-    transform: translateY(-4px) scale(0.97);
+    transform: translateY(-6px) scale(0.97);
     pointer-events: none;
-    transition: opacity 0.15s ease, transform 0.15s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease;
     z-index: 1000;
   }
 
@@ -108,15 +162,14 @@ const themes = [
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
 
   .panel-title {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-tertiary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text-primary);
   }
 
   .panel-close {
@@ -124,32 +177,92 @@ const themes = [
     border: none;
     color: var(--text-tertiary);
     cursor: pointer;
-    padding: 2px;
+    padding: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: color 0.15s ease;
+    border-radius: 6px;
   }
 
   .panel-close:hover {
     color: var(--text-primary);
+    background: color-mix(in srgb, var(--text-primary) 6%, transparent);
   }
 
   .panel-close :global(svg) {
     display: block;
   }
 
+  .panel-section {
+    margin-bottom: 16px;
+  }
+
+  .panel-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    margin-bottom: 8px;
+  }
+
+  /* Mode buttons */
+  .mode-row {
+    display: flex;
+    gap: 6px;
+  }
+
+  .mode-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px 6px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    font-family: inherit;
+  }
+
+  .mode-btn:hover {
+    border-color: var(--text-tertiary);
+    color: var(--text-secondary);
+  }
+
+  .mode-btn.active {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    color: var(--accent);
+  }
+
+  .mode-btn :global(svg) {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  /* Theme grid */
   .theme-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 8px;
-    margin-bottom: 12px;
   }
 
   .theme-swatch {
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 10px;
     border: 2px solid transparent;
     cursor: pointer;
     position: relative;
@@ -175,6 +288,7 @@ const themes = [
   .swatch-check {
     display: none;
     color: white;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
   }
 
   .theme-swatch.active .swatch-check {
@@ -187,51 +301,114 @@ const themes = [
     display: block;
   }
 
-  .mode-section {
+  /* Font list */
+  .font-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .font-option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.15s ease;
+  }
+
+  .font-option:hover {
+    background: color-mix(in srgb, var(--text-primary) 5%, transparent);
+    color: var(--text-primary);
+  }
+
+  .font-option.active {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    color: var(--accent);
+  }
+
+  /* Density */
+  .density-row {
     display: flex;
     gap: 6px;
   }
 
-  .mode-btn {
+  .density-btn {
     flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 6px;
-    border-radius: 8px;
+    gap: 4px;
+    padding: 10px 6px 8px;
+    border-radius: 10px;
     border: 1px solid var(--border);
     background: transparent;
     color: var(--text-tertiary);
     cursor: pointer;
-    transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+    transition: all 0.15s ease;
   }
 
-  .mode-btn:hover {
+  .density-btn:hover {
     border-color: var(--text-tertiary);
     color: var(--text-secondary);
   }
 
-  .mode-btn.active {
+  .density-btn.active {
     border-color: var(--accent);
     background: color-mix(in srgb, var(--accent) 10%, transparent);
     color: var(--accent);
   }
 
-  .mode-btn :global(svg) {
-    display: block;
+  .density-lines {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 16px;
+  }
+
+  .density-line {
+    width: 100%;
+    border-radius: 1px;
+    background: currentColor;
+  }
+
+  .density-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
   }
 </style>
 
 <script is:inline>
   const themes = {
-    ember:    { light: { accent: '#c2410c', accentHover: '#a83608' }, dark: { accent: '#fb923c', accentHover: '#f97316' } },
-    electric: { light: { accent: '#2563eb', accentHover: '#1d4ed8' }, dark: { accent: '#60a5fa', accentHover: '#3b82f6' } },
-    violet:   { light: { accent: '#7c3aed', accentHover: '#6d28d9' }, dark: { accent: '#a78bfa', accentHover: '#8b5cf6' } },
-    emerald:  { light: { accent: '#059669', accentHover: '#047857' }, dark: { accent: '#34d399', accentHover: '#10b981' } },
-    rose:     { light: { accent: '#db2777', accentHover: '#be185d' }, dark: { accent: '#f472b6', accentHover: '#ec4899' } },
-    sunset:   { light: { accent: '#f97316', accentHover: '#ea580c', gf: '#f97316', gt: '#ec4899' }, dark: { accent: '#fb923c', accentHover: '#f97316', gf: '#fb923c', gt: '#f472b6' } },
-    aurora:   { light: { accent: '#06b6d4', accentHover: '#0891b2', gf: '#06b6d4', gt: '#8b5cf6' }, dark: { accent: '#22d3ee', accentHover: '#06b6d4', gf: '#22d3ee', gt: '#a78bfa' } },
-    lava:     { light: { accent: '#ef4444', accentHover: '#dc2626', gf: '#ef4444', gt: '#f59e0b' }, dark: { accent: '#f87171', accentHover: '#ef4444', gf: '#f87171', gt: '#fbbf24' } },
+    ember:    { light: { accent: '#c2410c', accentHover: '#a83608' }, sepia: { accent: '#a83608', accentHover: '#9a3006' }, dark: { accent: '#fb923c', accentHover: '#f97316' } },
+    electric: { light: { accent: '#2563eb', accentHover: '#1d4ed8' }, sepia: { accent: '#1d4ed8', accentHover: '#1e40af' }, dark: { accent: '#60a5fa', accentHover: '#3b82f6' } },
+    violet:   { light: { accent: '#7c3aed', accentHover: '#6d28d9' }, sepia: { accent: '#6d28d9', accentHover: '#5b21b6' }, dark: { accent: '#a78bfa', accentHover: '#8b5cf6' } },
+    emerald:  { light: { accent: '#059669', accentHover: '#047857' }, sepia: { accent: '#047857', accentHover: '#065f46' }, dark: { accent: '#34d399', accentHover: '#10b981' } },
+    rose:     { light: { accent: '#db2777', accentHover: '#be185d' }, sepia: { accent: '#be185d', accentHover: '#9d174d' }, dark: { accent: '#f472b6', accentHover: '#ec4899' } },
+    sunset:   { light: { accent: '#f97316', accentHover: '#ea580c', gf: '#f97316', gt: '#ec4899' }, sepia: { accent: '#ea580c', accentHover: '#c2410c', gf: '#ea580c', gt: '#be185d' }, dark: { accent: '#fb923c', accentHover: '#f97316', gf: '#fb923c', gt: '#f472b6' } },
+    aurora:   { light: { accent: '#06b6d4', accentHover: '#0891b2', gf: '#06b6d4', gt: '#8b5cf6' }, sepia: { accent: '#0891b2', accentHover: '#0e7490', gf: '#0891b2', gt: '#6d28d9' }, dark: { accent: '#22d3ee', accentHover: '#06b6d4', gf: '#22d3ee', gt: '#a78bfa' } },
+    lava:     { light: { accent: '#ef4444', accentHover: '#dc2626', gf: '#ef4444', gt: '#f59e0b' }, sepia: { accent: '#dc2626', accentHover: '#b91c1c', gf: '#dc2626', gt: '#d97706' }, dark: { accent: '#f87171', accentHover: '#ef4444', gf: '#f87171', gt: '#fbbf24' } },
+  };
+
+  const fonts = {
+    'source-sans': "'Source Sans 3', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif",
+    'merriweather': "'Merriweather', Georgia, serif",
+    'lora': "'Lora', Georgia, serif",
+    'ibm-plex': "'IBM Plex Sans', system-ui, sans-serif",
+    'geist': "'Geist', 'Inter', system-ui, sans-serif",
+  };
+
+  const densities = {
+    compact:  { fontSize: '10px', lineHeight: '1.55', paraSpacing: '0.8em' },
+    default:  { fontSize: '11px', lineHeight: '1.7', paraSpacing: '1em' },
+    cozy:     { fontSize: '12.5px', lineHeight: '1.85', paraSpacing: '1.4em' },
   };
 
   function applyTheme(themeId, mode) {
@@ -252,12 +429,19 @@ const themes = [
     }
     document.documentElement.setAttribute('data-theme', themeId);
     document.documentElement.setAttribute('data-mode', mode);
+
     if (mode === 'dark') {
       r.setProperty('--bg', '#111111');
       r.setProperty('--text-primary', '#f0f0f0');
       r.setProperty('--text-secondary', '#a0a0a0');
       r.setProperty('--text-tertiary', '#666666');
       r.setProperty('--border', '#2a2a2a');
+    } else if (mode === 'sepia') {
+      r.setProperty('--bg', '#f4edd8');
+      r.setProperty('--text-primary', '#3e3529');
+      r.setProperty('--text-secondary', '#6b5f50');
+      r.setProperty('--text-tertiary', '#9a8d7d');
+      r.setProperty('--border', '#d6ccaf');
     } else {
       r.setProperty('--bg', '#fafafa');
       r.setProperty('--text-primary', '#111111');
@@ -265,6 +449,7 @@ const themes = [
       r.setProperty('--text-tertiary', '#888888');
       r.setProperty('--border', '#e8e8e8');
     }
+
     const pb = document.getElementById('scroll-progress');
     if (pb) pb.style.background = c.gf ? 'linear-gradient(90deg,' + c.gf + ',' + c.gt + ')' : 'linear-gradient(90deg,' + c.accent + ',' + c.accentHover + ')';
     localStorage.setItem('theme', themeId);
@@ -273,10 +458,36 @@ const themes = [
     document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
   }
 
+  function applyFont(fontId) {
+    const family = fonts[fontId];
+    if (!family) return;
+    document.documentElement.style.setProperty('--font-sans', family);
+    localStorage.setItem('font', fontId);
+    document.querySelectorAll('.font-option').forEach(b => b.classList.toggle('active', b.dataset.fontId === fontId));
+  }
+
+  function applyDensity(densityId) {
+    const d = densities[densityId];
+    if (!d) return;
+    const r = document.documentElement.style;
+    r.setProperty('--base-font-size', d.fontSize);
+    r.setProperty('--base-line-height', d.lineHeight);
+    r.setProperty('--para-spacing', d.paraSpacing);
+    localStorage.setItem('density', densityId);
+    document.querySelectorAll('.density-btn').forEach(b => b.classList.toggle('active', b.dataset.density === densityId));
+  }
+
+  // Init
   const storedTheme = localStorage.getItem('theme') || 'ember';
   const storedMode = localStorage.getItem('mode') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-  applyTheme(storedTheme, storedMode);
+  const storedFont = localStorage.getItem('font') || 'source-sans';
+  const storedDensity = localStorage.getItem('density') || 'default';
 
+  applyTheme(storedTheme, storedMode);
+  applyFont(storedFont);
+  applyDensity(storedDensity);
+
+  // Panel toggle
   const trigger = document.getElementById('personalize-trigger');
   const panel = document.getElementById('personalize-panel');
   const close = document.getElementById('panel-close');
@@ -299,5 +510,13 @@ const themes = [
       const currentTheme = document.documentElement.getAttribute('data-theme') || 'ember';
       applyTheme(currentTheme, mode);
     });
+  });
+
+  document.querySelectorAll('.font-option').forEach(btn => {
+    btn.addEventListener('click', () => applyFont(btn.dataset.fontId));
+  });
+
+  document.querySelectorAll('.density-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyDensity(btn.dataset.density));
   });
 </script>
