@@ -1,5 +1,4 @@
 ---
-import Icon from '../components/Icon.astro';
 import Personalize from '../components/Personalize.astro';
 
 export interface Props {
@@ -100,7 +99,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         }
       })();
     </script>
-    <title>{title} ・ Bhaumik Kaji</title>
+    <title>{title} ・ Bhaumik.sudo</title>
 
     <style is:global>
       :root {
@@ -203,10 +202,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
       .masthead-title a:hover {
         opacity: 0.7;
-      }
-
-      .header-icon :global(svg) {
-        display: block;
       }
 
       .masthead-right {
@@ -316,10 +311,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         <nav role="navigation" aria-label="Main navigation">
           <div class="masthead">
             <h4 class="masthead-title">
-              <a href="/" aria-label="Home"><Icon name="pen-tool" size={18} class="header-icon" /></a>
+              <a href="/" aria-label="Home">Bhaumik.sudo</a>
             </h4>
             <div class="masthead-right">
               <a href="/notes" class={Astro.url.pathname.startsWith('/notes') ? 'nav-active' : ''}>Notes</a>
+              <a href="/resources" class={Astro.url.pathname === '/resources' ? 'nav-active' : ''}>Resources</a>
               <Personalize />
             </div>
           </div>

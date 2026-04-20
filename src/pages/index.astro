@@ -1,46 +1,53 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import Icon from '../components/Icon.astro';
-
-const categoryIcons: Record<string, string> = {
-  Design: 'pencil-ruler',
-  AI: 'sparkles',
-  Tech: 'code-2',
-  Career: 'trending-up',
-  Observations: 'eye',
-  Life: 'heart',
-};
 
 const allNotes = await getCollection('notes');
 const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const featured = notes.slice(0, 6);
-const hero = featured[0];
-const side = featured.slice(1);
+const categories = [...new Set(notes.map(n => n.data.category))];
 ---
 
-<BaseLayout title="Bhaumik Kaji ・ Design & product thinker" description="Senior Product Designer at Microsoft. Sharing notes on tech, design and AI." showScrollProgress={false}>
+<BaseLayout title="Bhaumik.sudo" description="Notes on tech, design, and AI. By Bhaumik Kaji." showScrollProgress={false}>
   <div class="home">
-    <div class="bento">
-      <!-- Hero card -->
-      <a href={`/notes/${hero.data.slug}`} class="bento-card bento-hero">
-        <span class="card-category"><Icon name={categoryIcons[hero.data.category] || 'circle'} size={6} class="card-pill-icon" />{hero.data.category}</span>
-        <h2 class="card-title">{hero.data.title}</h2>
-        <p class="card-desc">{hero.data.summary || hero.data.description}</p>
-        <span class="card-cta">Read →</span>
-      </a>
+    <div class="bento-filter" id="bento-filter">
+      <button class="filter-btn active" data-filter="all">All</button>
+      {categories.map((cat) => (
+        <button class="filter-btn" data-filter={cat}>{cat}</button>
+      ))}
+    </div>
 
-      <!-- Side cards -->
-      {side.map((note) => (
-        <a href={`/notes/${note.data.slug}`} class="bento-card bento-side">
-          <span class="card-category"><Icon name={categoryIcons[note.data.category] || 'circle'} size={6} class="card-pill-icon" />{note.data.category}</span>
-          <h3 class="card-title">{note.data.title}</h3>
+    <div class="bento">
+      {notes.slice(0, 6).map((note, i) => (
+        <a href={`/notes/${note.data.slug}`} class={`bento-card ${i === 0 ? 'bento-hero' : 'bento-side'}`} data-category={note.data.category}>
+          <span class="card-category">{note.data.category}</span>
+          <h2 class="card-title">{note.data.title}</h2>
           <p class="card-desc">{note.data.summary || note.data.description}</p>
           <span class="card-cta">Read →</span>
         </a>
       ))}
     </div>
   </div>
+
+  <script is:inline>
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.bento-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (filter === 'all') {
+          cards.forEach(card => card.style.display = '');
+        } else {
+          cards.forEach(card => {
+            card.style.display = card.dataset.category === filter ? '' : 'none';
+          });
+        }
+      });
+    });
+  </script>
 </BaseLayout>
 
 <style>
@@ -48,7 +55,37 @@ const side = featured.slice(1);
     padding-top: 24px;
     height: calc(100vh - 120px);
     display: flex;
-    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .bento-filter {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .filter-btn {
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--text-tertiary);
+    color: var(--text-secondary);
+  }
+
+  .filter-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
   }
 
   .bento {
@@ -57,7 +94,8 @@ const side = featured.slice(1);
     grid-template-rows: 1fr 1fr 1fr;
     gap: 12px;
     width: 100%;
-    height: 100%;
+    flex: 1;
+    min-height: 0;
   }
 
   .bento-hero {
@@ -92,26 +130,17 @@ const side = featured.slice(1);
   .card-category {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    padding: 3px 10px 3px 7px;
+    padding: 3px 10px;
     border-radius: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     align-self: flex-start;
     flex-shrink: 0;
     color: var(--accent);
     background: color-mix(in srgb, var(--accent) 12%, transparent);
-  }
-
-  .card-pill-icon {
-    opacity: 0.85;
-  }
-
-  .card-pill-icon :global(svg) {
-    display: block;
   }
 
   .card-title {
@@ -161,7 +190,7 @@ const side = featured.slice(1);
     .bento {
       grid-template-columns: 1fr 1fr;
       grid-template-rows: auto;
-      height: auto;
+      flex: none;
     }
 
     .bento-hero {

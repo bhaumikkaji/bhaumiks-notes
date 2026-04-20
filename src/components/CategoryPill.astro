@@ -1,26 +1,12 @@
 ---
-import Icon from './Icon.astro';
-
 export interface Props {
   category: string;
 }
 
 const { category } = Astro.props;
-
-const categoryIcons: Record<string, string> = {
-  Design: 'pencil-ruler',
-  AI: 'sparkles',
-  Tech: 'code-2',
-  Career: 'trending-up',
-  Observations: 'eye',
-  Life: 'heart',
-};
-
-const icon = categoryIcons[category] || 'circle';
 ---
 
 <span class="category-pill">
-  <Icon name={icon} size={6} class="pill-icon" />
   {category}
 </span>
 
@@ -28,25 +14,15 @@ const icon = categoryIcons[category] || 'circle';
   .category-pill {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    padding: 3px 10px 3px 7px;
+    padding: 3px 10px;
     border-radius: 12px;
     color: var(--accent);
     background: color-mix(in srgb, var(--accent) 12%, transparent);
     line-height: 1.6;
     white-space: nowrap;
-  }
-
-  .pill-icon {
-    flex-shrink: 0;
-    opacity: 0.85;
-  }
-
-  .pill-icon :global(svg) {
-    display: block;
   }
 </style>

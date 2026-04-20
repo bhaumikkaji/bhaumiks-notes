@@ -1,15 +1,5 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import Icon from '../components/Icon.astro';
-
-const categoryIcons: Record<string, string> = {
-  Design: 'pencil-ruler',
-  AI: 'sparkles',
-  Tech: 'code-2',
-  Career: 'trending-up',
-  Observations: 'eye',
-  Life: 'heart',
-};
 
 export interface Props {
   title: string;
@@ -27,7 +17,6 @@ const { title, description, pubDate, category, image } = Astro.props;
     <header class="note-header">
       {category && (
         <span class="note-category">
-          <Icon name={categoryIcons[category] || 'circle'} size={6} class="pill-icon" />
           {category}
         </span>
       )}
@@ -57,14 +46,6 @@ const { title, description, pubDate, category, image } = Astro.props;
     margin-bottom: 16px;
     color: var(--accent);
     background: color-mix(in srgb, var(--accent) 12%, transparent);
-  }
-
-  .pill-icon {
-    opacity: 0.85;
-  }
-
-  .pill-icon :global(svg) {
-    display: block;
   }
 
   .note-title {
