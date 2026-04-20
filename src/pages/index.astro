@@ -19,18 +19,14 @@ const hero = featured[0];
 const side = featured.slice(1);
 ---
 
-<BaseLayout title="Bhaumik Kaji ・ Design & product thinker" description="Senior Product Designer at Microsoft. Sharing notes on tech, design and AI." showScrollProgress={false} showDensityToggle={true}>
-  <div class="home" data-density="default">
-
-    <!-- Bento Grid -->
+<BaseLayout title="Bhaumik Kaji ・ Design & product thinker" description="Senior Product Designer at Microsoft. Sharing notes on tech, design and AI." showScrollProgress={false}>
+  <div class="home">
     <div class="bento">
       <!-- Hero card -->
       <a href={`/notes/${hero.data.slug}`} class="bento-card bento-hero">
         <span class="card-category"><Icon name={categoryIcons[hero.data.category] || 'circle'} size={6} class="card-pill-icon" />{hero.data.category}</span>
         <h2 class="card-title">{hero.data.title}</h2>
-        <p class="card-desc card-desc-default">{hero.data.summary || hero.data.description}</p>
-        <p class="card-desc card-desc-compact">{hero.data.summaryCompact || hero.data.summary || hero.data.description}</p>
-        <p class="card-desc card-desc-expanded">{hero.data.summaryExpanded || hero.data.summary || hero.data.description}</p>
+        <p class="card-desc">{hero.data.summary || hero.data.description}</p>
         <span class="card-cta">Read →</span>
       </a>
 
@@ -39,35 +35,12 @@ const side = featured.slice(1);
         <a href={`/notes/${note.data.slug}`} class="bento-card bento-side">
           <span class="card-category"><Icon name={categoryIcons[note.data.category] || 'circle'} size={6} class="card-pill-icon" />{note.data.category}</span>
           <h3 class="card-title">{note.data.title}</h3>
-          <p class="card-desc card-desc-default">{note.data.summary || note.data.description}</p>
-          <p class="card-desc card-desc-compact">{note.data.summaryCompact || note.data.summary || note.data.description}</p>
-          <p class="card-desc card-desc-expanded">{note.data.summaryExpanded || note.data.summary || note.data.description}</p>
+          <p class="card-desc">{note.data.summary || note.data.description}</p>
           <span class="card-cta">Read →</span>
         </a>
       ))}
-
     </div>
-
   </div>
-
-  <script is:inline>
-    const densityToggle = document.getElementById('density-toggle');
-    const home = document.querySelector('.home');
-    const stored = localStorage.getItem('density') || 'default';
-    home.setAttribute('data-density', stored);
-    densityToggle.querySelectorAll('.density-btn').forEach(btn => {
-      btn.classList.toggle('density-active', btn.dataset.density === stored);
-    });
-    densityToggle.querySelectorAll('.density-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const density = btn.dataset.density;
-        home.setAttribute('data-density', density);
-        localStorage.setItem('density', density);
-        densityToggle.querySelectorAll('.density-btn').forEach(b => b.classList.remove('density-active'));
-        btn.classList.add('density-active');
-      });
-    });
-  </script>
 </BaseLayout>
 
 <style>
@@ -78,7 +51,6 @@ const side = featured.slice(1);
     align-items: stretch;
   }
 
-  /* ===== BENTO GRID — Default (4-col) ===== */
   .bento {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -86,7 +58,6 @@ const side = featured.slice(1);
     gap: 12px;
     width: 100%;
     height: 100%;
-    transition: grid-template-columns 0.3s ease;
   }
 
   .bento-hero {
@@ -118,7 +89,6 @@ const side = featured.slice(1);
     background: color-mix(in srgb, var(--text-primary) 6%, transparent);
   }
 
-  /* Category pill */
   .card-category {
     display: inline-flex;
     align-items: center;
@@ -160,7 +130,6 @@ const side = featured.slice(1);
     font-size: 1rem;
   }
 
-  /* Description — same font size across all densities, only content changes */
   .card-desc {
     color: var(--text-secondary);
     line-height: 1.5;
@@ -168,21 +137,9 @@ const side = featured.slice(1);
     min-height: 0;
     overflow: hidden;
     font-size: 0.95rem;
-  }
-
-  .card-desc-default {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .card-desc-compact {
-    display: none;
-  }
-
-  .card-desc-expanded {
-    display: none;
   }
 
   .card-cta {
@@ -192,43 +149,6 @@ const side = featured.slice(1);
     margin-top: auto;
     flex-shrink: 0;
     padding-top: 8px;
-  }
-
-  /* About & Contact cards */
-  /* ===== DENSITY: COMPACT (2-col) ===== */
-  .home[data-density="compact"] .bento {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-  }
-
-  .home[data-density="compact"] .bento-hero {
-    grid-column: 1 / -1;
-    grid-row: auto;
-  }
-
-  .home[data-density="compact"] .bento-side {
-    grid-column: span 1;
-  }
-
-  .home[data-density="compact"] .card-desc-default { display: none !important; }
-  .home[data-density="compact"] .card-desc-compact {
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .home[data-density="compact"] .card-desc-expanded { display: none !important; }
-
-  /* ===== DENSITY: EXPANDED (4-col) ===== */
-  .home[data-density="expanded"] .bento {
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 1fr 1fr;
-  }
-
-  .home[data-density="expanded"] .card-desc-default { display: none !important; }
-  .home[data-density="expanded"] .card-desc-compact { display: none !important; }
-  .home[data-density="expanded"] .card-desc-expanded {
-    display: block !important;
   }
 
   /* ===== Responsive ===== */
@@ -259,14 +179,6 @@ const side = featured.slice(1);
 
     .bento-card {
       padding: 20px 16px;
-    }
-
-    .home[data-density="compact"] .bento,
-    .home[data-density="default"] .bento,
-    .home[data-density="expanded"] .bento {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: auto;
-      gap: 10px;
     }
   }
 
