@@ -21,7 +21,7 @@ const relatedNotes = allNotes
   .slice(0, 4);
 ---
 
-<NoteLayout title={note.data.title} description={note.data.description} pubDate={note.data.pubDate} category={note.data.category} image={note.data.image}>
+<NoteLayout title={note.data.title} description={note.data.description} category={note.data.category} slug={note.data.slug}>
   <Content />
   <ReadMore notes={relatedNotes} />
 </NoteLayout>

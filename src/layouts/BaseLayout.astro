@@ -14,16 +14,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en" data-mode="light" data-theme="ember">
+<html lang="en" data-mode="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#fafafa" />
+    <meta name="theme-color" content="#1a1a1a" />
     <meta name="color-scheme" content="light dark" />
     <meta name="description" content={description} />
     <meta name="author" content="Bhaumik Kaji" />
     <meta name="robots" content="index, follow" />
 
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Open Graph -->
@@ -47,58 +49,48 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Merriweather:wght@400;500;700&family=Lora:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Merriweather:wght@400;500;700&family=Lora:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Geist:wght@400;500;600;700&family=Raleway:wght@100..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
     <script is:inline>
-      // Prevent flash — apply theme + mode before render
+      // Prevent flash — apply mode before render
       (function() {
-        const theme = localStorage.getItem('theme') || 'ember';
+        const accentColors = {
+          light: { accent: '#1a1a1a', accentHover: '#333333' },
+          sepia: { accent: '#2E1F14', accentHover: '#1a1108' },
+          dark:  { accent: '#e0e0e0', accentHover: '#f0f0f0' },
+        };
         const mode = localStorage.getItem('mode') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', theme);
         document.documentElement.setAttribute('data-mode', mode);
 
-        // Set accent CSS vars immediately
-        const themes = {
-          ember:    { light: { accent: '#c2410c', accentHover: '#a83608' }, dark: { accent: '#fb923c', accentHover: '#f97316' } },
-          electric: { light: { accent: '#2563eb', accentHover: '#1d4ed8' }, dark: { accent: '#60a5fa', accentHover: '#3b82f6' } },
-          violet:   { light: { accent: '#7c3aed', accentHover: '#6d28d9' }, dark: { accent: '#a78bfa', accentHover: '#8b5cf6' } },
-          emerald:  { light: { accent: '#059669', accentHover: '#047857' }, dark: { accent: '#34d399', accentHover: '#10b981' } },
-          rose:     { light: { accent: '#db2777', accentHover: '#be185d' }, dark: { accent: '#f472b6', accentHover: '#ec4899' } },
-          sunset:   { light: { accent: '#f97316', accentHover: '#ea580c', gf: '#f97316', gt: '#ec4899' }, dark: { accent: '#fb923c', accentHover: '#f97316', gf: '#fb923c', gt: '#f472b6' } },
-          aurora:   { light: { accent: '#06b6d4', accentHover: '#0891b2', gf: '#06b6d4', gt: '#8b5cf6' }, dark: { accent: '#22d3ee', accentHover: '#06b6d4', gf: '#22d3ee', gt: '#a78bfa' } },
-          lava:     { light: { accent: '#ef4444', accentHover: '#dc2626', gf: '#ef4444', gt: '#f59e0b' }, dark: { accent: '#f87171', accentHover: '#ef4444', gf: '#f87171', gt: '#fbbf24' } },
-        };
-        const t = themes[theme] || themes.ember;
-        const c = t[mode] || t.dark;
+        const c = accentColors[mode] || accentColors.light;
         const r = document.documentElement.style;
         r.setProperty('--accent', c.accent);
         r.setProperty('--accent-hover', c.accentHover);
-        if (c.gf) {
-          r.setProperty('--accent-gradient', 'linear-gradient(135deg,' + c.gf + ',' + c.gt + ')');
-          r.setProperty('--accent-gradient-from', c.gf);
-          r.setProperty('--accent-gradient-to', c.gt);
-        } else {
-          r.setProperty('--accent-gradient', c.accent);
-          r.setProperty('--accent-gradient-from', c.accent);
-          r.setProperty('--accent-gradient-to', c.accentHover);
-        }
+        r.setProperty('--accent-gradient', c.accent);
+        r.setProperty('--accent-gradient-from', c.accent);
+        r.setProperty('--accent-gradient-to', c.accentHover);
 
-        // Set neutral palette
         if (mode === 'dark') {
           r.setProperty('--bg', '#111111');
+          r.setProperty('--bg-rgb', '17,17,17');
           r.setProperty('--text-primary', '#f0f0f0');
+          r.setProperty('--text-primary-rgb', '240,240,240');
           r.setProperty('--text-secondary', '#a0a0a0');
           r.setProperty('--text-tertiary', '#666666');
           r.setProperty('--border', '#2a2a2a');
         } else if (mode === 'sepia') {
-          r.setProperty('--bg', '#f4edd8');
-          r.setProperty('--text-primary', '#3e3529');
-          r.setProperty('--text-secondary', '#6b5f50');
-          r.setProperty('--text-tertiary', '#9a8d7d');
-          r.setProperty('--border', '#d6ccaf');
+          r.setProperty('--bg', '#F2DCD0');
+          r.setProperty('--bg-rgb', '242,220,208');
+          r.setProperty('--text-primary', '#2E1F14');
+          r.setProperty('--text-primary-rgb', '46,31,20');
+          r.setProperty('--text-secondary', '#5E4A3B');
+          r.setProperty('--text-tertiary', '#8E7A6A');
+          r.setProperty('--border', '#D9C4B5');
         } else {
           r.setProperty('--bg', '#fafafa');
+          r.setProperty('--bg-rgb', '250,250,250');
           r.setProperty('--text-primary', '#111111');
+          r.setProperty('--text-primary-rgb', '17,17,17');
           r.setProperty('--text-secondary', '#555555');
           r.setProperty('--text-tertiary', '#888888');
           r.setProperty('--border', '#e8e8e8');
@@ -115,24 +107,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         var storedFont = localStorage.getItem('font') || 'source-sans';
         if (fonts[storedFont]) r.setProperty('--font-sans', fonts[storedFont]);
 
-        // Apply density
-        var densities = {
-          compact:  { fontSize: '10px', lineHeight: '1.55', paraSpacing: '0.8em' },
-          default:  { fontSize: '11px', lineHeight: '1.7', paraSpacing: '1em' },
-          cozy:     { fontSize: '12.5px', lineHeight: '1.85', paraSpacing: '1.4em' },
-        };
+        // Apply font size
         var storedFontSize = localStorage.getItem('fontSize') || 'medium';
-        var fontSizes = { small: { scale: '0.9' }, medium: { scale: '1' }, large: { scale: '1.15' } };
+        var fontSizes = { small: { scale: '0.9' }, medium: { scale: '1' }, large: { scale: '1.15' }, xlarge: { scale: '1.3' } };
         var fs = fontSizes[storedFontSize];
         if (fs) r.setProperty('--font-size-scale', fs.scale);
-
-        var storedDensity = localStorage.getItem('density') || 'default';
-        var d = densities[storedDensity];
-        if (d) {
-          r.setProperty('--base-font-size', d.fontSize);
-          r.setProperty('--base-line-height', d.lineHeight);
-          r.setProperty('--para-spacing', d.paraSpacing);
-        }
       })();
     </script>
     <title>{title} ・ Bhaumik's Notes</title>
@@ -140,19 +119,21 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <style is:global>
       :root {
         --bg: #fafafa;
+        --bg-rgb: 250,250,250;
         --text-primary: #111111;
+        --text-primary-rgb: 17,17,17;
         --text-secondary: #555555;
         --text-tertiary: #888888;
         --border: #e8e8e8;
-        --accent: #c2410c;
-        --accent-hover: #a83608;
-        --accent-gradient: #c2410c;
-        --accent-gradient-from: #c2410c;
-        --accent-gradient-to: #a83608;
-        --max-width: 640px;
+        --accent: #1a1a1a;
+        --accent-hover: #333333;
+        --accent-gradient: #1a1a1a;
+        --accent-gradient-from: #1a1a1a;
+        --accent-gradient-to: #333333;
+        --max-width: 1024px;
         --font-sans: 'Source Sans 3', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
         --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
-        --progress-height: 2px;
+        --progress-height: 4px;
         --base-font-size: 11px;
         --base-line-height: 1.7;
         --para-spacing: 1em;
@@ -215,7 +196,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         top: 0;
         left: 0;
         height: var(--progress-height);
-        background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+        background: linear-gradient(90deg, #ff2d55, #ff9500, #ffcc00, #4cd964, #5ac8fa, #007aff, #af52de, #ff2d55);
         z-index: 9999;
         width: 0%;
         transition: width 0.05s linear;
@@ -235,8 +216,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         position: sticky;
         top: 0;
         z-index: 100;
-        background: var(--bg);
-        border-bottom: 1px solid var(--border);
+        background: color-mix(in srgb, var(--bg) 72%, transparent);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
         transition: background 0.3s ease, border-color 0.3s ease;
       }
 
@@ -256,10 +239,20 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         text-decoration: none;
         display: flex;
         align-items: center;
+        font-family: 'Raleway', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        gap: 0;
+      }
+
+      .masthead-title a .ml {
+        transition: font-weight 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+        display: inline-block;
       }
 
       .masthead-title a:hover {
-        opacity: 0.7;
+        opacity: 1;
       }
 
       .masthead-right {
@@ -297,13 +290,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       /* Footer */
       footer {
         padding: 16px 0;
-        border-top: 1px solid var(--border);
+        border-top: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
         font-size: 1rem;
         color: var(--text-tertiary);
         position: sticky;
         bottom: 0;
         z-index: 100;
-        background: var(--bg);
+        background: color-mix(in srgb, var(--bg) 72%, transparent);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
         transition: background 0.3s ease, border-color 0.3s ease;
       }
 
@@ -353,12 +348,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           --base-font-size: 10px;
         }
       }
-
-      @media (min-width: 641px) {
-        :root {
-          --max-width: 640px;
-        }
-      }
     </style>
   </head>
   <body>
@@ -370,10 +359,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         <nav role="navigation" aria-label="Main navigation">
           <div class="masthead">
             <h4 class="masthead-title">
-              <a href="/" aria-label="Home">Bhaumik's Notes</a>
+              <a href="/" aria-label="Home"><span class="ml">B</span><span class="ml">h</span><span class="ml">a</span><span class="ml">u</span><span class="ml">m</span><span class="ml">i</span><span class="ml">k</span><span class="ml">'</span><span class="ml">s</span><span class="ml" style="margin: 0 4px"> </span><span class="ml">N</span><span class="ml">o</span><span class="ml">t</span><span class="ml">e</span><span class="ml">s</span></a>
             </h4>
             <div class="masthead-right">
-              <a href="/notes" class={Astro.url.pathname.startsWith('/notes') ? 'nav-active' : ''}>Pages</a>
+              <a href="/notes" class={Astro.url.pathname === '/notes' || Astro.url.pathname === '/notes/' ? 'nav-active' : ''}>Index</a>
               <a href="/resources" class={Astro.url.pathname === '/resources' ? 'nav-active' : ''}>Resources</a>
               <Personalize />
             </div>
@@ -410,6 +399,57 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       window.addEventListener('scroll', updateProgress, { passive: true });
       window.addEventListener('resize', updateProgress, { passive: true });
       updateProgress();
+
+      // Masthead title — variable font weight wave on hover
+      (function() {
+        const link = document.querySelector('.masthead-title a');
+        if (!link) return;
+        const letters = link.querySelectorAll('.ml');
+        if (!letters.length) return;
+
+        const BASE_WEIGHT = 600;
+        const PEAK_WEIGHT = 800;
+
+        function applyWeightWave(x) {
+          letters.forEach(function(el) {
+            var rect = el.getBoundingClientRect();
+            var letterCenter = rect.left + rect.width / 2;
+            var distance = Math.abs(x - letterCenter);
+            var maxDist = 120;
+            var weight;
+            var opacity;
+            if (distance < maxDist) {
+              var t = 1 - (distance / maxDist);
+              // Ease: sharper peak at center
+              var eased = t * t * (3 - 2 * t);
+              weight = BASE_WEIGHT + (PEAK_WEIGHT - BASE_WEIGHT) * eased;
+              // Opacity: peak is fully opaque (1), edges fade to 0.3
+              opacity = 0.3 + 0.7 * eased;
+            } else {
+              weight = 200;
+              opacity = 0.3;
+            }
+            el.style.fontWeight = Math.round(weight);
+            el.style.opacity = opacity;
+            // Subtle vertical lift for hovered letter
+            var lift = distance < maxDist ? (1 - distance / maxDist) * 1 : 0;
+            el.style.transform = lift > 0 ? 'translateY(-' + lift + 'px)' : '';
+          });
+        }
+
+        function resetWeights() {
+          letters.forEach(function(el) {
+            el.style.fontWeight = BASE_WEIGHT;
+            el.style.opacity = '';
+            el.style.transform = '';
+          });
+        }
+
+        link.addEventListener('mousemove', function(e) {
+          applyWeightWave(e.clientX);
+        });
+        link.addEventListener('mouseleave', resetWeights);
+      })();
     </script>
   </body>
 </html>

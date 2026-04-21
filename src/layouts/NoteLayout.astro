@@ -1,5 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import Reactions from '../components/Reactions.astro';
 
 export interface Props {
   title: string;
@@ -7,32 +9,33 @@ export interface Props {
   pubDate?: Date;
   category?: string;
   image?: string;
+  slug?: string;
 }
 
-const { title, description, pubDate, category, image } = Astro.props;
+const { title, description, pubDate, category, image, slug = '' } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} image={image} type="article">
   <article class="note">
-    <header class="note-header">
-      {category && (
-        <span class="note-category">
-          {category}
-        </span>
-      )}
-      <h1 class="note-title">{title}</h1>
-    </header>
-    <div class="note-body">
-      <slot />
+    <div class="note-layout">
+      <aside class="note-sidebar">
+        <TableOfContents />
+      </aside>
+      <div class="note-body">
+        {category && (
+          <span class="note-category">
+            {category}
+          </span>
+        )}
+        <h1 class="note-title">{title}</h1>
+        <slot />
+        <Reactions slug={slug} />
+      </div>
     </div>
   </article>
 </BaseLayout>
 
 <style>
-  .note-header {
-    margin-bottom: 56px;
-  }
-
   .note-category {
     display: inline-flex;
     align-items: center;
@@ -53,6 +56,32 @@ const { title, description, pubDate, category, image } = Astro.props;
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.12;
+    margin-bottom: 40px;
+  }
+
+  /* Two-column layout: TOC sidebar + content */
+  .note-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .note-sidebar {
+    /* Stretch to match content column height so sticky works */
+    align-self: stretch;
+  }
+
+  .note-body {
+    min-width: 0; /* prevent grid blowout */
+  }
+
+  .note-body :global(h2) {
+    scroll-margin-top: 80px;
+  }
+
+  .note-body :global(h3) {
+    scroll-margin-top: 80px;
   }
 
   .note-body {
@@ -162,6 +191,18 @@ const { title, description, pubDate, category, image } = Astro.props;
     max-width: 100%;
     border-radius: 10px;
     margin: 1.5em 0;
+  }
+
+  /* Responsive — collapse sidebar on tablet and below */
+  @media (max-width: 1024px) {
+    .note-layout {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .note-sidebar {
+      display: none;
+    }
   }
 
   @media (max-width: 640px) {

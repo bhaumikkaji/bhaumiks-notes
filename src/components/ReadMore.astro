@@ -1,6 +1,4 @@
 ---
-import CategoryPill from './CategoryPill.astro';
-
 export interface Props {
   notes: Array<{
     slug: string;
@@ -16,12 +14,11 @@ const { notes } = Astro.props;
 
 {notes.length > 0 && (
   <div class="read-more">
-    <h2 class="section-label">Read more</h2>
+    <span class="section-label">Read more</span>
     <div class="read-more-list">
       {notes.map((note) => (
         <div class="read-more-entry">
           <a href={`/notes/${note.data.slug}`} class="read-more-title">{note.data.title}</a>
-          <CategoryPill category={note.data.category} />
         </div>
       ))}
     </div>

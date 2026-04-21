@@ -7,19 +7,11 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
 const categories = [...new Set(notes.map(n => n.data.category))];
 ---
 
-<BaseLayout title="Pages" description="Notes on tech, design, and AI by Bhaumik Kaji." showScrollProgress={true}>
+<BaseLayout title="Index" description="Notes on tech, design, and AI by Bhaumik Kaji." showScrollProgress={true}>
   <div class="notes-page">
     <div class="notes-intro">
-      <h1>Pages</h1>
-      <p class="intro-tagline">Notes on tech, design, and AI.</p>
-      <p class="intro-body">These are my notes — like a semi-frequently updated journal. Everything I write is born out of empirical learnings and everyday observations. There's obviously bias in these notes, but since honest personal accounts from people in tech are rare, I hope this serves as a useful one.</p>
-      <div class="intro-meta">
-        <span class="meta-item">Written by <strong>Bhaumik Kaji</strong></span>
-        <span class="meta-divider">·</span>
-        <span class="meta-item">Senior Product Designer at <strong>Microsoft</strong></span>
-        <span class="meta-divider">·</span>
-        <span class="meta-item">Copilot, Teams, Office Mobile</span>
-      </div>
+      <h1>Index</h1>
+      <p class="intro-tagline">Notes on tech, design, and AI by Bhaumik Kaji.</p>
     </div>
 
     <div class="notes-filter">
@@ -31,9 +23,9 @@ const categories = [...new Set(notes.map(n => n.data.category))];
 
     <div class="notes-list">
       {notes.map((note) => (
-        <div class="note-entry" data-category={note.data.category}>
+        <div class="note-entry" data-category={note.data.category} data-slug={note.data.slug}>
           <a href={`/notes/${note.data.slug}`} class="note-title">{note.data.title}</a>
-          <span class="note-category">{note.data.category}</span>
+          <div class="note-reactions" data-slug={note.data.slug}></div>
         </div>
       ))}
     </div>
@@ -54,6 +46,34 @@ const categories = [...new Set(notes.map(n => n.data.category))];
         });
       });
     });
+
+    // Populate reaction counts from localStorage
+    var STORAGE_KEY = 'bkn-reactions';
+
+    function renderIndexReactions() {
+      var store = {};
+      try { store = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e) {}
+
+      document.querySelectorAll('.note-reactions').forEach(function(el) {
+        var slug = el.dataset.slug;
+        if (!slug) return;
+        var myReactions = store[slug] || {};
+        var count = Object.keys(myReactions).length;
+        el.innerHTML = '';
+
+        if (count > 0) {
+          var span = document.createElement('span');
+          span.className = 'reaction-icon';
+          span.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> ' + count;
+          el.appendChild(span);
+        }
+      });
+    }
+
+    renderIndexReactions();
+
+    // Re-render when returning to this page (in case reactions changed)
+    window.addEventListener('focus', renderIndexReactions);
   </script>
 </BaseLayout>
 
@@ -82,32 +102,6 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     font-weight: 400;
   }
 
-  .intro-body {
-    color: var(--text-secondary);
-    line-height: 1.65;
-    margin-bottom: 20px;
-    font-size: 1rem;
-    max-width: 520px;
-  }
-
-  .intro-meta {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-    font-size: 0.85rem;
-    color: var(--text-tertiary);
-  }
-
-  .intro-meta strong {
-    color: var(--text-primary);
-    font-weight: 600;
-  }
-
-  .meta-divider {
-    color: var(--border);
-  }
-
   .notes-filter {
     display: flex;
     gap: 6px;
@@ -123,6 +117,8 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     color: var(--text-tertiary);
     font-size: 0.8rem;
     font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     cursor: pointer;
     transition: all 0.15s ease;
     font-family: inherit;
@@ -154,6 +150,7 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
     line-height: 1.5;
     transition: background 0.15s ease;
+    justify-content: space-between;
   }
 
   .note-entry:last-child {
@@ -172,24 +169,29 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     color: var(--accent);
   }
 
-  .note-category {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    padding: 2px 10px;
-    border-radius: 12px;
-    color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 12%, transparent);
+  .note-reactions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .note-reactions .reaction-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+  }
+
+  .note-reactions .reaction-icon :global(svg) {
+    width: 11px;
+    height: 11px;
   }
 
   @media (max-width: 640px) {
     .notes-intro h1 {
       font-size: 1.6rem;
-    }
-
-    .intro-meta {
-      font-size: 0.8rem;
     }
   }
 </style>

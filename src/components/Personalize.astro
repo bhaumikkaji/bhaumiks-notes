@@ -1,14 +1,6 @@
 ---
 import Icon from './Icon.astro';
 
-const themes = [
-  { id: 'ember', label: 'Ember', color: '#fb923c' },
-  { id: 'electric', label: 'Electric', color: '#60a5fa' },
-  { id: 'violet', label: 'Violet', color: '#a78bfa' },
-  { id: 'emerald', label: 'Emerald', color: '#34d399' },
-  { id: 'rose', label: 'Rose', color: '#f472b6' },
-];
-
 const fonts = [
   { id: 'source-sans', label: 'Source Sans', family: "'Source Sans 3', 'Source Sans Pro', sans-serif" },
   { id: 'merriweather', label: 'Merriweather', family: "'Merriweather', Georgia, serif" },
@@ -21,12 +13,7 @@ const fontSizes = [
   { id: 'small', label: 'S' },
   { id: 'medium', label: 'M' },
   { id: 'large', label: 'L' },
-];
-
-const densities = [
-  { id: 'compact', label: 'Compact' },
-  { id: 'default', label: 'Default' },
-  { id: 'cozy', label: 'Cozy' },
+  { id: 'xlarge', label: 'XL' },
 ];
 
 const modes = [
@@ -38,7 +25,7 @@ const modes = [
 
 <span class="personalize-wrapper">
   <button class="personalize-trigger" id="personalize-trigger" aria-label="Customize">
-    <Icon name="sliders-horizontal" size={16} />
+    <Icon name="palette" size={16} />
   </button>
 
   <div class="personalize-panel" id="personalize-panel">
@@ -48,22 +35,6 @@ const modes = [
       <div class="segmented-control">
         {modes.map((mode) => (
           <button class="seg-btn" data-mode={mode.id}>{mode.label}</button>
-        ))}
-      </div>
-    </div>
-
-    <!-- Theme colors — solids only -->
-    <div class="panel-section">
-      <span class="section-label">Color</span>
-      <div class="color-row">
-        {themes.map((theme) => (
-          <button
-            class="color-chip"
-            data-theme-id={theme.id}
-            aria-label={theme.label}
-            title={theme.label}
-            style={`background: ${theme.color}`}
-          />
         ))}
       </div>
     </div>
@@ -80,22 +51,12 @@ const modes = [
       </div>
     </div>
 
-    <!-- Font size -->
+    <!-- Text size -->
     <div class="panel-section">
-      <span class="section-label">Size</span>
+      <span class="section-label">Text Size</span>
       <div class="segmented-control size-seg">
         {fontSizes.map((size) => (
           <button class="seg-btn" data-font-size={size.id}>{size.label}</button>
-        ))}
-      </div>
-    </div>
-
-    <!-- Density -->
-    <div class="panel-section">
-      <span class="section-label">Density</span>
-      <div class="segmented-control density-seg">
-        {densities.map((density) => (
-          <button class="seg-btn" data-density={density.id}>{density.label}</button>
         ))}
       </div>
     </div>
@@ -126,6 +87,8 @@ const modes = [
 
   .personalize-trigger :global(svg) {
     display: block;
+    width: 16px;
+    height: 16px;
   }
 
   /* Panel */
@@ -137,7 +100,7 @@ const modes = [
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 16px;
-    width: 256px;
+    width: 240px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.06);
     opacity: 0;
     transform: translateY(-4px);
@@ -203,41 +166,10 @@ const modes = [
     box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   }
 
-  .density-seg .seg-btn.active {
-    color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 8%, transparent);
-    box-shadow: none;
-  }
-
   .size-seg .seg-btn.active {
     color: var(--accent);
     background: color-mix(in srgb, var(--accent) 8%, transparent);
     box-shadow: none;
-  }
-
-  /* Color row */
-  .color-row {
-    display: flex;
-    gap: 8px;
-  }
-
-  .color-chip {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    border: 2px solid transparent;
-    cursor: pointer;
-    transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
-    padding: 0;
-  }
-
-  .color-chip:hover {
-    transform: scale(1.1);
-  }
-
-  .color-chip.active {
-    border-color: var(--text-primary);
-    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--text-primary);
   }
 
   /* Font options */
@@ -272,12 +204,11 @@ const modes = [
 </style>
 
 <script is:inline>
-  const themes = {
-    ember:    { light: { accent: '#c2410c', accentHover: '#a83608' }, sepia: { accent: '#a83608', accentHover: '#9a3006' }, dark: { accent: '#fb923c', accentHover: '#f97316' } },
-    electric: { light: { accent: '#2563eb', accentHover: '#1d4ed8' }, sepia: { accent: '#1d4ed8', accentHover: '#1e40af' }, dark: { accent: '#60a5fa', accentHover: '#3b82f6' } },
-    violet:   { light: { accent: '#7c3aed', accentHover: '#6d28d9' }, sepia: { accent: '#6d28d9', accentHover: '#5b21b6' }, dark: { accent: '#a78bfa', accentHover: '#8b5cf6' } },
-    emerald:  { light: { accent: '#059669', accentHover: '#047857' }, sepia: { accent: '#047857', accentHover: '#065f46' }, dark: { accent: '#34d399', accentHover: '#10b981' } },
-    rose:     { light: { accent: '#db2777', accentHover: '#be185d' }, sepia: { accent: '#be185d', accentHover: '#9d174d' }, dark: { accent: '#f472b6', accentHover: '#ec4899' } },
+  // Turquoise accent — single brand color, no theme switching
+  const accentColors = {
+    light: { accent: '#1a1a1a', accentHover: '#333333' },
+    sepia: { accent: '#2E1F14', accentHover: '#1a1108' },
+    dark:  { accent: '#e0e0e0', accentHover: '#f0f0f0' },
   };
 
   const fonts = {
@@ -292,46 +223,37 @@ const modes = [
     small:  { scale: '0.9' },
     medium: { scale: '1' },
     large:  { scale: '1.15' },
+    xlarge: { scale: '1.3' },
   };
 
-  const densities = {
-    compact:  { fontSize: '10px', lineHeight: '1.55', paraSpacing: '0.8em' },
-    default:  { fontSize: '11px', lineHeight: '1.7', paraSpacing: '1em' },
-    cozy:     { fontSize: '12.5px', lineHeight: '1.85', paraSpacing: '1.4em' },
-  };
-
-  function applyTheme(themeId, mode) {
-    const theme = themes[themeId];
-    if (!theme) return;
-    const c = theme[mode] || theme.dark;
+  function applyMode(mode) {
+    const c = accentColors[mode] || accentColors.light;
     const r = document.documentElement.style;
     r.setProperty('--accent', c.accent);
     r.setProperty('--accent-hover', c.accentHover);
     r.setProperty('--accent-gradient', c.accent);
     r.setProperty('--accent-gradient-from', c.accent);
     r.setProperty('--accent-gradient-to', c.accentHover);
-    document.documentElement.setAttribute('data-theme', themeId);
     document.documentElement.setAttribute('data-mode', mode);
 
     if (mode === 'dark') {
-      r.setProperty('--bg', '#111111'); r.setProperty('--text-primary', '#f0f0f0');
+      r.setProperty('--bg', '#111111'); r.setProperty('--bg-rgb', '17,17,17');
+      r.setProperty('--text-primary', '#f0f0f0'); r.setProperty('--text-primary-rgb', '240,240,240');
       r.setProperty('--text-secondary', '#a0a0a0'); r.setProperty('--text-tertiary', '#666666');
       r.setProperty('--border', '#2a2a2a');
     } else if (mode === 'sepia') {
-      r.setProperty('--bg', '#f4edd8'); r.setProperty('--text-primary', '#3e3529');
-      r.setProperty('--text-secondary', '#6b5f50'); r.setProperty('--text-tertiary', '#9a8d7d');
-      r.setProperty('--border', '#d6ccaf');
+      r.setProperty('--bg', '#F2DCD0'); r.setProperty('--bg-rgb', '242,220,208');
+      r.setProperty('--text-primary', '#2E1F14'); r.setProperty('--text-primary-rgb', '46,31,20');
+      r.setProperty('--text-secondary', '#5E4A3B'); r.setProperty('--text-tertiary', '#8E7A6A');
+      r.setProperty('--border', '#D9C4B5');
     } else {
-      r.setProperty('--bg', '#fafafa'); r.setProperty('--text-primary', '#111111');
+      r.setProperty('--bg', '#fafafa'); r.setProperty('--bg-rgb', '250,250,250');
+      r.setProperty('--text-primary', '#111111'); r.setProperty('--text-primary-rgb', '17,17,17');
       r.setProperty('--text-secondary', '#555555'); r.setProperty('--text-tertiary', '#888888');
       r.setProperty('--border', '#e8e8e8');
     }
 
-    const pb = document.getElementById('scroll-progress');
-    if (pb) pb.style.background = 'linear-gradient(90deg,' + c.accent + ',' + c.accentHover + ')';
-    localStorage.setItem('theme', themeId);
     localStorage.setItem('mode', mode);
-    document.querySelectorAll('.color-chip').forEach(b => b.classList.toggle('active', b.dataset.themeId === themeId));
     refreshSegActive();
   }
 
@@ -351,42 +273,25 @@ const modes = [
     refreshSegActive();
   }
 
-  function applyDensity(densityId) {
-    const d = densities[densityId];
-    if (!d) return;
-    const r = document.documentElement.style;
-    r.setProperty('--base-font-size', d.fontSize);
-    r.setProperty('--base-line-height', d.lineHeight);
-    r.setProperty('--para-spacing', d.paraSpacing);
-    localStorage.setItem('density', densityId);
-    refreshSegActive();
-  }
-
   function refreshSegActive() {
     const mode = document.documentElement.getAttribute('data-mode') || 'light';
     const fontSize = localStorage.getItem('fontSize') || 'medium';
-    const density = localStorage.getItem('density') || 'default';
     document.querySelectorAll('.seg-btn').forEach(b => {
       const m = b.dataset.mode;
       const fs = b.dataset.fontSize;
-      const d = b.dataset.density;
       if (m !== undefined) b.classList.toggle('active', m === mode);
       if (fs !== undefined) b.classList.toggle('active', fs === fontSize);
-      if (d !== undefined) b.classList.toggle('active', d === density);
     });
   }
 
   // Init
-  const storedTheme = localStorage.getItem('theme') || 'ember';
   const storedMode = localStorage.getItem('mode') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   const storedFont = localStorage.getItem('font') || 'source-sans';
   const storedFontSize = localStorage.getItem('fontSize') || 'medium';
-  const storedDensity = localStorage.getItem('density') || 'default';
 
-  applyTheme(storedTheme, storedMode);
+  applyMode(storedMode);
   applyFont(storedFont);
   applyFontSize(storedFontSize);
-  applyDensity(storedDensity);
 
   // Panel toggle
   const trigger = document.getElementById('personalize-trigger');
@@ -395,18 +300,8 @@ const modes = [
   trigger.addEventListener('click', (e) => { e.stopPropagation(); panel.classList.toggle('open'); });
   document.addEventListener('click', (e) => { if (!panel.contains(e.target) && !trigger.contains(e.target)) panel.classList.remove('open'); });
 
-  document.querySelectorAll('.color-chip').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const currentMode = document.documentElement.getAttribute('data-mode') || 'light';
-      applyTheme(btn.dataset.themeId, currentMode);
-    });
-  });
-
   document.querySelectorAll('.seg-btn[data-mode]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme') || 'ember';
-      applyTheme(currentTheme, btn.dataset.mode);
-    });
+    btn.addEventListener('click', () => applyMode(btn.dataset.mode));
   });
 
   document.querySelectorAll('.font-btn').forEach(btn => {
@@ -415,9 +310,5 @@ const modes = [
 
   document.querySelectorAll('.seg-btn[data-font-size]').forEach(btn => {
     btn.addEventListener('click', () => applyFontSize(btn.dataset.fontSize));
-  });
-
-  document.querySelectorAll('.seg-btn[data-density]').forEach(btn => {
-    btn.addEventListener('click', () => applyDensity(btn.dataset.density));
   });
 </script>

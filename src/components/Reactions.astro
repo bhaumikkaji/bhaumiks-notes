@@ -1,0 +1,201 @@
+---
+// Reactions widget — inspired by hvpandya.com
+// Types: thoughtful / relatable / good / loved it / blew my mind
+// Custom, emoji-free, tasteful
+// v1: client-side localStorage, toggle on/off per note
+
+import Icon from './Icon.astro';
+
+export interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+
+const reactions = [
+  { id: 'thoughtful', label: 'Thoughtful', icon: 'lightbulb' },
+  { id: 'relatable', label: 'Relatable', icon: 'heart-handshake' },
+  { id: 'good', label: 'Good read', icon: 'thumbs-up' },
+  { id: 'loved-it', label: 'Loved it', icon: 'flame' },
+  { id: 'blew-mind', label: 'Blew my mind', icon: 'zap' },
+];
+---
+
+<div class="reactions" id="reactions" data-slug={slug}>
+  <span class="reactions-label">How was this?</span>
+  <div class="reactions-list">
+    {reactions.map((r) => (
+      <button class="reaction-btn" data-reaction={r.id} aria-label={r.label}>
+        <Icon name={r.icon} size={16} />
+        <span class="reaction-label">{r.label}</span>
+        <span class="reaction-count" data-count-id={r.id}>0</span>
+      </button>
+    ))}
+  </div>
+</div>
+
+<style>
+  .reactions {
+    margin-top: 48px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .reactions-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    margin-bottom: 14px;
+  }
+
+  .reactions-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .reaction-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 500;
+    font-family: inherit;
+    transition: all 0.15s ease;
+    line-height: 1;
+  }
+
+  .reaction-btn:hover {
+    border-color: var(--text-tertiary);
+    color: var(--text-secondary);
+    background: color-mix(in srgb, var(--text-primary) 3%, transparent);
+  }
+
+  .reaction-btn:active {
+    transform: scale(0.96);
+  }
+
+  .reaction-btn.reacted {
+    border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+
+  .reaction-btn :global(svg) {
+    display: block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .reaction-label {
+    white-space: nowrap;
+  }
+
+  .reaction-count {
+    font-size: 0.7rem;
+    font-variant-numeric: tabular-nums;
+    min-width: 0;
+    opacity: 0;
+    transition: opacity 0.15s ease, min-width 0.15s ease;
+  }
+
+  .reaction-count.visible {
+    opacity: 1;
+    min-width: 0.8em;
+  }
+
+  @media (max-width: 640px) {
+    .reactions-list {
+      gap: 6px;
+    }
+
+    .reaction-btn {
+      padding: 6px 10px;
+      font-size: 0.72rem;
+      gap: 4px;
+    }
+
+    .reaction-btn :global(svg) {
+      width: 14px;
+      height: 14px;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function() {
+    function initReactions() {
+      var container = document.getElementById('reactions');
+      if (!container) return;
+
+      var slug = container.dataset.slug;
+      if (!slug) return;
+
+      var STORAGE_KEY = 'bkn-reactions';
+
+      function getStore() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+        catch(e) { return {}; }
+      }
+
+      function saveStore(store) {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(store)); }
+        catch(e) {}
+      }
+
+      function renderCounts() {
+        var store = getStore();
+        var myReactions = store[slug] || {};
+        container.querySelectorAll('.reaction-btn').forEach(function(btn) {
+          var id = btn.dataset.reaction;
+          if (!id) return;
+          var countEl = btn.querySelector('.reaction-count');
+          var isReacted = !!myReactions[id];
+
+          btn.classList.toggle('reacted', isReacted);
+
+          if (countEl) {
+            countEl.classList.toggle('visible', isReacted);
+            countEl.textContent = isReacted ? '1' : '0';
+          }
+        });
+      }
+
+      renderCounts();
+
+      container.querySelectorAll('.reaction-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var id = btn.dataset.reaction;
+          if (!id) return;
+          var store = getStore();
+          if (!store[slug]) store[slug] = {};
+
+          if (store[slug][id]) {
+            delete store[slug][id];
+          } else {
+            store[slug][id] = true;
+          }
+
+          saveStore(store);
+          renderCounts();
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initReactions);
+    } else {
+      initReactions();
+    }
+  })();
+</script>
