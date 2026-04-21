@@ -8,54 +8,23 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
 
 <BaseLayout title="Bhaumik's Notes" description="Notes on tech, design, and AI. By Bhaumik Kaji." showScrollProgress={false}>
   <div class="home">
-    <div class="bento">
-      <!-- Card 1: Hero — left, spans 2 rows -->
-      <a href={`/notes/${notes[0].data.slug}`} class="bento-card bento-hero" style="animation-delay: 0s">
-        <h2 class="card-title">{notes[0].data.title}</h2>
-        <p class="card-desc">{notes[0].data.summary || notes[0].data.description}</p>
-        <span class="card-category">{notes[0].data.category}</span>
-      </a>
-
-      <!-- Card 2: Wide top right -->
-      <a href={`/notes/${notes[1].data.slug}`} class="bento-card bento-wide-top" style="animation-delay: 0.05s">
-        <h2 class="card-title">{notes[1].data.title}</h2>
-        <p class="card-desc">{notes[1].data.summary || notes[1].data.description}</p>
-        <span class="card-category">{notes[1].data.category}</span>
-      </a>
-
-      <!-- Card 3: Small top-right -->
-      <a href={`/notes/${notes[2].data.slug}`} class="bento-card bento-sm-tr" style="animation-delay: 0.1s">
-        <h2 class="card-title">{notes[2].data.title}</h2>
-        <p class="card-desc">{notes[2].data.summary || notes[2].data.description}</p>
-        <span class="card-category">{notes[2].data.category}</span>
-      </a>
-
-      <!-- Card 4: Wide bottom left -->
-      <a href={`/notes/${notes[3].data.slug}`} class="bento-card bento-wide-bot" style="animation-delay: 0.15s">
-        <h2 class="card-title">{notes[3].data.title}</h2>
-        <p class="card-desc">{notes[3].data.summary || notes[3].data.description}</p>
-        <span class="card-category">{notes[3].data.category}</span>
-      </a>
-
-      <!-- Card 5: Small bottom-right -->
-      <a href={`/notes/${notes[4].data.slug}`} class="bento-card bento-sm-br" style="animation-delay: 0.2s">
-        <h2 class="card-title">{notes[4].data.title}</h2>
-        <p class="card-desc">{notes[4].data.summary || notes[4].data.description}</p>
-        <span class="card-category">{notes[4].data.category}</span>
-      </a>
-
-      <!-- Card 6: Tall right -->
-      <a href={`/notes/${notes[5].data.slug}`} class="bento-card bento-tall-right" style="animation-delay: 0.25s">
-        <h2 class="card-title">{notes[5].data.title}</h2>
-        <p class="card-desc">{notes[5].data.summary || notes[5].data.description}</p>
-        <span class="card-category">{notes[5].data.category}</span>
-      </a>
+    <div class="notes-grid">
+      {notes.map((note, i) => (
+        <a href={`/notes/${note.data.slug}`} class="note-card" style={`animation-delay: ${i * 0.05}s`}>
+          <h2 class="card-title">{note.data.title}</h2>
+          <p class="card-desc">{note.data.summary || note.data.description}</p>
+          <div class="card-meta">
+            <span class="card-category">{note.data.category}</span>
+            <span class="card-date">{note.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+          </div>
+        </a>
+      ))}
     </div>
 
     <div class="home-about">
       <img src="/images/golden-key.png" alt="" class="about-key" />
       <p class="about-tagline">Notes on tech, design, and AI.</p>
-      <p class="about-body">These are my notes — like a semi-frequently updated journal. Everything I write is born out of empirical learnings and everyday observations. There’s obviously bias in these notes, but since honest personal accounts from people in tech are rare, I hope this serves as a useful one.</p>
+      <p class="about-body">These are my notes — like a semi-frequently updated journal. Everything I write is born out of empirical learnings and everyday observations. There's obviously bias in these notes, but since honest personal accounts from people in tech are rare, I hope this serves as a useful one.</p>
       <div class="about-meta">
         <span class="meta-item">Senior Product Designer at <strong>Microsoft</strong></span>
         <span class="meta-divider">·</span>
@@ -80,53 +49,20 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .bento {
+  .notes-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
     width: 100%;
-    max-width: 1100px;
-    height: 360px;
+    max-width: 1024px;
   }
 
-  /* Explicit placement for masonry variety */
-  .bento-hero {
-    grid-column: 1 / 3;
-    grid-row: 1 / 3;
-  }
-
-  .bento-wide-top {
-    grid-column: 3 / 4;
-    grid-row: 1 / 2;
-  }
-
-  .bento-sm-tr {
-    grid-column: 4 / 5;
-    grid-row: 1 / 2;
-  }
-
-  .bento-wide-bot {
-    grid-column: 1 / 3;
-    grid-row: 3 / 4;
-  }
-
-  .bento-sm-br {
-    grid-column: 3 / 4;
-    grid-row: 2 / 4;
-  }
-
-  .bento-tall-right {
-    grid-column: 4 / 5;
-    grid-row: 2 / 4;
-  }
-
-  .bento-card {
+  .note-card {
     animation: fadeUp 0.3s ease both;
     background: transparent;
     border: 1px solid var(--text-primary);
     border-radius: 14px;
-    padding: 16px 14px;
+    padding: 24px 20px;
     display: flex;
     flex-direction: column;
     text-decoration: none;
@@ -134,59 +70,42 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     position: relative;
     overflow: hidden;
-    min-height: 0;
+    min-height: 160px;
   }
 
-  .bento-card:hover {
+  .note-card:hover {
     border-color: var(--accent);
     background: color-mix(in srgb, var(--text-primary) 4%, transparent);
     box-shadow: 0 2px 12px color-mix(in srgb, var(--accent) 8%, transparent);
   }
 
   .card-title {
+    font-size: 1.18rem;
     font-weight: 600;
     letter-spacing: -0.02em;
     line-height: 1.25;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     flex-shrink: 0;
-  }
-
-  .bento-hero .card-title {
-    font-size: 1.5rem;
-  }
-
-  .bento-wide-top .card-title,
-  .bento-wide-bot .card-title {
-    font-size: 1.18rem;
-  }
-
-  .bento-sm-tr .card-title,
-  .bento-sm-br .card-title,
-  .bento-tall-right .card-title {
-    font-size: 1.05rem;
   }
 
   .card-desc {
     color: var(--text-secondary);
     line-height: 1.5;
+    font-size: 0.95rem;
     flex: 1;
     min-height: 0;
     overflow: hidden;
-    font-size: 0.95rem;
-    line-height: 1.6;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    margin-bottom: 10px;
-  }
-
-  .bento-hero .card-desc {
-    -webkit-line-clamp: 4;
-  }
-
-  .bento-sm-br .card-desc,
-  .bento-tall-right .card-desc {
     -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin-bottom: 12px;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
   }
 
   .card-category {
@@ -198,11 +117,13 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     text-transform: uppercase;
     padding: 2px 8px;
     border-radius: 10px;
-    align-self: flex-start;
-    flex-shrink: 0;
     color: var(--accent);
     background: color-mix(in srgb, var(--accent) 12%, transparent);
-    margin-top: auto;
+  }
+
+  .card-date {
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
   }
 
   .home-about {
@@ -262,81 +183,18 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     color: var(--border);
   }
 
-  /* ===== Responsive ===== */
-  @media (max-width: 960px) {
-    .bento {
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(4, 1fr);
-      height: 440px;
-    }
-
-    .bento-hero {
-      grid-column: 1 / 3;
-      grid-row: 1 / 3;
-    }
-
-    .bento-wide-top {
-      grid-column: 3 / 4;
-      grid-row: 1 / 2;
-    }
-
-    .bento-sm-tr {
-      grid-column: 3 / 4;
-      grid-row: 2 / 3;
-    }
-
-    .bento-wide-bot {
-      grid-column: 1 / 3;
-      grid-row: 3 / 4;
-    }
-
-    .bento-sm-br {
-      grid-column: 1 / 2;
-      grid-row: 4 / 5;
-    }
-
-    .bento-tall-right {
-      grid-column: 2 / 4;
-      grid-row: 4 / 5;
-    }
-  }
-
   @media (max-width: 640px) {
-    .bento {
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: repeat(5, 1fr);
-      height: auto;
-      min-height: 360px;
+    .notes-grid {
+      grid-template-columns: 1fr;
     }
 
-    .bento-hero {
-      grid-column: 1 / -1;
-      grid-row: 1 / 3;
+    .note-card {
+      min-height: auto;
+      padding: 20px 16px;
     }
 
-    .bento-wide-top {
-      grid-column: 1 / 2;
-      grid-row: 3 / 4;
-    }
-
-    .bento-sm-tr {
-      grid-column: 2 / 3;
-      grid-row: 3 / 4;
-    }
-
-    .bento-wide-bot {
-      grid-column: 1 / -1;
-      grid-row: 4 / 5;
-    }
-
-    .bento-sm-br {
-      grid-column: 1 / 2;
-      grid-row: 5 / 6;
-    }
-
-    .bento-tall-right {
-      grid-column: 2 / 3;
-      grid-row: 5 / 6;
+    .card-title {
+      font-size: 1.05rem;
     }
   }
 </style>
