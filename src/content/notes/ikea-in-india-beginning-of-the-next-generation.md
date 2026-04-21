@@ -38,7 +38,7 @@ After some days, I decided to visit the store with my wife and discover this mas
 
 *Image Source: Wikimedia Commons*
 
-## 1. A Guide with a Pencil welcomes!
+## A Guide with a Pencil welcomes!
 
 I am pretty sure, I have never been to any store here in India, that asks me to carry a store map and a pencil along with me at the start of the visit.
 
@@ -46,7 +46,7 @@ As soon as I had a pen and a paper in my hand, the shopping experience was diffe
 
 I was writing the product price on a piece of paper for which I would be paying later. Since it is in a tabular list, I could mentally add the prices in my head for the items I was shopping. This was amazing! I could now rethink and question what were my real needs and see If I being impulsive or not.
 
-## 2. The Rules of Shopping
+## The Rules of Shopping
 
 ![IKEA shopping rules](/images/notes/ikea/1_anow_qvoSxXo02MQe4viUA.webp)
 
@@ -73,7 +73,7 @@ After observing various price tags, I could really appreciate the label design o
 - Color took attention to the important details.
 - Uniform Dimensions across products. In cms 👏.
 
-## 3. Lighting up the way!
+## Lighting up the way!
 
 ![IKEA floor signage](/images/notes/ikea/1_pTgjN_tLJ_mqkvD7qV389g.webp)
 
@@ -83,7 +83,7 @@ Navigation is probably one of the most important tasks to get it right for a new
 
 The overhead projection arrow signages a big thumbs up 👍.
 
-## 4. Recognizing the Creators
+## Recognizing the Creators
 
 ![IKEA designer credit](/images/notes/ikea/1_vFoBo_tRwwFsfSbZ5WLoPQ.webp)
 
@@ -93,7 +93,7 @@ IKEA managed to step into India by promising to promote local crafters and givin
 
 But, as a designer I was even more delighted to see that certain designs were credited with the IKEA designer's bio along with the product. It was such a different feeling to find out the designer of the product. It is a humane way to showcase designer along with their work. Digital designers hardly get this opportunity in the real life to be credited and be part of the lime light with normal everyday people.
 
-## 5. Culturally Familiar
+## Culturally Familiar
 
 ![IKEA Indian food](/images/notes/ikea/1_7Q4cjDc9gPhZqiLJWfDvcg.webp)
 
@@ -103,7 +103,7 @@ After having a fairly overwhelming shopping experience, finding familiar food wa
 
 IKEA reimagined their restaurant menu culturally appropriate to India. With their oxymoron-ish vegetarian swedish meatballs, the food here is really good and priced apt as well. I believe that for a foreign brand to succeed in India, the food needs to be right and culture friendly!
 
-## 6. Finding your Finish Line
+## Finding your Finish Line
 
 I think everyone agrees that they hate to wait in long queues to check out for their shopping. But the discomfort starts even before the waiting. How to find which booth to go?
 
@@ -117,7 +117,7 @@ Using Illumination in dim environment is a smart way to take attention.
 
 Giving a sense of a quick closure at the end of a long shopping experience, is mentally a blissful feeling.
 
-## 7. You bag what you shop
+## You bag what you shop
 
 At check-out counters things really start to seem alien! The check-out counter is observably different than the most typical super-market counters.
 
@@ -131,7 +131,7 @@ But it was surprising here to find out that you choose your carry bag and you yo
 
 I realized packing the items that I had bought was difficult. I was concerned for certain items that they might break or get damage with my haste. But to my surprise everyone around me was struggling but was positively embracing this change. People were more careful and cognizant of using less bags. I think as time passes, more stores are going to ask their consumer to be in command of their whole shopping experience. More Indians will learn to adapt to this change.
 
-## 8. Self Assembly
+## Self Assembly
 
 ![IKEA instruction manual](/images/notes/ikea/1_eHh_1clTiwcMdTS92-OlBA.webp)
 
@@ -145,7 +145,7 @@ IKEA shines in creating furniture that is easily assembled and needs limited pro
 
 I am really looking forward to assemble my own armchair and bookshelf in coming days 🤞 and get the first hand experience of using an instruction guide. I am hoping it will be a nostalgic ride as to when we used to make toys in the game Mechanix while growing up.
 
-## 9. When a brand visually Mic-drops
+## When a brand visually Mic-drops
 
 ![IKEA warehouse](/images/notes/ikea/1_B3in6Ux-ePTPSala5aqbNg.webp)
 

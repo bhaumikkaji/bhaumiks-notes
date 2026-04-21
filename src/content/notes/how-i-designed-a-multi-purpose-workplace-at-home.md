@@ -33,7 +33,7 @@ As a designer and a tech-savvy individual, I consciously had some principles in 
 
 ## How I use my new workspace
 
-### 👨‍💻 Work: Video Conferencing
+### Work: Video Conferencing
 
 ![Screen one is showing a presentation and screen two is showing an online meeting.](/images/notes/workspace/1_2iBZhTLhViVC1ZahnQyzCw.webp)
 
@@ -43,7 +43,7 @@ We are having crazy number of online meetings these days as we work from home. I
 
 This new setup gives me good focus. As one screen is dedicated for meeting and communication and it frees up other screen for any other work that I might want to multi-task with. Makes managing screens and windows better.
 
-### 🖍 Work: Designing
+### Work: Designing
 
 ![Screen one is showing a design systems documentation and screen two is showing a design being worked on in Figma.](/images/notes/workspace/1_FROvQNnuxF9pt2lCKffFhw.webp)
 
@@ -55,7 +55,7 @@ It's easy on the eyes and managing design files is a lot easier.
 
 I have started working now with a mouse, which is a minor hurdle as I was more comfortable with trackpad and used OS gestures. A small trade-off, I guess.
 
-### 🎮 Gaming
+### Gaming
 
 ![Screen one is showing the YouTube gaming website on a web browser running on my MacBook and screen two is showing a PS4 homepage.](/images/notes/workspace/1_G3gTy5KKQl60FClFVGpsFQ.webp)
 
@@ -63,7 +63,7 @@ I am a console gamer. I have setup my PS4 Pro as a secondary input to my second 
 
 With this setup I enjoy playing all the games in 4K HDR and still have one more screen for game streaming and secondary use.
 
-### 📸 Photo Editing
+### Photo Editing
 
 ![Screen one is showing the folder of images and screen two is showing the image being edited on Adobe Lightroom.](/images/notes/workspace/1_Js-9u1lNzEvUqVrAsy06SQ.webp)
 
@@ -75,7 +75,7 @@ I mostly have all my RAW image files in an external storage. The primary screen 
 
 If you are serious about photography and photo editing, also invest in a good printer.
 
-### 📹 Video Production
+### Video Production
 
 ![Screen one showing a tutorial video played on YouTube and screen two is showing the video being made on Adobe After effects.](/images/notes/workspace/1_KEX9JilHgCFahFwoOq6M5w.webp)
 
@@ -85,7 +85,7 @@ Video tools and workspaces get really cramped in smaller screens.
 
 Timeline in a video tool is the key element that help users know the sequence of events in a video project. The Ultrawide Monitors are used by video professionals for this reason. It gives a wide real estate to the timeline, making it easier to manage and edit a video project.
 
-### 🎹 Music Production and ✍️ Writing
+### Music Production and Writing
 
 I am also a DJ and learning to play on my MIDI controller (Electronic Keyboard). This setup is also designed to keep this workflow in mind as well.
 
@@ -95,7 +95,7 @@ Things to keep in mind for a basic music production setup is to have good desk a
 
 For Writing, have good access to natural light in the room and have a flat desk area to keep your notebook on.
 
-### 📺 Entertainment…
+### Entertainment
 
 ![Screen one is showing Netflix in Fullscreen and screen two is showing Spotify in Fullscreen mode.](/images/notes/workspace/1_NlYdp-SNw-U5aan94kh5WQ.webp)
 
