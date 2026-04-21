@@ -24,7 +24,7 @@ const modes = [
 ---
 
 <span class="personalize-wrapper">
-  <button class="personalize-trigger" id="personalize-trigger" aria-label="Customize">
+  <button class="personalize-trigger" id="personalize-trigger" aria-label="Theme settings">
     <Icon name="palette" size={16} />
   </button>
 
@@ -244,12 +244,12 @@ const modes = [
     } else if (mode === 'sepia') {
       r.setProperty('--bg', '#F2DCD0'); r.setProperty('--bg-rgb', '242,220,208');
       r.setProperty('--text-primary', '#2E1F14'); r.setProperty('--text-primary-rgb', '46,31,20');
-      r.setProperty('--text-secondary', '#5E4A3B'); r.setProperty('--text-tertiary', '#8E7A6A');
+      r.setProperty('--text-secondary', '#5E4A3B'); r.setProperty('--text-tertiary', '#7D6959');
       r.setProperty('--border', '#D9C4B5');
     } else {
       r.setProperty('--bg', '#fafafa'); r.setProperty('--bg-rgb', '250,250,250');
       r.setProperty('--text-primary', '#111111'); r.setProperty('--text-primary-rgb', '17,17,17');
-      r.setProperty('--text-secondary', '#555555'); r.setProperty('--text-tertiary', '#888888');
+      r.setProperty('--text-secondary', '#555555'); r.setProperty('--text-tertiary', '#777777');
       r.setProperty('--border', '#e8e8e8');
     }
 

@@ -15,9 +15,9 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     </div>
 
     <div class="notes-filter">
-      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
       {categories.map((cat) => (
-        <button class="filter-btn" data-filter={cat}>{cat}</button>
+        <button class="filter-btn" data-filter={cat} aria-pressed="false">{cat}</button>
       ))}
     </div>
 
@@ -38,8 +38,12 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const filter = btn.dataset.filter;
-        filterBtns.forEach(b => b.classList.remove('active'));
+        filterBtns.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
 
         entries.forEach(entry => {
           entry.style.display = (filter === 'all' || entry.dataset.category === filter) ? '' : 'none';

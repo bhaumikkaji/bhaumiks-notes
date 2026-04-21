@@ -84,7 +84,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           r.setProperty('--text-primary', '#2E1F14');
           r.setProperty('--text-primary-rgb', '46,31,20');
           r.setProperty('--text-secondary', '#5E4A3B');
-          r.setProperty('--text-tertiary', '#8E7A6A');
+          r.setProperty('--text-tertiary', '#7D6959');
           r.setProperty('--border', '#D9C4B5');
         } else {
           r.setProperty('--bg', '#fafafa');
@@ -92,7 +92,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           r.setProperty('--text-primary', '#111111');
           r.setProperty('--text-primary-rgb', '17,17,17');
           r.setProperty('--text-secondary', '#555555');
-          r.setProperty('--text-tertiary', '#888888');
+          r.setProperty('--text-tertiary', '#777777');
           r.setProperty('--border', '#e8e8e8');
         }
 
@@ -123,7 +123,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         --text-primary: #111111;
         --text-primary-rgb: 17,17,17;
         --text-secondary: #555555;
-        --text-tertiary: #888888;
+        --text-tertiary: #777777;
         --border: #e8e8e8;
         --accent: #1a1a1a;
         --accent-hover: #333333;
@@ -188,6 +188,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
       a:hover {
         color: var(--accent-hover);
+      }
+
+      a:focus-visible,
+      button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: 2px;
       }
 
       /* Scroll progress bar */
@@ -340,6 +347,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         height: auto;
         overflow: visible;
         border-radius: 4px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
       }
 
       /* Responsive */
