@@ -57,8 +57,6 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
       <p class="about-tagline">Notes on tech, design, and AI.</p>
       <p class="about-body">These are my notes — like a semi-frequently updated journal. Everything I write is born out of empirical learnings and everyday observations. There’s obviously bias in these notes, but since honest personal accounts from people in tech are rare, I hope this serves as a useful one.</p>
       <div class="about-meta">
-        <span class="meta-item">Written by <strong>Bhaumik Kaji</strong></span>
-        <span class="meta-divider">·</span>
         <span class="meta-item">Senior Product Designer at <strong>Microsoft</strong></span>
         <span class="meta-divider">·</span>
         <span class="meta-item">Based in <strong>Toronto, Canada</strong></span>
@@ -73,8 +71,8 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: calc(100vh - 120px);
-    padding: 24px 20px;
+    min-height: auto;
+    padding: 16px 20px;
   }
 
   @keyframes fadeUp {
@@ -89,7 +87,7 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     gap: 10px;
     width: 100%;
     max-width: 1100px;
-    height: 420px;
+    height: 360px;
   }
 
   /* Explicit placement for masonry variety */
@@ -128,7 +126,7 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     background: transparent;
     border: 1px solid var(--text-primary);
     border-radius: 14px;
-    padding: 20px 18px;
+    padding: 16px 14px;
     display: flex;
     flex-direction: column;
     text-decoration: none;
@@ -210,7 +208,7 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
   .home-about {
     max-width: 520px;
     text-align: center;
-    margin: 48px auto 0;
+    margin: 32px auto 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -228,7 +226,7 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
   .about-tagline {
     font-size: 1.1rem;
     color: var(--text-secondary);
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     font-weight: 400;
     animation: fadeUp 0.3s ease both;
     animation-delay: 0.35s;
@@ -238,7 +236,7 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     color: var(--text-tertiary);
     font-size: 0.88rem;
     line-height: 1.6;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
     animation: fadeUp 0.3s ease both;
     animation-delay: 0.4s;
   }
@@ -269,7 +267,7 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     .bento {
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(4, 1fr);
-      height: 500px;
+      height: 440px;
     }
 
     .bento-hero {
@@ -308,7 +306,7 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
       grid-template-columns: 1fr 1fr;
       grid-template-rows: repeat(5, 1fr);
       height: auto;
-      min-height: 400px;
+      min-height: 360px;
     }
 
     .bento-hero {
