@@ -56,7 +56,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       (function() {
         const accentColors = {
           light: { accent: '#1a1a1a', accentHover: '#333333' },
-          sepia: { accent: '#2E1F14', accentHover: '#1a1108' },
+          sepia: { accent: '#7A4420', accentHover: '#5C3318' },
           dark:  { accent: '#e0e0e0', accentHover: '#f0f0f0' },
         };
         const mode = localStorage.getItem('mode') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -81,10 +81,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         } else if (mode === 'sepia') {
           r.setProperty('--bg', '#F2DCD0');
           r.setProperty('--bg-rgb', '242,220,208');
-          r.setProperty('--text-primary', '#2E1F14');
-          r.setProperty('--text-primary-rgb', '46,31,20');
-          r.setProperty('--text-secondary', '#5E4A3B');
-          r.setProperty('--text-tertiary', '#7D6959');
+          r.setProperty('--text-primary', '#2C1E12');
+          r.setProperty('--text-primary-rgb', '44,30,18');
+          r.setProperty('--text-secondary', '#6B5744');
+          r.setProperty('--text-tertiary', '#756050');
           r.setProperty('--border', '#D9C4B5');
         } else {
           r.setProperty('--bg', '#fafafa');
