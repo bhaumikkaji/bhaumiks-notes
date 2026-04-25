@@ -3,212 +3,241 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const allNotes = await getCollection('notes');
-const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 5);
+const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const allTags = notes.flatMap(n => Array.isArray(n.data.category) ? n.data.category : [n.data.category]);
+const tags = [...new Set(allTags)];
 ---
 
-<BaseLayout title="Bhaumik's Notes" description="Notes on tech, design, and AI. By Bhaumik Kaji." showScrollProgress={false}>
-  <div class="home">
-    <div class="notes-grid">
-      {notes.map((note, i) => {
-        const isHero = i === 0;
+<BaseLayout title="Notes" description="Notes on tech, design, and AI by Bhaumik Kaji." showScrollProgress={true}>
+  <div class="notes-page">
+    <div class="notes-header">
+      <h1>Notes</h1>
+      <p>Notes on tech, design, and AI. By Bhaumik Kaji.</p>
+    </div>
+
+    <div class="notes-filter">
+      <button class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+      {tags.map((tag) => (
+        <button class="filter-btn" data-filter={tag} aria-pressed="false">{tag}</button>
+      ))}
+    </div>
+
+    <div class="notes-list">
+      {notes.map((note) => {
+        const primaryCat = Array.isArray(note.data.category) ? note.data.category[0] : note.data.category;
+        const allCats = Array.isArray(note.data.category) ? note.data.category.join(',') : note.data.category;
         return (
-          <a href={`/notes/${note.data.slug}`} class={`note-card ${isHero ? 'card-hero' : ''}`} style={`animation-delay: ${i * 0.05}s`}>
-            <h2 class="card-title">{note.data.title}</h2>
-            <p class="card-desc">{note.data.summary || note.data.description}</p>
-            <div class="card-meta">
-              <span class="card-category">{Array.isArray(note.data.category) ? note.data.category[0] : note.data.category}</span>
-              <span class="card-date">{note.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+          <a href={`/notes/${note.data.slug}`} class="note-entry" data-category={allCats}>
+            <div class="note-main">
+              <div class="note-top">
+                <span class="note-list-title">{note.data.title}</span>
+                <span class="note-list-date">{note.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+              </div>
+              <p class="note-list-desc">{note.data.summary || note.data.description}</p>
+              <div class="note-list-tags">
+                {Array.isArray(note.data.category) 
+                  ? note.data.category.map(cat => <span class="note-tag">{cat}</span>)
+                  : <span class="note-tag">{note.data.category}</span>
+                }
+              </div>
             </div>
+            <span class="note-arrow">→</span>
           </a>
         );
       })}
     </div>
-
-    <div class="home-about">
-      <img src="/images/golden-key.png" alt="" class="about-key" />
-      <p class="about-tagline">Notes on tech, design, and AI.</p>
-      <p class="about-body">These are my notes — like a semi-frequently updated journal. Everything I write is born out of empirical learnings and everyday observations. There's obviously bias in these notes, but since honest personal accounts from people in tech are rare, I hope this serves as a useful one.</p>
-      <div class="about-meta">
-        <span class="meta-item">Senior Product Designer at <strong>Microsoft</strong></span>
-        <span class="meta-divider">·</span>
-        <span class="meta-item">Based in <strong>Toronto, Canada</strong></span>
-      </div>
-    </div>
   </div>
+
+  <script is:inline>
+    const filterBtns = document.querySelectorAll('.notes-filter .filter-btn');
+    const entries = document.querySelectorAll('.note-entry');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+        filterBtns.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+        entries.forEach(entry => {
+          const cats = entry.dataset.category || '';
+          entry.style.display = (filter === 'all' || cats.split(',').includes(filter)) ? '' : 'none';
+        });
+      });
+    });
+  </script>
 </BaseLayout>
 
 <style>
-  .home {
+  .notes-page {
+    padding-top: 40px;
+    padding-bottom: 60px;
+  }
+
+  .notes-header {
+    margin-bottom: 32px;
+  }
+
+  .notes-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .notes-header p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .notes-filter {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: auto;
-    padding: 16px 20px;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
   }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .notes-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    width: 100%;
-    max-width: 1024px;
-  }
-
-  .note-card {
-    animation: fadeUp 0.3s ease both;
+  .filter-btn {
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
     background: transparent;
-    border: 1px solid var(--text-primary);
-    border-radius: 14px;
-    padding: 24px 20px;
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--text-tertiary);
+    color: var(--text-secondary);
+  }
+
+  .filter-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+
+  .notes-list {
     display: flex;
     flex-direction: column;
+    gap: 0;
+  }
+
+  .note-entry {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
     text-decoration: none;
     color: inherit;
-    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-    position: relative;
-    overflow: hidden;
-    min-height: 160px;
+    transition: color 0.15s ease;
   }
 
-  .note-card.card-hero {
-    grid-column: span 2;
-    min-height: 200px;
+  .note-entry:last-child {
+    border-bottom: none;
   }
 
-  .note-card.card-hero .card-title {
-    font-size: 1.5rem;
+  .note-entry:hover {
+    color: var(--accent);
   }
 
-  .note-card:hover {
-    border-color: var(--accent);
-    background: color-mix(in srgb, var(--text-primary) 4%, transparent);
-    box-shadow: 0 2px 12px color-mix(in srgb, var(--accent) 8%, transparent);
+  .note-entry:hover .note-list-title {
+    color: var(--accent);
   }
 
-  .card-title {
-    font-size: 1.18rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 1.25;
-    margin-bottom: 8px;
+  .note-main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .note-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+
+  .note-list-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: color 0.15s ease;
+  }
+
+  .note-list-date {
+    font-size: 0.78rem;
+    color: var(--text-tertiary);
+    white-space: nowrap;
     flex-shrink: 0;
   }
 
-  .card-desc {
+  .note-list-desc {
+    font-size: 0.85rem;
     color: var(--text-secondary);
-    line-height: 1.5;
-    font-size: 0.95rem;
-    flex: 1;
-    min-height: 0;
-    overflow: hidden;
+    line-height: 1.45;
+    margin: 0 0 6px 0;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    margin-bottom: 12px;
+    overflow: hidden;
   }
 
-  .card-meta {
+  .note-list-tags {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: auto;
+    gap: 6px;
+    flex-wrap: wrap;
   }
 
-  .card-category {
-    display: inline-flex;
-    align-items: center;
-    font-size: 10px;
+  .note-tag {
+    font-size: 0.68rem;
     font-weight: 600;
-    letter-spacing: 0.05em;
     text-transform: uppercase;
+    letter-spacing: 0.06em;
     padding: 2px 8px;
     border-radius: 10px;
     color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
   }
 
-  .card-date {
-    font-size: 0.78rem;
+  .note-arrow {
     color: var(--text-tertiary);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 
-  .home-about {
-    max-width: 520px;
-    text-align: center;
-    margin: 20px auto 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .about-key {
-    width: 64px;
-    height: 64px;
-    image-rendering: pixelated;
-    margin-bottom: 4px;
-    animation: fadeUp 0.3s ease both;
-    animation-delay: 0.3s;
-  }
-
-  .about-tagline {
-    font-size: 1rem;
-    color: var(--text-secondary);
-    margin-bottom: 4px;
-    font-weight: 400;
-    animation: fadeUp 0.3s ease both;
-    animation-delay: 0.35s;
-  }
-
-  .about-body {
-    color: var(--text-tertiary);
-    font-size: 0.82rem;
-    line-height: 1.5;
-    margin-bottom: 8px;
-    animation: fadeUp 0.3s ease both;
-    animation-delay: 0.4s;
-  }
-
-  .about-meta {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    flex-wrap: wrap;
-    font-size: 0.82rem;
-    color: var(--text-tertiary);
-    animation: fadeUp 0.3s ease both;
-    animation-delay: 0.45s;
-  }
-
-  .about-meta strong {
-    color: var(--text-primary);
-    font-weight: 500;
-  }
-
-  .meta-divider {
-    color: var(--border);
+  .note-entry:hover .note-arrow {
+    color: var(--accent);
   }
 
   @media (max-width: 640px) {
-    .notes-grid {
-      grid-template-columns: 1fr;
+    .notes-header h1 {
+      font-size: 1.6rem;
     }
 
-    .note-card,
-    .note-card.card-hero {
-      grid-column: span 1;
-      min-height: auto;
-      padding: 20px 16px;
+    .notes-page {
+      padding: 24px 0;
     }
 
-    .card-title {
-      font-size: 1.05rem;
+    .note-top {
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .note-list-date {
+      font-size: 0.72rem;
     }
   }
 </style>
