@@ -21,18 +21,139 @@ const { title, description, pubDate, category, image, slug = '' } = Astro.props;
       <aside class="note-sidebar">
         <TableOfContents />
       </aside>
-      <div class="note-body">
+      <div class="note-body" id="note-body">
         {category && (
           <span class="note-category">
             {Array.isArray(category) ? category[0] : category}
           </span>
         )}
         <h1 class="note-title">{title}</h1>
-        <slot />
+        <div class="stream-content" id="stream-content">
+          <slot />
+        </div>
         <Reactions slug={slug} />
       </div>
     </div>
   </article>
+
+  <script is:inline>
+    (function() {
+      const BASE_SPEED = 3; // ms per char — fast
+      const JUMBLE_COUNT = 2; // random chars before landing
+      const JUMBLE_SPEED = 25; // ms per jumble frame
+      
+      function init() {
+        const container = document.getElementById('stream-content');
+        if (!container) return;
+        
+        // Collect all text nodes in DOM order
+        const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+        const textNodes = [];
+        let node;
+        while (node = walker.nextNode()) {
+          if (node.textContent.trim()) {
+            textNodes.push(node);
+          }
+        }
+        
+        // Wrap each text node in spans for character-level control
+        const charSpans = [];
+        textNodes.forEach(textNode => {
+          const parent = textNode.parentNode;
+          const text = textNode.textContent;
+          const fragment = document.createDocumentFragment();
+          
+          for (let i = 0; i < text.length; i++) {
+            const span = document.createElement('span');
+            span.className = 'stream-char';
+            span.textContent = text[i];
+            span.dataset.char = text[i]; // Store the real character
+            span.style.opacity = '0';
+            fragment.appendChild(span);
+            charSpans.push(span);
+          }
+          
+          parent.replaceChild(fragment, textNode);
+        });
+        
+        // Mark all parent blocks as hidden initially
+        const blocks = container.querySelectorAll('h2, h3, p, li, blockquote, pre, ul, ol, hr, img');
+        blocks.forEach(block => {
+          block.classList.add('stream-block');
+        });
+        
+        let currentIndex = 0;
+        let isTyping = false;
+        
+        function revealBlockForChar(span) {
+          // Find the nearest parent block and reveal it
+          let el = span;
+          while (el && el !== container) {
+            if (el.classList && el.classList.contains('stream-block')) {
+              if (!el.classList.contains('stream-visible')) {
+                el.classList.add('stream-visible');
+              }
+              break;
+            }
+            el = el.parentNode;
+          }
+        }
+        
+        function typeNext() {
+          if (currentIndex >= charSpans.length) {
+            isTyping = false;
+            document.querySelector('.stream-cursor')?.remove();
+            return;
+          }
+          
+          const span = charSpans[currentIndex];
+          const realChar = span.dataset.char;
+          
+          revealBlockForChar(span);
+          
+          // Mini unjumble: show random chars first, then land
+          let jumbleStep = 0;
+          const jumbleInterval = setInterval(() => {
+            if (jumbleStep < JUMBLE_COUNT) {
+              span.textContent = Math.random() > 0.5 
+                ? String.fromCharCode(33 + Math.floor(Math.random() * 94))
+                : realChar;
+              span.style.opacity = '1';
+              jumbleStep++;
+            } else {
+              clearInterval(jumbleInterval);
+              span.textContent = realChar;
+              span.style.opacity = '1';
+              
+              // Move cursor
+              let cursor = document.querySelector('.stream-cursor');
+              if (!cursor) {
+                cursor = document.createElement('span');
+                cursor.className = 'stream-cursor';
+                cursor.textContent = '';
+              }
+              span.parentNode.insertBefore(cursor, span.nextSibling);
+              
+              currentIndex++;
+              setTimeout(typeNext, BASE_SPEED);
+            }
+          }, JUMBLE_SPEED);
+        }
+        
+        // Start typing after a short delay
+        setTimeout(() => {
+          isTyping = true;
+          typeNext();
+        }, 300);
+      }
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
 </BaseLayout>
 
 <style>
@@ -59,6 +180,38 @@ const { title, description, pubDate, category, image, slug = '' } = Astro.props;
     margin-bottom: 40px;
   }
 
+  /* Stream effect */
+  .stream-content .stream-block {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .stream-content .stream-block.stream-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stream-char {
+    transition: opacity 0.05s ease;
+  }
+
+  .stream-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    background: var(--accent);
+    margin-left: 1px;
+    vertical-align: text-bottom;
+    animation: stream-blink 0.8s step-end infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes stream-blink {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0; }
+  }
+
   /* Two-column layout: TOC sidebar + content */
   .note-layout {
     display: grid;
@@ -68,12 +221,11 @@ const { title, description, pubDate, category, image, slug = '' } = Astro.props;
   }
 
   .note-sidebar {
-    /* Stretch to match content column height so sticky works */
     align-self: stretch;
   }
 
   .note-body {
-    min-width: 0; /* prevent grid blowout */
+    min-width: 0;
   }
 
   .note-body :global(h2) {
@@ -193,7 +345,6 @@ const { title, description, pubDate, category, image, slug = '' } = Astro.props;
     margin: 1.5em 0;
   }
 
-  /* Responsive — collapse sidebar on tablet and below */
   @media (max-width: 1024px) {
     .note-layout {
       grid-template-columns: 1fr;
