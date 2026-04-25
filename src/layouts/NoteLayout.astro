@@ -38,9 +38,7 @@ const { title, description, pubDate, category, image, slug = '' } = Astro.props;
 
   <script is:inline>
     (function() {
-      const BASE_SPEED = 3; // ms per char — fast
-      const JUMBLE_COUNT = 2; // random chars before landing
-      const JUMBLE_SPEED = 25; // ms per jumble frame
+      const BASE_SPEED = 1; // ms per char — very fast
       
       function init() {
         const container = document.getElementById('stream-content');
@@ -107,37 +105,29 @@ const { title, description, pubDate, category, image, slug = '' } = Astro.props;
           }
           
           const span = charSpans[currentIndex];
-          const realChar = span.dataset.char;
           
           revealBlockForChar(span);
           
-          // Mini unjumble: show random chars first, then land
-          let jumbleStep = 0;
-          const jumbleInterval = setInterval(() => {
-            if (jumbleStep < JUMBLE_COUNT) {
-              span.textContent = Math.random() > 0.5 
-                ? String.fromCharCode(33 + Math.floor(Math.random() * 94))
-                : realChar;
-              span.style.opacity = '1';
-              jumbleStep++;
-            } else {
-              clearInterval(jumbleInterval);
-              span.textContent = realChar;
-              span.style.opacity = '1';
-              
-              // Move cursor
-              let cursor = document.querySelector('.stream-cursor');
-              if (!cursor) {
-                cursor = document.createElement('span');
-                cursor.className = 'stream-cursor';
-                cursor.textContent = '';
-              }
-              span.parentNode.insertBefore(cursor, span.nextSibling);
-              
-              currentIndex++;
-              setTimeout(typeNext, BASE_SPEED);
+          // Quick flicker: show random char for 1 frame, then real char
+          const realChar = span.dataset.char;
+          span.textContent = String.fromCharCode(33 + Math.floor(Math.random() * 94));
+          span.style.opacity = '0.5';
+          
+          requestAnimationFrame(() => {
+            span.textContent = realChar;
+            span.style.opacity = '1';
+            
+            // Move cursor
+            let cursor = document.querySelector('.stream-cursor');
+            if (!cursor) {
+              cursor = document.createElement('span');
+              cursor.className = 'stream-cursor';
             }
-          }, JUMBLE_SPEED);
+            span.parentNode.insertBefore(cursor, span.nextSibling);
+            
+            currentIndex++;
+            setTimeout(typeNext, BASE_SPEED);
+          });
         }
         
         // Start typing after a short delay
