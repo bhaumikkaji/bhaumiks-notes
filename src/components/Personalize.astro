@@ -243,16 +243,22 @@ const modes = [
       r.setProperty('--text-primary', '#f0f0f0'); r.setProperty('--text-primary-rgb', '240,240,240');
       r.setProperty('--text-secondary', '#a0a0a0'); r.setProperty('--text-tertiary', '#666666');
       r.setProperty('--border', '#2a2a2a');
+      r.setProperty('--selection-bg', '#3D3A1A');
+      r.setProperty('--selection-color', '#f0f0f0');
     } else if (mode === 'sepia') {
       r.setProperty('--bg', '#F2DCD0'); r.setProperty('--bg-rgb', '242,220,208');
       r.setProperty('--text-primary', '#2C1E12'); r.setProperty('--text-primary-rgb', '44,30,18');
       r.setProperty('--text-secondary', '#6B5744'); r.setProperty('--text-tertiary', '#756050');
       r.setProperty('--border', '#D9C4B5');
+      r.setProperty('--selection-bg', '#D9A84A');
+      r.setProperty('--selection-color', '#2C1E12');
     } else {
       r.setProperty('--bg', '#fafafa'); r.setProperty('--bg-rgb', '250,250,250');
       r.setProperty('--text-primary', '#111111'); r.setProperty('--text-primary-rgb', '17,17,17');
       r.setProperty('--text-secondary', '#555555'); r.setProperty('--text-tertiary', '#777777');
       r.setProperty('--border', '#e8e8e8');
+      r.setProperty('--selection-bg', '#FFF3B0');
+      r.setProperty('--selection-color', '#1a1a1a');
     }
 
     localStorage.setItem('mode', mode);

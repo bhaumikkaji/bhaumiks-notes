@@ -70,6 +70,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         r.setProperty('--accent-gradient-from', c.accent);
         r.setProperty('--accent-gradient-to', c.accentHover);
 
+          r.setProperty('--selection-bg', '#FFF3B0');
+          r.setProperty('--selection-color', '#1a1a1a');
+
         if (mode === 'dark') {
           r.setProperty('--bg', '#111111');
           r.setProperty('--bg-rgb', '17,17,17');
@@ -78,6 +81,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           r.setProperty('--text-secondary', '#a0a0a0');
           r.setProperty('--text-tertiary', '#666666');
           r.setProperty('--border', '#2a2a2a');
+          r.setProperty('--selection-bg', '#3D3A1A');
+          r.setProperty('--selection-color', '#f0f0f0');
         } else if (mode === 'sepia') {
           r.setProperty('--bg', '#F2DCD0');
           r.setProperty('--bg-rgb', '242,220,208');
@@ -86,6 +91,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           r.setProperty('--text-secondary', '#6B5744');
           r.setProperty('--text-tertiary', '#756050');
           r.setProperty('--border', '#D9C4B5');
+          r.setProperty('--selection-bg', '#D9A84A');
+          r.setProperty('--selection-color', '#2C1E12');
         } else {
           r.setProperty('--bg', '#fafafa');
           r.setProperty('--bg-rgb', '250,250,250');
@@ -94,6 +101,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           r.setProperty('--text-secondary', '#555555');
           r.setProperty('--text-tertiary', '#777777');
           r.setProperty('--border', '#e8e8e8');
+          r.setProperty('--selection-bg', '#FFF3B0');
+          r.setProperty('--selection-color', '#1a1a1a');
         }
 
         // Apply font
@@ -147,6 +156,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <style is:global>
       :root {
+        --selection-bg: #FFF3B0;
+        --selection-color: #1a1a1a;
         --bg: #fafafa;
         --bg-rgb: 250,250,250;
         --text-primary: #111111;
@@ -224,6 +235,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         outline: 2px solid var(--accent);
         outline-offset: 2px;
         border-radius: 2px;
+      }
+
+      ::selection {
+        background: var(--selection-bg);
+        color: var(--selection-color);
       }
 
       /* Scroll progress bar */
@@ -334,13 +350,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         border-top: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
         font-size: 1rem;
         color: var(--text-tertiary);
-        position: sticky;
-        bottom: 0;
         z-index: 100;
-        background: color-mix(in srgb, var(--bg) 72%, transparent);
-        backdrop-filter: blur(20px) saturate(180%);
-        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        background: var(--bg);
         transition: background 0.3s ease, border-color 0.3s ease;
+        margin-top: auto;
       }
 
       footer .container {
