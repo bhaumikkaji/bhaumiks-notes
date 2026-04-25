@@ -3,22 +3,33 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const allNotes = await getCollection('notes');
-const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 6);
 ---
 
 <BaseLayout title="Bhaumik's Notes" description="Notes on tech, design, and AI. By Bhaumik Kaji." showScrollProgress={false}>
   <div class="home">
     <div class="notes-grid">
-      {notes.map((note, i) => (
-        <a href={`/notes/${note.data.slug}`} class="note-card" style={`animation-delay: ${i * 0.05}s`}>
-          <h2 class="card-title">{note.data.title}</h2>
-          <p class="card-desc">{note.data.summary || note.data.description}</p>
-          <div class="card-meta">
-            <span class="card-category">{Array.isArray(note.data.category) ? note.data.category[0] : note.data.category}</span>
-            <span class="card-date">{note.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-          </div>
-        </a>
-      ))}
+      {notes.map((note, i) => {
+        const sizes = [
+          'card-hero',   // Card 1 — large, spans 2 cols
+          'card-tall',   // Card 2 — tall
+          'card-wide',   // Card 3 — wide
+          'card-small',  // Card 4 — small
+          'card-small',  // Card 5 — small
+          'card-small',  // Card 6 — small
+        ];
+        const sizeClass = sizes[i] || 'card-small';
+        return (
+          <a href={`/notes/${note.data.slug}`} class={`note-card ${sizeClass}`} style={`animation-delay: ${i * 0.05}s`}>
+            <h2 class="card-title">{note.data.title}</h2>
+            <p class="card-desc">{note.data.summary || note.data.description}</p>
+            <div class="card-meta">
+              <span class="card-category">{Array.isArray(note.data.category) ? note.data.category[0] : note.data.category}</span>
+              <span class="card-date">{note.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+            </div>
+          </a>
+        );
+      })}
     </div>
 
     <div class="home-about">
@@ -51,10 +62,12 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
 
   .notes-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: minmax(180px, auto);
     gap: 12px;
     width: 100%;
     max-width: 1024px;
+    align-items: stretch;
   }
 
   .note-card {
@@ -70,7 +83,28 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     position: relative;
     overflow: hidden;
-    min-height: 160px;
+    min-height: 180px;
+  }
+
+  /* Bento sizes */
+  .note-card.card-hero {
+    grid-column: span 2;
+    grid-row: span 2;
+    min-height: 380px;
+  }
+
+  .note-card.card-tall {
+    grid-row: span 2;
+    min-height: 380px;
+  }
+
+  .note-card.card-wide {
+    grid-column: span 2;
+    min-height: 180px;
+  }
+
+  .note-card.card-small {
+    min-height: 180px;
   }
 
   .note-card:hover {
