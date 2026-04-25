@@ -38,105 +38,159 @@ const { title, description, pubDate, category, image, slug = '' } = Astro.props;
 
   <script is:inline>
     (function() {
-      const BASE_SPEED = 1; // ms per char — very fast
-      
+      const WORD_DELAY = 25;
+      const UNBLUR_DURATION = 350;
+
       function init() {
         const container = document.getElementById('stream-content');
         if (!container) return;
-        
-        // Collect all text nodes in DOM order
+
+        // Step 1: Wrap all text into word spans
         const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
         const textNodes = [];
         let node;
         while (node = walker.nextNode()) {
-          if (node.textContent.trim()) {
-            textNodes.push(node);
-          }
+          if (node.textContent.trim()) textNodes.push(node);
         }
-        
-        // Wrap each text node in spans for character-level control
-        const charSpans = [];
+
         textNodes.forEach(textNode => {
           const parent = textNode.parentNode;
           const text = textNode.textContent;
+          const words = text.split(/(\s+)/);
           const fragment = document.createDocumentFragment();
-          
-          for (let i = 0; i < text.length; i++) {
-            const span = document.createElement('span');
-            span.className = 'stream-char';
-            span.textContent = text[i];
-            span.dataset.char = text[i]; // Store the real character
-            span.style.opacity = '0';
-            fragment.appendChild(span);
-            charSpans.push(span);
-          }
-          
+
+          words.forEach(word => {
+            if (word.trim() === '') {
+              fragment.appendChild(document.createTextNode(word));
+            } else {
+              const span = document.createElement('span');
+              span.className = 'stream-word';
+              span.textContent = word;
+              span.style.opacity = '0';
+              span.style.filter = 'blur(6px)';
+              span.style.transition = `opacity ${UNBLUR_DURATION}ms cubic-bezier(0.16,1,0.3,1), filter ${UNBLUR_DURATION}ms cubic-bezier(0.16,1,0.3,1)`;
+              span.style.display = 'inline-block';
+              span.style.willChange = 'opacity, filter';
+              fragment.appendChild(span);
+            }
+          });
+
           parent.replaceChild(fragment, textNode);
         });
-        
-        // Mark all parent blocks as hidden initially
-        const blocks = container.querySelectorAll('h2, h3, p, li, blockquote, pre, ul, ol, hr, img');
-        blocks.forEach(block => {
-          block.classList.add('stream-block');
-        });
-        
-        let currentIndex = 0;
-        let isTyping = false;
-        
-        function revealBlockForChar(span) {
-          // Find the nearest parent block and reveal it
-          let el = span;
-          while (el && el !== container) {
-            if (el.classList && el.classList.contains('stream-block')) {
-              if (!el.classList.contains('stream-visible')) {
-                el.classList.add('stream-visible');
-              }
-              break;
-            }
-            el = el.parentNode;
+
+        // Step 2: Collect ALL animatable elements in DOM order
+        // — words AND media (img, hr, pre, blockquote, ul, ol, table)
+        const animatables = [];
+        const allEls = container.querySelectorAll('*');
+
+        allEls.forEach(el => {
+          // Words
+          if (el.classList.contains('stream-word')) {
+            animatables.push({ type: 'word', el });
           }
+          // Media / block elements that aren't containers for words
+          else if (
+            el.tagName === 'IMG' ||
+            el.tagName === 'HR' ||
+            el.tagName === 'PRE' ||
+            el.tagName === 'TABLE' ||
+            el.tagName === 'BLOCKQUOTE' ||
+            (el.tagName === 'UL' && !el.querySelector('.stream-word')) ||
+            (el.tagName === 'OL' && !el.querySelector('.stream-word'))
+          ) {
+            // Only add if not already inside a blockquote/pre/table we added
+            const parentAdded = el.closest('blockquote[data-stream], pre[data-stream], table[data-stream]');
+            if (!parentAdded) {
+              el.dataset.stream = 'true';
+              el.style.opacity = '0';
+              el.style.filter = 'blur(8px)';
+              el.style.transform = 'translateY(12px)';
+              el.style.transition = `opacity ${UNBLUR_DURATION}ms cubic-bezier(0.16,1,0.3,1), filter ${UNBLUR_DURATION}ms cubic-bezier(0.16,1,0.3,1), transform ${UNBLUR_DURATION}ms cubic-bezier(0.16,1,0.3,1)`;
+              el.style.willChange = 'opacity, filter, transform';
+              animatables.push({ type: 'media', el });
+            }
+          }
+        });
+
+        // Step 3: Determine above-fold cutoff
+        const viewportHeight = window.innerHeight;
+        const firstBelowFold = animatables.findIndex(item => {
+          const rect = item.el.getBoundingClientRect();
+          return rect.top > viewportHeight - 50;
+        });
+
+        const cutoff = firstBelowFold > 0 ? firstBelowFold : 0;
+
+        // Reveal above fold immediately
+        for (let i = 0; i < cutoff; i++) {
+          revealItem(animatables[i]);
         }
-        
-        function typeNext() {
-          if (currentIndex >= charSpans.length) {
-            isTyping = false;
-            document.querySelector('.stream-cursor')?.remove();
+
+        // Step 4: Animate below fold
+        let currentIndex = cutoff;
+        let revealInterval = null;
+
+        function revealItem(item) {
+          item.el.style.opacity = '1';
+          item.el.style.filter = 'blur(0px)';
+          item.el.style.transform = 'translateY(0)';
+        }
+
+        function revealBatch() {
+          if (currentIndex >= animatables.length) {
+            clearInterval(revealInterval);
+            revealInterval = null;
             return;
           }
-          
-          const span = charSpans[currentIndex];
-          
-          revealBlockForChar(span);
-          
-          // Quick flicker: show random char for 1 frame, then real char
-          const realChar = span.dataset.char;
-          span.textContent = String.fromCharCode(33 + Math.floor(Math.random() * 94));
-          span.style.opacity = '0.5';
-          
-          requestAnimationFrame(() => {
-            span.textContent = realChar;
-            span.style.opacity = '1';
-            
-            // Move cursor
-            let cursor = document.querySelector('.stream-cursor');
-            if (!cursor) {
-              cursor = document.createElement('span');
-              cursor.className = 'stream-cursor';
-            }
-            span.parentNode.insertBefore(cursor, span.nextSibling);
-            
+
+          const batchSize = 3;
+          for (let i = 0; i < batchSize && currentIndex < animatables.length; i++) {
+            revealItem(animatables[currentIndex]);
             currentIndex++;
-            setTimeout(typeNext, BASE_SPEED);
-          });
+          }
         }
-        
-        // Start typing after a short delay
-        setTimeout(() => {
-          isTyping = true;
-          typeNext();
-        }, 300);
+
+        // Scroll starts the animation
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+          if (!revealInterval) {
+            revealInterval = setInterval(revealBatch, WORD_DELAY);
+          }
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(() => { isScrolling = false; }, 150);
+        }, { passive: true });
+
+        // TOC click → jump and reveal from that section
+        window.addEventListener('click', (e) => {
+          const link = e.target.closest('a[href^="#"]');
+          if (!link) return;
+          const hash = link.getAttribute('href');
+          if (!hash || hash === '#') return;
+          const target = document.querySelector(hash);
+          if (!target) return;
+
+          // Find first animatable after this heading
+          let found = false;
+          for (let i = 0; i < animatables.length; i++) {
+            const pos = target.compareDocumentPosition(animatables[i].el);
+            if (pos & Node.DOCUMENT_POSITION_FOLLOWING) {
+              currentIndex = i;
+              found = true;
+              break;
+            }
+          }
+
+          if (found && !revealInterval) {
+            revealInterval = setInterval(revealBatch, WORD_DELAY);
+          }
+        });
+
+        // Already below fold on load
+        if (cutoff < animatables.length && window.scrollY > 50) {
+          revealInterval = setInterval(revealBatch, WORD_DELAY);
+        }
       }
-      
+
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
       } else {
@@ -168,38 +222,6 @@ const { title, description, pubDate, category, image, slug = '' } = Astro.props;
     letter-spacing: -0.03em;
     line-height: 1.12;
     margin-bottom: 40px;
-  }
-
-  /* Stream effect */
-  .stream-content .stream-block {
-    opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-
-  .stream-content .stream-block.stream-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .stream-char {
-    transition: opacity 0.05s ease;
-  }
-
-  .stream-cursor {
-    display: inline-block;
-    width: 2px;
-    height: 1.1em;
-    background: var(--accent);
-    margin-left: 1px;
-    vertical-align: text-bottom;
-    animation: stream-blink 0.8s step-end infinite;
-    opacity: 0.8;
-  }
-
-  @keyframes stream-blink {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0; }
   }
 
   /* Two-column layout: TOC sidebar + content */
