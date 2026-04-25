@@ -1,7 +1,7 @@
 ---
 title: "The AI 5-Layer Cake"
 pubDate: 2026-04-21
-category: "AI"
+category: ["AI", "OpenClaw"]
 slug: "the-ai-five-layer-cake"
 summary: "NVIDIA CEO Jensen Huang’s framework — what happens when you bake the whole AI stack yourself instead of renting a slice."
 summaryCompact: "NVIDIA CEO Jensen Huang’s framework — what happens when you bake the whole AI stack yourself instead of renting a slice."

@@ -1,7 +1,7 @@
 ---
 title: "Saving with Model Tiering and Token Optimization"
 pubDate: 2026-04-17
-category: "AI"
+category: ["AI", "OpenClaw"]
 slug: "saving-with-model-tiering"
 summary: "How we cut our AI bill without making agents less capable — model tiering, token optimization, and call frequency."
 summaryCompact: "How we cut our AI bill without making agents less capable — model tiering, token optimization, and call frequency."

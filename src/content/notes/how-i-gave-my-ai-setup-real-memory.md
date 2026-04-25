@@ -1,7 +1,7 @@
 ---
 title: "How I Gave My AI Setup a Real Memory"
 pubDate: 2026-04-07
-category: "AI"
+category: ["AI", "OpenClaw"]
 slug: "how-i-gave-my-ai-setup-real-memory"
 summary: "A technical walkthrough of two layers that turn a stateless AI assistant into a compounding knowledge system."
 summaryCompact: "Turning a stateless AI into a compounding knowledge system."

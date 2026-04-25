@@ -4,7 +4,9 @@ import { getCollection } from 'astro:content';
 
 const allNotes = await getCollection('notes');
 const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const categories = [...new Set(notes.map(n => n.data.category))];
+// Flatten categories: if array, use first tag; collect unique tags for filter buttons
+const allTags = notes.flatMap(n => Array.isArray(n.data.category) ? n.data.category : [n.data.category]);
+const categories = [...new Set(allTags)];
 ---
 
 <BaseLayout title="Index" description="Notes on tech, design, and AI by Bhaumik Kaji." showScrollProgress={true}>
@@ -22,12 +24,17 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     </div>
 
     <div class="notes-list">
-      {notes.map((note) => (
-        <div class="note-entry" data-category={note.data.category} data-slug={note.data.slug}>
-          <a href={`/notes/${note.data.slug}`} class="note-title">{note.data.title}</a>
-          <div class="note-reactions" data-slug={note.data.slug}></div>
-        </div>
-      ))}
+        {notes.map((note) => {
+          const primaryCat = Array.isArray(note.data.category) ? note.data.category[0] : note.data.category;
+          const allCats = Array.isArray(note.data.category) ? note.data.category.join(',') : note.data.category;
+          return (
+            <div class="note-entry" data-category={allCats} data-slug={note.data.slug}>
+              <a href={`/notes/${note.data.slug}`} class="note-title">{note.data.title}</a>
+              <span class="note-category-pill">{primaryCat}</span>
+              <div class="note-reactions" data-slug={note.data.slug}></div>
+            </div>
+          );
+        })}
     </div>
   </div>
 
@@ -46,7 +53,8 @@ const categories = [...new Set(notes.map(n => n.data.category))];
         btn.setAttribute('aria-pressed', 'true');
 
         entries.forEach(entry => {
-          entry.style.display = (filter === 'all' || entry.dataset.category === filter) ? '' : 'none';
+          const cats = entry.dataset.category || '';
+          entry.style.display = (filter === 'all' || cats.split(',').includes(filter)) ? '' : 'none';
         });
       });
     });
@@ -167,6 +175,19 @@ const categories = [...new Set(notes.map(n => n.data.category))];
     color: var(--text-primary);
     text-decoration: none;
     transition: color 0.15s ease;
+    flex: 1;
+  }
+
+  .note-category-pill {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 8px;
+    border-radius: 10px;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    white-space: nowrap;
   }
 
   .note-title:hover {

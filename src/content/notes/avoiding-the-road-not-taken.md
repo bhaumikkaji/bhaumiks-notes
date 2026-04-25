@@ -1,7 +1,7 @@
 ---
 title: "Avoiding the Road Not Taken"
 pubDate: 2026-04-14
-category: "Tech"
+category: ["AI", "OpenClaw"]
 slug: "avoiding-the-road-not-taken"
 summary: "My OpenClaw setup journey — why I chose Mac mini over WSL2 and what security actually means for personal AI agents."
 summaryCompact: "My OpenClaw setup journey — why I chose Mac mini over WSL2 and what security actually means for personal AI agents."

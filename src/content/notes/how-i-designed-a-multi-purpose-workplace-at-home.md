@@ -1,7 +1,7 @@
 ---
 title: "How I designed a multi-purpose workplace at home"
 pubDate: 2020-07-12
-category: "Design"
+category: ["Design"]
 slug: "how-i-designed-a-multi-purpose-workplace-at-home"
 summary: "In my recent staycation, I decided to take a project of setting up my new workspace at home."
 summaryCompact: "Setting up a minimalistic future-proof computer desk"

@@ -14,7 +14,7 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
           <h2 class="card-title">{note.data.title}</h2>
           <p class="card-desc">{note.data.summary || note.data.description}</p>
           <div class="card-meta">
-            <span class="card-category">{note.data.category}</span>
+            <span class="card-category">{Array.isArray(note.data.category) ? note.data.category[0] : note.data.category}</span>
             <span class="card-date">{note.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
           </div>
         </a>

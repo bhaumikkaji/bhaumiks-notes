@@ -1,14 +1,14 @@
 ---
 title: "Why I Stopped Typing to My AI Agents"
 pubDate: 2026-04-17
-category: "AI"
+category: ["AI", "OpenClaw"]
 slug: "why-i-stopped-typing-to-my-ai-agents"
 summary: "Switching from typing to voice for AI interaction changed how I build context and get better results."
 summaryCompact: "Why voice input beats typing for AI agents."
 description: "Why I stopped typing to my AI agents — using voice to build context naturally and get better results from LLMs."
 ---
 
-![Voice interface for AI agents](/images/notes/wisprFlow/article-1.jpeg)
+![Voice interface for AI agents](/images/notes/wisprflow/article-1.jpeg)
 
 Who is still typing to their AI agents? And if you are — why?
 

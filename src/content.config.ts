@@ -10,7 +10,7 @@ const notes = defineCollection({
     summary: z.string().optional(),
     summaryExpanded: z.string().optional(),
     pubDate: z.coerce.date(),
-    category: z.enum(['Tech', 'Design', 'AI', 'Career', 'Observations', 'Life']),
+    category: z.array(z.string()),
     slug: z.string(),
     image: z.string().optional(),
   }),

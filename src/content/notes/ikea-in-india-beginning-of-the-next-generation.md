@@ -1,7 +1,7 @@
 ---
 title: "IKEA in India — Beginning of the Next Generation"
 pubDate: 2018-08-15
-category: "Observations"
+category: ["Observations"]
 slug: "ikea-in-india-beginning-of-the-next-generation"
 summary: "What I observed as a designer when I visited IKEA's first store in India."
 summaryCompact: "Designer observations from IKEA's first India store"
