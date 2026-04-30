@@ -6,6 +6,7 @@ slug: "how-i-designed-a-multi-purpose-workplace-at-home"
 summary: "In my recent staycation, I decided to take a project of setting up my new workspace at home."
 summaryCompact: "Setting up a minimalistic future-proof computer desk"
 description: "How I designed a multi-purpose workplace at home — my journey and decisions on creating a minimalistic future-proof computer desk setup for work, gaming, photo editing, and more."
+tldr: "When COVID-19 turned homes into offices, I turned an extra room into a 7ft multi-purpose workspace designed around four core principles: multi-purpose, scalable across Mac and Windows, multi-tasking through screen real estate, and strict minimalism from colors to cables. The result is a four-screen setup that handles video conferencing, UX design in Figma, console gaming on a PS4 Pro, and photo editing in Lightroom — all from one desk with clean cable management and no server-room aesthetic."
 ---
 
 In my recent staycation, I decided to take a project of setting up my new workspace at home.

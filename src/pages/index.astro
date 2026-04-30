@@ -3,25 +3,58 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const allNotes = await getCollection('notes');
-const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 5);
+const notes = allNotes
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 6);
 ---
 
 <BaseLayout title="Bhaumik's Notes" description="Notes on tech, design, and AI. By Bhaumik Kaji." showScrollProgress={false}>
   <div class="home">
-    <div class="notes-grid">
-      {notes.map((note, i) => {
-        const isHero = i === 0;
-        return (
-          <a href={`/notes/${note.data.slug}`} class={`note-card ${isHero ? 'card-hero' : ''}`} style={`animation-delay: ${i * 0.05}s`}>
-            <h2 class="card-title">{note.data.title}</h2>
-            <p class="card-desc">{note.data.summary || note.data.description}</p>
-            <div class="card-meta">
-              <span class="card-category">{Array.isArray(note.data.category) ? note.data.category[0] : note.data.category}</span>
-              <span class="card-date">{note.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-            </div>
-          </a>
-        );
-      })}
+    <div class="bento-grid">
+      {
+        notes.map((note, i) => {
+          // Bento layout pattern for 6 items:
+          //  0: hero  (2×2) — spans cols 1-2, rows 1-2
+          //  1: tall  (1×2) — spans col 3,   rows 1-2
+          //  2: small (1×1) — spans col 4,   row 1
+          //  3: small (1×1) — spans col 4,   row 2
+          //  4: wide  (2×1) — spans cols 1-2, row 3
+          //  5: wide  (2×1) — spans cols 3-4, row 3
+          const placements = [
+            { gridColumn: '1 / 3', gridRow: '1 / 3', cls: 'bento-hero' },
+            { gridColumn: '3 / 4', gridRow: '1 / 3', cls: 'bento-tall' },
+            { gridColumn: '4 / 5', gridRow: '1 / 2', cls: 'bento-small' },
+            { gridColumn: '4 / 5', gridRow: '2 / 3', cls: 'bento-small' },
+            { gridColumn: '1 / 3', gridRow: '3 / 4', cls: 'bento-wide' },
+            { gridColumn: '3 / 5', gridRow: '3 / 4', cls: 'bento-wide' },
+          ];
+          const p = placements[i] ?? placements[2];
+          return (
+            <a
+              href={`/notes/${note.data.slug}`}
+              class={`bento-card ${p.cls}`}
+              style={`grid-column: ${p.gridColumn}; grid-row: ${p.gridRow}; animation-delay: ${i * 0.07}s;`}
+            >
+              <h2 class="card-title">{note.data.title}</h2>
+              {note.data.tldr && <p class="card-tldr">{note.data.tldr}</p>}
+              <div class="card-meta">
+                <button
+                  class="card-play-btn"
+                  data-audio={`/audio/${note.data.slug}.mp3`}
+                  aria-label={`Play audio summary for ${note.data.title}`}
+                  onclick="event.preventDefault(); event.stopPropagation();"
+                >
+                  <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                </button>
+                <span class="card-date">
+                  {note.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                </span>
+              </div>
+            </a>
+          );
+        })
+      }
     </div>
 
     <div class="home-about">
@@ -37,35 +70,114 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
   </div>
 </BaseLayout>
 
+<script>
+  // Detect truncated tldr paragraphs and append … to the text itself
+  document.querySelectorAll('.card-tldr').forEach(el => {
+    const isTruncated = el.scrollHeight > el.clientHeight;
+    if (isTruncated) {
+      // Find the last visible word and replace trailing chars with …
+      const fullText = el.textContent || '';
+      // Binary search for the right cut point
+      let lo = 0, hi = fullText.length;
+      while (lo < hi) {
+        const mid = Math.ceil((lo + hi) / 2);
+        el.textContent = fullText.slice(0, mid) + '…';
+        if (el.scrollHeight > el.clientHeight) {
+          hi = mid - 1;
+        } else {
+          lo = mid;
+        }
+      }
+      el.textContent = fullText.slice(0, lo).replace(/\s+$/, '') + '…';
+    }
+  });
+</script>
+
+<script>
+  // Audio player for bento cards — one shared Audio instance
+  (function() {
+    let currentAudio = null;
+    let currentBtn = null;
+
+    function stopCurrent() {
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+      }
+      if (currentBtn) {
+        currentBtn.classList.remove('playing');
+        currentBtn = null;
+      }
+    }
+
+    document.querySelectorAll('.card-play-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const isPlaying = btn.classList.contains('playing');
+        const audioSrc = btn.dataset.audio;
+
+        if (isPlaying) {
+          stopCurrent();
+          return;
+        }
+
+        // Stop any currently playing audio
+        stopCurrent();
+
+        // Start new audio
+        const audio = new Audio(audioSrc);
+        audio.play().then(() => {
+          btn.classList.add('playing');
+          currentAudio = audio;
+          currentBtn = btn;
+        }).catch(err => {
+          console.error('Audio play failed:', err);
+        });
+
+        audio.addEventListener('ended', function() {
+          btn.classList.remove('playing');
+          if (currentAudio === audio) {
+            currentAudio = null;
+            currentBtn = null;
+          }
+        });
+      });
+    });
+  })();
+</script>
+
 <style>
   .home {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: auto;
-    padding: 16px 20px;
+    padding: 32px 20px 24px;
   }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(6px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .notes-grid {
+  .bento-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 14px;
     width: 100%;
-    max-width: 1024px;
+    max-width: 1200px;
+    height: 720px;
   }
 
-  .note-card {
-    animation: fadeUp 0.3s ease both;
+  .bento-card {
+    animation: fadeUp 0.35s ease both;
     background: transparent;
     border: 1px solid var(--text-primary);
-    border-radius: 14px;
-    padding: 24px 20px;
+    border-radius: 16px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
     text-decoration: none;
@@ -73,44 +185,52 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     position: relative;
     overflow: hidden;
-    min-height: 160px;
+    min-height: 0;
   }
 
-  .note-card.card-hero {
-    grid-column: span 2;
-    min-height: 200px;
-  }
-
-  .note-card.card-hero .card-title {
-    font-size: 1.5rem;
-  }
-
-  .note-card:hover {
+  .bento-card:hover {
     border-color: var(--accent);
     background: color-mix(in srgb, var(--text-primary) 4%, transparent);
-    box-shadow: 0 2px 12px color-mix(in srgb, var(--accent) 8%, transparent);
+    box-shadow: 0 4px 20px color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   .card-title {
-    font-size: 1.18rem;
+    font-size: 1.15rem;
     font-weight: 600;
     letter-spacing: -0.02em;
-    line-height: 1.25;
+    line-height: 1.3;
     margin-bottom: 8px;
     flex-shrink: 0;
-  }
-
-  .card-desc {
-    color: var(--text-secondary);
-    line-height: 1.5;
-    font-size: 0.95rem;
-    flex: 1;
-    min-height: 0;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    margin-bottom: 12px;
+  }
+
+  .bento-hero .card-title {
+    font-size: 1.55rem;
+    -webkit-line-clamp: 4;
+  }
+
+  .card-tldr {
+    color: var(--text-tertiary);
+    line-height: 1.55;
+    font-size: 0.85rem;
+    flex: 1;
+    min-height: 0;
+    margin-bottom: 8px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .bento-hero .card-tldr {
+    -webkit-line-clamp: 5;
+  }
+
+  .bento-tall .card-tldr {
+    -webkit-line-clamp: 6;
   }
 
   .card-meta {
@@ -118,19 +238,55 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     align-items: center;
     justify-content: space-between;
     margin-top: auto;
+    flex-shrink: 0;
   }
 
-  .card-category {
+  .card-play-btn {
     display: inline-flex;
     align-items: center;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 2px 8px;
-    border-radius: 10px;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent);
+    background: transparent;
     color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+    flex-shrink: 0;
+    padding: 0;
+  }
+
+  .card-play-btn:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .card-play-btn:active {
+    transform: scale(0.92);
+  }
+
+  .card-play-btn .play-icon,
+  .card-play-btn .pause-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .card-play-btn .pause-icon {
+    display: none;
+  }
+
+  .card-play-btn.playing .play-icon {
+    display: none;
+  }
+
+  .card-play-btn.playing .pause-icon {
+    display: block;
+  }
+
+  .card-play-btn.playing {
+    background: var(--accent);
+    color: var(--bg);
   }
 
   .card-date {
@@ -141,7 +297,7 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
   .home-about {
     max-width: 520px;
     text-align: center;
-    margin: 20px auto 0;
+    margin: 40px auto 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -153,7 +309,7 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     image-rendering: pixelated;
     margin-bottom: 4px;
     animation: fadeUp 0.3s ease both;
-    animation-delay: 0.3s;
+    animation-delay: 0.45s;
   }
 
   .about-tagline {
@@ -162,7 +318,7 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     margin-bottom: 4px;
     font-weight: 400;
     animation: fadeUp 0.3s ease both;
-    animation-delay: 0.35s;
+    animation-delay: 0.5s;
   }
 
   .about-body {
@@ -171,7 +327,7 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     line-height: 1.5;
     margin-bottom: 8px;
     animation: fadeUp 0.3s ease both;
-    animation-delay: 0.4s;
+    animation-delay: 0.55s;
   }
 
   .about-meta {
@@ -183,7 +339,7 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     font-size: 0.82rem;
     color: var(--text-tertiary);
     animation: fadeUp 0.3s ease both;
-    animation-delay: 0.45s;
+    animation-delay: 0.6s;
   }
 
   .about-meta strong {
@@ -195,20 +351,58 @@ const notes = allNotes.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
     color: var(--border);
   }
 
-  @media (max-width: 640px) {
-    .notes-grid {
-      grid-template-columns: 1fr;
+  @media (max-width: 768px) {
+    .bento-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: auto;
+      gap: 12px;
+      height: auto; /* Remove fixed height on mobile */
     }
 
-    .note-card,
-    .note-card.card-hero {
-      grid-column: span 1;
-      min-height: auto;
-      padding: 20px 16px;
+    .bento-card {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+      min-height: 200px;
+    }
+
+    .bento-hero {
+      grid-column: span 2 !important;
+      min-height: 260px;
+    }
+
+    .bento-hero .card-title {
+      font-size: 1.3rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .home {
+      padding: 20px 12px 16px;
+    }
+
+    .bento-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      height: auto;
+    }
+
+    .bento-card,
+    .bento-hero {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+      min-height: 180px;
+    }
+
+    .bento-hero {
+      min-height: 220px;
+    }
+
+    .bento-hero .card-title {
+      font-size: 1.25rem;
     }
 
     .card-title {
-      font-size: 1.05rem;
+      font-size: 1.1rem;
     }
   }
 </style>

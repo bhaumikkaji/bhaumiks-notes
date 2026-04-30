@@ -4,20 +4,30 @@
 // Auto-highlights current section, sticky sidebar, hidden on mobile
 ---
 
-<nav class="toc" id="toc" aria-label="Table of contents">
+<nav class="toc" aria-label="Table of contents">
   <span class="toc-label">Chapters</span>
-  <div id="toc-tree"></div>
+  <div class="toc-tree"></div>
 </nav>
 
 <style is:global>
   .toc {
     position: sticky;
     top: 80px;
+    padding-left: 24px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    scrollbar-width: none;
+    overscroll-behavior: contain;
+    contain: layout paint;
+  }
+
+  .toc::-webkit-scrollbar {
+    display: none;
   }
 
   .toc-label {
     display: block;
-    font-size: 0.7rem;
+    font-size: 0.78rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -34,7 +44,7 @@
     align-items: center;
     gap: 5px;
     padding: 5px 0;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     line-height: 1.4;
     color: var(--text-tertiary);
     text-decoration: none;
@@ -96,7 +106,7 @@
   .toc-children a {
     display: block;
     padding: 3px 0;
-    font-size: 0.73rem;
+    font-size: 0.82rem;
     line-height: 1.45;
     color: var(--text-tertiary);
     text-decoration: none;
@@ -116,166 +126,176 @@
       display: none;
     }
   }
+
+  /* Show TOC in mobile inline container */
+  .toc-mobile .toc {
+    display: block !important;
+  }
 </style>
 
 <script is:inline>
   (function() {
-    function buildTOC() {
+    function buildAllTOCs() {
       var noteBody = document.querySelector('.note-body');
-      var tocTree = document.getElementById('toc-tree');
-      var tocNav = document.getElementById('toc');
-      var sidebar = document.querySelector('.note-sidebar');
-      if (!noteBody || !tocTree || !tocNav) return;
+      if (!noteBody) return;
 
       var headings = noteBody.querySelectorAll('h2, h3');
-      if (headings.length === 0) {
-        tocNav.style.display = 'none';
-        if (sidebar) sidebar.style.display = 'none';
+
+      // Process each TOC instance
+      document.querySelectorAll('.toc').forEach(function(tocNav) {
+        var tocTree = tocNav.querySelector('.toc-tree');
+        if (!tocTree) return;
+
+        var sidebar = tocNav.closest('.note-sidebar');
+
+        if (headings.length <= 1) {
+          tocNav.style.display = 'none';
+          if (sidebar) sidebar.style.display = 'none';
+          var layout = document.querySelector('.note-layout');
+          if (layout) layout.classList.add('no-toc');
+          return;
+        }
+
+        tocNav.style.display = '';
+        if (sidebar) sidebar.style.display = '';
         var layout = document.querySelector('.note-layout');
-        if (layout) layout.style.gridTemplateColumns = '1fr';
-        return;
-      }
+        if (layout) layout.classList.remove('no-toc');
 
-      if (sidebar) sidebar.style.display = '';
-      var layout = document.querySelector('.note-layout');
-      if (layout) layout.style.gridTemplateColumns = '';
-      tocNav.style.display = '';
-
-      headings.forEach(function(h, i) {
-        if (!h.id) {
-          h.id = 's-' + i;
-        }
-      });
-
-      var groups = [];
-      var currentGroup = null;
-      headings.forEach(function(h) {
-        if (h.tagName === 'H2') {
-          currentGroup = { h2: h, h3s: [] };
-          groups.push(currentGroup);
-        } else if (h.tagName === 'H3' && currentGroup) {
-          currentGroup.h3s.push(h);
-        }
-      });
-
-      tocTree.innerHTML = '';
-      var allLinks = [];
-
-      groups.forEach(function(group) {
-        var hasChildren = group.h3s.length > 0;
-        var div = document.createElement('div');
-        div.className = 'toc-group';
-
-        var btn = document.createElement('button');
-        btn.className = 'toc-chapter' + (hasChildren ? ' has-children' : '');
-        btn.dataset.headingId = group.h2.id;
-
-        var chevron = document.createElement('span');
-        chevron.className = 'chevron';
-        chevron.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
-
-        var label = document.createElement('span');
-        label.className = 'label';
-        label.textContent = group.h2.textContent.trim();
-
-        btn.appendChild(chevron);
-        btn.appendChild(label);
-        div.appendChild(btn);
-        allLinks.push({ el: btn, headingId: group.h2.id });
-
-        var ul = null;
-        if (hasChildren) {
-          ul = document.createElement('ul');
-          ul.className = 'toc-children';
-
-          group.h3s.forEach(function(h3) {
-            var li = document.createElement('li');
-            var a = document.createElement('a');
-            a.href = '#' + h3.id;
-            a.textContent = h3.textContent.trim();
-            a.dataset.headingId = h3.id;
-            a.addEventListener('click', function(e) {
-              e.preventDefault();
-              h3.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-            li.appendChild(a);
-            ul.appendChild(li);
-            allLinks.push({ el: a, headingId: h3.id });
-          });
-
-          div.appendChild(ul);
-
-          btn.addEventListener('click', function() {
-            var isExpanded = btn.classList.contains('expanded');
-            // Close all
-            tocTree.querySelectorAll('.toc-chapter.expanded').forEach(function(b) {
-              b.classList.remove('expanded');
-              var c = b.parentElement.querySelector('.toc-children');
-              if (c) c.classList.remove('open');
-            });
-            if (!isExpanded) {
-              btn.classList.add('expanded');
-              ul.classList.add('open');
-            }
-            group.h2.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          });
-        } else {
-          btn.addEventListener('click', function() {
-            group.h2.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          });
-        }
-
-        tocTree.appendChild(div);
-      });
-
-      // Scroll highlight + auto-expand
-      var observer = new IntersectionObserver(function(entries) {
-        var currentId = null;
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) currentId = entry.target.id;
-        });
-        if (!currentId) {
-          var closestDist = Infinity;
-          headings.forEach(function(h) {
-            var rect = h.getBoundingClientRect();
-            if (rect.top < 200 && Math.abs(rect.top - 80) < closestDist) {
-              closestDist = Math.abs(rect.top - 80);
-              currentId = h.id;
-            }
-          });
-        }
-
-        allLinks.forEach(function(item) {
-          item.el.classList.toggle('active', item.headingId === currentId);
+        headings.forEach(function(h, i) {
+          if (!h.id) {
+            h.id = 's-' + i;
+          }
         });
 
-        if (currentId) {
-          groups.forEach(function(group) {
-            var chapterBtn = tocTree.querySelector('.toc-chapter[data-heading-id="' + group.h2.id + '"]');
-            var childList = chapterBtn ? chapterBtn.parentElement.querySelector('.toc-children') : null;
-            if (!childList) return;
+        var groups = [];
+        var currentGroup = null;
+        headings.forEach(function(h) {
+          if (h.tagName === 'H2') {
+            currentGroup = { h2: h, h3s: [] };
+            groups.push(currentGroup);
+          } else if (h.tagName === 'H3' && currentGroup) {
+            currentGroup.h3s.push(h);
+          }
+        });
 
-            var isActiveInGroup = (group.h2.id === currentId) || group.h3s.some(function(h3) { return h3.id === currentId; });
-            if (isActiveInGroup && !chapterBtn.classList.contains('expanded')) {
+        tocTree.innerHTML = '';
+        var allLinks = [];
+
+        groups.forEach(function(group) {
+          var hasChildren = group.h3s.length > 0;
+          var div = document.createElement('div');
+          div.className = 'toc-group';
+
+          var btn = document.createElement('button');
+          btn.className = 'toc-chapter' + (hasChildren ? ' has-children' : '');
+          btn.dataset.headingId = group.h2.id;
+
+          var chevron = document.createElement('span');
+          chevron.className = 'chevron';
+          chevron.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+
+          var label = document.createElement('span');
+          label.className = 'label';
+          label.textContent = group.h2.textContent.trim();
+
+          btn.appendChild(chevron);
+          btn.appendChild(label);
+          div.appendChild(btn);
+          allLinks.push({ el: btn, headingId: group.h2.id });
+
+          var ul = null;
+          if (hasChildren) {
+            ul = document.createElement('ul');
+            ul.className = 'toc-children';
+
+            group.h3s.forEach(function(h3) {
+              var li = document.createElement('li');
+              var a = document.createElement('a');
+              a.href = '#' + h3.id;
+              a.textContent = h3.textContent.trim();
+              a.dataset.headingId = h3.id;
+              a.addEventListener('click', function(e) {
+                e.preventDefault();
+                h3.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              });
+              li.appendChild(a);
+              ul.appendChild(li);
+              allLinks.push({ el: a, headingId: h3.id });
+            });
+
+            div.appendChild(ul);
+
+            btn.addEventListener('click', function() {
+              var isExpanded = btn.classList.contains('expanded');
               tocTree.querySelectorAll('.toc-chapter.expanded').forEach(function(b) {
                 b.classList.remove('expanded');
                 var c = b.parentElement.querySelector('.toc-children');
                 if (c) c.classList.remove('open');
               });
-              chapterBtn.classList.add('expanded');
-              childList.classList.add('open');
-            }
-          });
-        }
-      }, { root: null, rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+              if (!isExpanded) {
+                btn.classList.add('expanded');
+                ul.classList.add('open');
+              }
+              group.h2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+          } else {
+            btn.addEventListener('click', function() {
+              group.h2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+          }
 
-      headings.forEach(function(h) { observer.observe(h); });
+          tocTree.appendChild(div);
+        });
+
+        // Scroll highlight + auto-expand
+        var observer = new IntersectionObserver(function(entries) {
+          var currentId = null;
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) currentId = entry.target.id;
+          });
+          if (!currentId) {
+            var closestDist = Infinity;
+            headings.forEach(function(h) {
+              var rect = h.getBoundingClientRect();
+              if (rect.top < 200 && Math.abs(rect.top - 80) < closestDist) {
+                closestDist = Math.abs(rect.top - 80);
+                currentId = h.id;
+              }
+            });
+          }
+
+          allLinks.forEach(function(item) {
+            item.el.classList.toggle('active', item.headingId === currentId);
+          });
+
+          if (currentId) {
+            groups.forEach(function(group) {
+              var chapterBtn = tocTree.querySelector('.toc-chapter[data-heading-id="' + group.h2.id + '"]');
+              var childList = chapterBtn ? chapterBtn.parentElement.querySelector('.toc-children') : null;
+              if (!childList) return;
+
+              var isActiveInGroup = (group.h2.id === currentId) || group.h3s.some(function(h3) { return h3.id === currentId; });
+              if (isActiveInGroup && !chapterBtn.classList.contains('expanded')) {
+                tocTree.querySelectorAll('.toc-chapter.expanded').forEach(function(b) {
+                  b.classList.remove('expanded');
+                  var c = b.parentElement.querySelector('.toc-children');
+                  if (c) c.classList.remove('open');
+                });
+                chapterBtn.classList.add('expanded');
+                childList.classList.add('open');
+              }
+            });
+          }
+        }, { root: null, rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+
+        headings.forEach(function(h) { observer.observe(h); });
+      });
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', buildTOC);
+      document.addEventListener('DOMContentLoaded', buildAllTOCs);
     } else {
-      buildTOC();
+      buildAllTOCs();
     }
   })();
 </script>

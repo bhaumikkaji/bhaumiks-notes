@@ -6,6 +6,7 @@ slug: "agents-vs-sub-agents-should-you-care"
 summary: "The difference between using AI and building with it — when context isolation becomes architecture, not a luxury."
 summaryCompact: "When agents vs sub-agents actually matters."
 description: "A deep dive into agents vs sub-agents using Claude Chat vs Claude Code as the model, with a kitchen metaphor and practical experiments you can try today."
+tldr: "Claude Chat and Claude Code use the same model but serve completely different purposes — one keeps your entire conversation history, the other spins up with just a repo and leaves when done. The real power of sub-agents is context isolation: a research specialist can read ten papers without polluting a writer's draft with GPU specs and citation noise. At scale, this matters — a single agent that has recently debugged Python, planned a trip, and written a LinkedIn post will subtly contaminate every future task with leftover context."
 ---
 
 You don't need to understand plumbing to use a faucet. But when the water turns brown, you are glad someone does.
@@ -28,7 +29,11 @@ Here is a real scenario from my own setup.
 
 I asked my AI to research the state of local LLM inference in 2026, write a summary, and draft a LinkedIn post about it.
 
+![Without sub-agents](/images/notes/agents-vs-sub-agents-should-you-care/1.jpeg)
+
 **Without sub-agents**, my main agent did everything. It searched for benchmarks, read papers, kept all that context, then tried to write. The result was competent but crowded. The draft felt like it had one foot in research mode and one foot in writing mode. The tone shifted mid-paragraph. It cited three different GPU architectures in a post meant to be readable.
+
+![With sub-agents](/images/notes/agents-vs-sub-agents-should-you-care/2.jpeg)
 
 **With sub-agents**, the process splits. A research specialist does the deep dive in its own workspace. It reads ten sources, rates each for credibility, notes contradictions, and returns a structured brief. A writer specialist takes that brief and writes the post. The writer never sees the raw research. It only sees the distilled points. The result is cleaner, faster, and more focused.
 

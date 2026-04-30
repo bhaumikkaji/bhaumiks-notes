@@ -6,6 +6,7 @@ slug: "ikea-in-india-beginning-of-the-next-generation"
 summary: "What I observed as a designer when I visited IKEA's first store in India."
 summaryCompact: "Designer observations from IKEA's first India store"
 description: "My experience visiting IKEA's first store in Hyderabad, India — observations as a designer about the shopping experience, information design, and cultural adaptation."
+tldr: "Visiting IKEA's first India store in Hyderabad revealed a fascinating tension between global design consistency and local behavioral adaptation. The numbered product system and self-service map worked brilliantly for attentive shoppers but clashed with Indian shopping culture where families shop together, queuing is uncommon, and the restaurant became the primary attraction. As a designer, I observed both masterful information hierarchy in the price tags and missed opportunities in understanding how Indian consumers actually navigate retail spaces."
 ---
 
 ![Electric Auto-Rickshaws for Delivery](/images/notes/ikea/1_7MQAMkFCbcb6m4QTSloThA.webp)

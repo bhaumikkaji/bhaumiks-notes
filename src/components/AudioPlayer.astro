@@ -1,0 +1,194 @@
+---
+// AudioPlayer.astro — compact inline audio widget
+// Used inside TL;DR sections for voice narration
+---
+
+<div class="audio-widget" data-audio-url={Astro.props.src}>
+  <button class="audio-btn" aria-label="Play" type="button">
+    <svg class="audio-icon play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    <svg class="audio-icon pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+  </button>
+
+  <div class="audio-track">
+    <div class="audio-bar-wrap">
+      <div class="audio-bar"><div class="audio-bar-fill"></div></div>
+    </div>
+    <span class="audio-time">0:00 / 0:00</span>
+  </div>
+
+  <button class="audio-speed" aria-label="Playback speed" type="button">1x</button>
+</div>
+
+<style is:global>
+  .audio-widget {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    margin: 0.6em 0;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--text-tertiary) 6%, transparent);
+    font-family: inherit;
+  }
+
+  .audio-btn {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: var(--accent);
+    color: var(--bg);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.15s ease;
+    padding: 0;
+  }
+
+  .audio-btn:hover { opacity: 0.85; }
+  .audio-btn:active { transform: scale(0.96); }
+
+  .audio-track {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .audio-bar-wrap {
+    flex: 1;
+    min-width: 0;
+    cursor: pointer;
+    padding: 4px 0;
+  }
+
+  .audio-bar {
+    height: 4px;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--text-tertiary) 20%, transparent);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .audio-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 2px;
+    background: var(--accent);
+    transition: width 0.1s linear;
+  }
+
+  .audio-time {
+    font-size: calc(0.65rem * var(--font-size-scale, 1));
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+    min-width: 52px;
+    text-align: right;
+  }
+
+  .audio-speed {
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-tertiary);
+    cursor: pointer;
+    font-size: calc(0.65rem * var(--font-size-scale, 1));
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-family: inherit;
+    transition: all 0.12s ease;
+    min-width: 36px;
+    text-align: center;
+  }
+
+  .audio-speed:hover {
+    color: var(--accent);
+    border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+    background: color-mix(in srgb, var(--accent) 6%, var(--bg));
+  }
+</style>
+
+<script is:inline>
+(function() {
+  var SPEEDS = [0.5, 1, 1.5, 2];
+
+  function fmt(s) {
+    if (!isFinite(s)) return '0:00';
+    var m = Math.floor(s / 60);
+    var sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+
+  function initAudioWidget(el) {
+    var url = el.dataset.audioUrl;
+    if (!url) return;
+
+    var btn = el.querySelector('.audio-btn');
+    var playIcon = btn.querySelector('.play');
+    var pauseIcon = btn.querySelector('.pause');
+    var barWrap = el.querySelector('.audio-bar-wrap');
+    var barFill = el.querySelector('.audio-bar-fill');
+    var timeEl = el.querySelector('.audio-time');
+    var speedBtn = el.querySelector('.audio-speed');
+
+    var audio = new Audio(url);
+    audio.preload = 'metadata';
+
+    var speedIdx = 1;
+    speedBtn.textContent = SPEEDS[speedIdx] + 'x';
+    var isComplete = false;
+
+    function setState(state) {
+      playIcon.style.display = state === 'paused' ? 'block' : 'none';
+      pauseIcon.style.display = state === 'playing' ? 'block' : 'none';
+    }
+
+    btn.addEventListener('click', function() {
+      if (isComplete) { audio.currentTime = 0; isComplete = false; }
+      if (audio.paused) { audio.play(); setState('playing'); }
+      else { audio.pause(); setState('paused'); }
+    });
+
+    audio.addEventListener('timeupdate', function() {
+      if (audio.duration) {
+        barFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+        timeEl.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
+      }
+    });
+
+    audio.addEventListener('loadedmetadata', function() {
+      timeEl.textContent = '0:00 / ' + fmt(audio.duration);
+    });
+
+    audio.addEventListener('ended', function() {
+      isComplete = true;
+      setState('paused');
+      barFill.style.width = '100%';
+    });
+
+    barWrap.addEventListener('click', function(e) {
+      var rect = barWrap.getBoundingClientRect();
+      var ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      if (audio.duration) {
+        audio.currentTime = ratio * audio.duration;
+        if (audio.paused && !isComplete) { audio.play(); setState('playing'); }
+      }
+    });
+
+    speedBtn.addEventListener('click', function() {
+      speedIdx = (speedIdx + 1) % SPEEDS.length;
+      var ns = SPEEDS[speedIdx];
+      audio.playbackRate = ns;
+      speedBtn.textContent = ns + 'x';
+    });
+  }
+
+  document.querySelectorAll('.audio-widget').forEach(initAudioWidget);
+})();
+</script>

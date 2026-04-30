@@ -19,9 +19,11 @@ const relatedNotes = allNotes
   .filter((n) => n.data.slug !== note.data.slug)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 4);
+const audioPath = `/audio/${note.data.slug}.mp3`;
+
 ---
 
-<NoteLayout title={note.data.title} description={note.data.description} category={note.data.category} slug={note.data.slug}>
+<NoteLayout title={note.data.title} description={note.data.description} category={note.data.category} slug={note.data.slug} tldr={note.data.tldr} audio={audioPath}>
   <Content />
   <ReadMore notes={relatedNotes} />
 </NoteLayout>

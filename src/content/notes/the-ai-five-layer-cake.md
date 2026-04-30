@@ -3,20 +3,13 @@ title: "The AI 5-Layer Cake"
 pubDate: 2026-04-21
 category: ["AI", "OpenClaw"]
 slug: "the-ai-five-layer-cake"
-summary: "NVIDIA CEO Jensen Huang’s framework — what happens when you bake the whole AI stack yourself instead of renting a slice."
-summaryCompact: "NVIDIA CEO Jensen Huang’s framework — what happens when you bake the whole AI stack yourself instead of renting a slice."
-description: "NVIDIA CEO Jensen Huang’s framework — what happens when you bake the whole AI stack yourself instead of renting a slice."
+summary: "NVIDIA CEO Jensen Huang's framework — what happens when you bake the whole AI stack yourself instead of renting a slice."
+summaryCompact: "NVIDIA CEO Jensen Huang's framework — what happens when you bake the whole AI stack yourself instead of renting a slice."
+description: "NVIDIA CEO Jensen Huang's framework — what happens when you bake the whole AI stack yourself instead of renting a slice."
+tldr: "Jensen Huang's AI stack — Energy, Chips, Infrastructure, Models, Applications — is usually discussed in trillion-dollar data center terms, but the same framework reveals exactly where personal AI setups bleed money and lose freedom. Running six agents on a Mac Mini M4 at 15W ($1.40/month in electricity) versus renting through Claude or ChatGPT exposes the real cost of letting one company own the whole stack: you pay hidden margins on every layer and cannot leave because they own your workflow, your prompts, and your data. The composable alternative — owning your application layer in OpenClaw, mixing local inference (60% of workload at $0) with cloud APIs only when needed — cuts costs by 77% while giving you model portability and data sovereignty that no closed platform can match."
 ---
 
 Not sponsored. I run OpenClaw on a Mac Mini M4 with 6 agents, 24/7. These are real numbers from April 2026.
-
-### LinkedIn Post
-
-> NVIDIA CEO Jensen Huang’s 5-layer AI cake (Energy → Chips → Infrastructure → Models → Applications) is one of the most useful mental models I’ve found for understanding where AI actually lives.
-
-It helped me see the whole stack clearly. And it got me thinking: what happens when you don’t rent a slice, but bake the whole thing yourself?
-
-I wrote about what that looks like in practice.
 
 ## The Premise
 
@@ -62,7 +55,7 @@ Never let the model provider own your application.
 
 ## The Math
 
-Here is what 6 agents running 24/7 actually costs: 
+Here is what 6 agents running 24/7 actually costs:
 
 ![](/images/notes/ai-five-layer-cake/img3.jpeg)
 

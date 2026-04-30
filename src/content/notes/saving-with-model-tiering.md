@@ -6,6 +6,7 @@ slug: "saving-with-model-tiering"
 summary: "How we cut our AI bill without making agents less capable — model tiering, token optimization, and call frequency."
 summaryCompact: "How we cut our AI bill without making agents less capable — model tiering, token optimization, and call frequency."
 description: "How we cut our AI bill without making agents less capable — model tiering, token optimization, and call frequency."
+tldr: "Running six agents with heartbeats every 30 minutes and daily cron jobs hit Anthropic's usage cap twice in one month — the default of 'always use the smartest model' doesn't scale. The fix is three levers: model tiering, where GLM 5.1 handles routine summarization at 3-5x cheaper rates while Sonnet and GPT-5.4 serve as fallbacks for complex reasoning; token optimization, trimming context so you're not paying for 10,000 tokens of workspace files on every single message; and call frequency, questioning whether every agent really needs to check in every 30 minutes. The result was a significantly lower bill with zero loss in actual capability."
 ---
 
 Most people pick the smartest model and call it a day. When you’re running one chatbot, that works fine.

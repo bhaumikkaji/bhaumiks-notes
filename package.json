@@ -12,7 +12,8 @@
   "dependencies": {
     "@chenglou/pretext": "^0.0.5",
     "astro": "^6.1.8",
-    "lucide-static": "^1.8.0"
+    "lucide-static": "^1.8.0",
+    "microsoft-cognitiveservices-speech-sdk": "^1.49.0"
   },
   "devDependencies": {
     "typescript": "^5.7.0"

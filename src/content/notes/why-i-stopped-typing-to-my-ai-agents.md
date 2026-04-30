@@ -6,9 +6,8 @@ slug: "why-i-stopped-typing-to-my-ai-agents"
 summary: "Switching from typing to voice for AI interaction changed how I build context and get better results."
 summaryCompact: "Why voice input beats typing for AI agents."
 description: "Why I stopped typing to my AI agents — using voice to build context naturally and get better results from LLMs."
+tldr: "Switching from typing to voice input fundamentally changed how I build context with AI agents — not because dictation is faster, but because voice naturally produces richer, more textured prompts without the friction of composition. The key insight is that LLMs perform best with more words and more context, not with beautifully structured prompts; voice delivers that effortlessly. The secondary lesson is 'plan first, command second' — build the full picture through conversation before letting an agent execute, something voice makes natural and typing makes a chore."
 ---
-
-![Voice interface for AI agents](/images/notes/wisprflow/article-1.jpeg)
 
 Who is still typing to their AI agents? And if you are — why?
 
@@ -31,3 +30,5 @@ I've watched people fire off one long prompt trying to get an agent to execute s
 Voice makes this natural. Typing makes it a chore.
 
 Curious — how many of you have made the switch?
+
+![Voice interface for AI agents](/images/notes/wisprflow/article-1.jpeg)

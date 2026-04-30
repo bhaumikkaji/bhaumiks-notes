@@ -6,6 +6,7 @@ slug: "how-i-gave-my-ai-setup-real-memory"
 summary: "A technical walkthrough of two layers that turn a stateless AI assistant into a compounding knowledge system."
 summaryCompact: "Turning a stateless AI into a compounding knowledge system."
 description: "How I gave my AI setup a real memory — Lossless Claw for session memory and Obsidian Knowledge Wiki for persistent knowledge."
+tldr: "Running six specialized agents 24/7 revealed two hard limits of LLMs: conversations degrade once they hit context limits, and every session starts from zero with no memory of yesterday's insights. I fixed both with Lossless Claw, which compresses older conversation turns into structured summaries so context never silently drops, and an Obsidian Knowledge Wiki where agents incrementally compile persistent knowledge following a shared schema. The result is agents that remember your preferences from last week and can connect insights across months instead of re-deriving everything from scratch."
 ---
 
 Most AI setups are stateless by default. Every session starts fresh. Every insight evaporates. You're perpetually re-explaining context, re-deriving conclusions, and re-discovering things you already figured out last week.

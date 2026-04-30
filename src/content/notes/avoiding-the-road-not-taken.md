@@ -1,28 +1,13 @@
 ---
-title: "Avoiding the Road Not Taken"
+title: "Avoiding the road not taken - my OpenClaw setup journey"
 pubDate: 2026-04-14
 category: ["AI", "OpenClaw"]
 slug: "avoiding-the-road-not-taken"
 summary: "My OpenClaw setup journey — why I chose Mac mini over WSL2 and what security actually means for personal AI agents."
 summaryCompact: "My OpenClaw setup journey — why I chose Mac mini over WSL2 and what security actually means for personal AI agents."
 description: "My OpenClaw setup journey — why I chose Mac mini over WSL2 and what security actually means for personal AI agents."
+tldr: "I tried WSL2 on a remote Windows desktop first — it worked, but the security boundaries were blurry and debugging meant guessing whether the issue was Windows, WSL2, Ubuntu, or OpenClaw. Switching to a dedicated Mac Mini with a separate standard user account gave me clean access controls, working GUI tools, and an environment I could actually reason about. The simpler setup won not because it had more features, but because I could explain to myself exactly what the agent could and couldn't touch."
 ---
-
-Draft workspace for the article about WSL2 vs Mac mini and the security/deployment tradeoffs.
-
-> Before I set up my personal AI agent, I'd heard the stories.
-
-Agents reading through files they weren't supposed to. Taking actions no one asked for. The kind of thing that makes you think twice before giving software persistent access to your life.
-
-So security was the first thing I figured out, not the last.
-
-I tried two setups. One worked, but I could never clearly explain to myself what the agent could and couldn't access. The other was simpler — and that simplicity turned out to be the point.
-
-A short piece on where to actually run a personal AI agent, and why that decision matters more than most people realise.
-
-
-
-## Avoiding the road not taken - my OpenClaw setup journey,
 
 OpenClaw is open source, which means anyone can look at the code, contribute to it, and also point out when things go wrong. And in the early days, things did go wrong. There were stories floating around of agents getting a bit too comfortable on people's machines — reading through personal documents, taking actions they weren't asked to take, generally behaving like a houseguest who doesn't know where the boundaries are.
 
@@ -32,7 +17,7 @@ So when I decided to try it myself, I went in with one clear priority: figure ou
 
 An agent that runs persistently on your machine can access your files, your calendar, your messages. That's exactly what makes it useful. It's also exactly why the setup decisions matter. I ended up exploring two different routes before landing on something I felt good about.
 
-### Route One: Windows with WSL2
+## Route One: Windows with WSL2
 
 I had a spare Windows desktop, so I started there. Someone pointed me toward WSL2, which stands for Windows Subsystem for Linux. In plain terms: it lets you run a Linux environment inside Windows without needing a separate machine. Think of it as a Linux computer living inside your Windows PC. I went with Ubuntu, which is one of the more beginner-friendly Linux distributions.
 
@@ -50,7 +35,7 @@ It worked. But it was slow, and every time something broke I had to figure out w
 
 I never quite felt confident about the security boundaries either. WSL2 is designed to share access between Windows and Linux in ways that make sense for developers but felt blurry for what I was trying to do. I wanted clean lines around what the agent could and couldn't touch. That's harder to achieve when the underlying system is intentionally porous.
 
-### Route Two: Mac Mini
+## Route Two: Mac Mini
 
 Eventually I did what a lot of people in this space seem to do: bought a Mac Mini. The 16GB M-series model. It's small, quiet, runs cool, and costs less than you'd expect for something you can leave on 24/7. It sits in a corner now and runs OpenClaw. That's its job.
 
@@ -68,7 +53,7 @@ OpenClaw also has a built-in security audit feature that scans your configuratio
 
 ![](/images/notes/openclaw-security/img4.jpeg)
 
-### So Which One?
+## So Which One?
 
 If you have a spare Windows machine and you're comfortable working in a terminal, WSL2 is a reasonable route. It's not a dead end. But go in knowing it takes time and patience to get right, and the security model requires more intentional work.
 
@@ -76,7 +61,7 @@ If you want something that mostly just works and you don't want to spend weekend
 
 What I'd skip: installing OpenClaw directly on a machine you use for other things, gaming, work, personal browsing, without any account separation. Shared machines make it harder to define what the agent can and can't access. That clarity is worth the small extra effort to set up.
 
-### What I Took From This
+## What I Took From This
 
 I went into both setups thinking about security, but I didn't have a clear picture of what that actually meant until I tried to build it. The WSL2 route made me realise that a setup you can't easily explain to yourself is a setup you're going to have trouble trusting. The Mac Mini route gave me something simpler to reason about. 
 

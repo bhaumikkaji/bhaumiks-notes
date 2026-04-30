@@ -7,7 +7,8 @@ const fonts = [
   { id: 'lora', label: 'Lora', family: "'Lora', Georgia, serif" },
   { id: 'ibm-plex', label: 'IBM Plex', family: "'IBM Plex Sans', system-ui, sans-serif" },
   { id: 'geist', label: 'Geist', family: "'Geist', 'Inter', system-ui, sans-serif" },
-  { id: 'chakra-petch', label: 'Chakra Petch', family: "'Chakra Petch', sans-serif" },
+  { id: 'space-grotesk', label: 'Space Grotesk', family: "'Space Grotesk', system-ui, sans-serif" },
+  { id: 'dm-sans', label: 'DM Sans', family: "'DM Sans', system-ui, sans-serif" },
 ];
 
 const fontSizes = [
@@ -88,21 +89,21 @@ const modes = [
 
   .personalize-trigger :global(svg) {
     display: block;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
   }
 
   /* Panel */
   .personalize-panel {
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% + 10px);
     right: 0;
     background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    width: 240px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.06);
+    border-radius: 16px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08);
     opacity: 0;
     transform: translateY(-4px);
     pointer-events: none;
@@ -117,7 +118,7 @@ const modes = [
   }
 
   .panel-section {
-    margin-bottom: 14px;
+    margin-bottom: 18px;
   }
 
   .panel-section:last-child {
@@ -126,12 +127,12 @@ const modes = [
 
   .section-label {
     display: block;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--text-tertiary);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
   /* Segmented control */
@@ -145,13 +146,13 @@ const modes = [
 
   .seg-btn {
     flex: 1;
-    padding: 6px 4px;
+    padding: 10px 8px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     background: transparent;
     color: var(--text-tertiary);
     cursor: pointer;
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     font-weight: 500;
     transition: all 0.15s ease;
     font-family: inherit;
@@ -184,13 +185,13 @@ const modes = [
     display: block;
     width: 100%;
     text-align: left;
-    padding: 6px 10px;
+    padding: 10px 14px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     background: transparent;
     color: var(--text-secondary);
     cursor: pointer;
-    font-size: 0.85rem;
+    font-size: 1rem;
     transition: all 0.12s ease;
   }
 
@@ -218,14 +219,15 @@ const modes = [
     'lora': "'Lora', Georgia, serif",
     'ibm-plex': "'IBM Plex Sans', system-ui, sans-serif",
     'geist': "'Geist', 'Inter', system-ui, sans-serif",
-    'chakra-petch': "'Chakra Petch', sans-serif",
+    'space-grotesk': "'Space Grotesk', system-ui, sans-serif",
+    'dm-sans': "'DM Sans', system-ui, sans-serif",
   };
 
   const fontSizes = {
-    small:  { scale: '1' },
-    medium: { scale: '1.15' },
-    large:  { scale: '1.3' },
-    xlarge: { scale: '1.45' },
+    small:  { scale: '1.15' },
+    medium: { scale: '1.3' },
+    large:  { scale: '1.45' },
+    xlarge: { scale: '1.6' },
   };
 
   function applyMode(mode) {
@@ -237,6 +239,18 @@ const modes = [
     r.setProperty('--accent-gradient-from', c.accent);
     r.setProperty('--accent-gradient-to', c.accentHover);
     document.documentElement.setAttribute('data-mode', mode);
+
+    const themeColor = mode === 'dark' ? '#111111' : (mode === 'sepia' ? '#F2DCD0' : '#fafafa');
+    const meta = document.getElementById('theme-color-meta');
+    if (meta) {
+      meta.remove();
+      const newMeta = document.createElement('meta');
+      newMeta.setAttribute('name', 'theme-color');
+      newMeta.setAttribute('content', themeColor);
+      document.head.prepend(newMeta);
+    }
+    const schemeMeta = document.getElementById('color-scheme-meta');
+    if (schemeMeta) schemeMeta.setAttribute('content', mode === 'dark' ? 'dark' : 'light');
 
     if (mode === 'dark') {
       r.setProperty('--bg', '#111111'); r.setProperty('--bg-rgb', '17,17,17');
