@@ -31,6 +31,10 @@ function parseFrontmatter(content) {
     }
   }
   
+  // Parse title
+  const titleMatch = frontmatter.match(/title:\s*["'](.+?)["']\s*(?:\n|$)/);
+  if (titleMatch) data.title = titleMatch[1];
+  
   // Parse slug
   const slugMatch = frontmatter.match(/slug:\s*["']?(.+?)["']?\s*(?:\n|$)/);
   if (slugMatch) data.slug = slugMatch[1];
@@ -110,7 +114,9 @@ async function main() {
     }
     
     try {
-      await generateAudio(slug, tldr);
+      const announcement = `${data.title}. This is the TLDR version.`;
+      const fullText = `${announcement} ${tldr}`;
+      await generateAudio(slug, fullText);
     } catch (error) {
       console.error(`  ✗ Failed: ${slug} — ${error.message}`);
     }
