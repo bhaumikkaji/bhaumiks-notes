@@ -9,6 +9,8 @@ description: "How I designed a multi-purpose workplace at home — my journey an
 tldr: "When COVID-19 turned homes into offices, I turned an extra room into a 7ft multi-purpose workspace designed around four core principles: multi-purpose, scalable across Mac and Windows, multi-tasking through screen real estate, and strict minimalism from colors to cables. The result is a four-screen setup that handles video conferencing, UX design in Figma, console gaming on a PS4 Pro, and photo editing in Lightroom — all from one desk with clean cable management and no server-room aesthetic."
 ---
 
+![How I designed a multi-purpose workplace at home](/images/notes/workspace/workspace-01.webp)
+
 In my recent staycation, I decided to take a project of setting up my new workspace at home.
 
 In this article, I am sharing my journey and decisions on how I went about creating a minimalistic future-proof computer desk setup. I will share some recommendations and indicate what to look for if you are also thinking about doing the same for yourself.
@@ -36,7 +38,7 @@ As a designer and a tech-savvy individual, I consciously had some principles in 
 
 ### Work: Video Conferencing
 
-![Screen one is showing a presentation and screen two is showing an online meeting.](/images/notes/workspace/1_2iBZhTLhViVC1ZahnQyzCw.webp)
+![Screen one is showing a presentation and screen two is showing an online meeting.](/images/notes/workspace/workspace-02.webp)
 
 One of the biggest motivations for me to setup my new workspace was to have the ability to multitask while I am in an online meeting.
 
@@ -46,7 +48,7 @@ This new setup gives me good focus. As one screen is dedicated for meeting and c
 
 ### Work: Designing
 
-![Screen one is showing a design systems documentation and screen two is showing a design being worked on in Figma.](/images/notes/workspace/1_FROvQNnuxF9pt2lCKffFhw.webp)
+![Screen one is showing a design systems documentation and screen two is showing a design being worked on in Figma.](/images/notes/workspace/workspace-03.webp)
 
 As my day job as a UX designer, the increase in the screen real estate makes a lot of difference.
 
@@ -58,7 +60,7 @@ I have started working now with a mouse, which is a minor hurdle as I was more c
 
 ### Gaming
 
-![Screen one is showing the YouTube gaming website on a web browser running on my MacBook and screen two is showing a PS4 homepage.](/images/notes/workspace/1_G3gTy5KKQl60FClFVGpsFQ.webp)
+![Screen one is showing the YouTube gaming website on a web browser running on my MacBook and screen two is showing a PS4 homepage.](/images/notes/workspace/workspace-04.webp)
 
 I am a console gamer. I have setup my PS4 Pro as a secondary input to my second screen.
 
@@ -66,7 +68,7 @@ With this setup I enjoy playing all the games in 4K HDR and still have one more 
 
 ### Photo Editing
 
-![Screen one is showing the folder of images and screen two is showing the image being edited on Adobe Lightroom.](/images/notes/workspace/1_Js-9u1lNzEvUqVrAsy06SQ.webp)
+![Screen one is showing the folder of images and screen two is showing the image being edited on Adobe Lightroom.](/images/notes/workspace/workspace-05.webp)
 
 As a hobbyist photographer, in my workflow, photo editing is an important part of the process to develop the final photo.
 
@@ -78,7 +80,7 @@ If you are serious about photography and photo editing, also invest in a good pr
 
 ### Video Production
 
-![Screen one showing a tutorial video played on YouTube and screen two is showing the video being made on Adobe After effects.](/images/notes/workspace/1_KEX9JilHgCFahFwoOq6M5w.webp)
+![Screen one showing a tutorial video played on YouTube and screen two is showing the video being made on Adobe After effects.](/images/notes/workspace/workspace-06.webp)
 
 Along with being a UX designer, I am also a Motion designer.
 
@@ -98,7 +100,7 @@ For Writing, have good access to natural light in the room and have a flat desk 
 
 ### Entertainment
 
-![Screen one is showing Netflix in Fullscreen and screen two is showing Spotify in Fullscreen mode.](/images/notes/workspace/1_NlYdp-SNw-U5aan94kh5WQ.webp)
+![Screen one is showing Netflix in Fullscreen and screen two is showing Spotify in Fullscreen mode.](/images/notes/workspace/workspace-07.webp)
 
 As a music lover and a Spotify fanboy, I always have Spotify open in the background in one of my screens.
 
@@ -108,7 +110,7 @@ For a future proof, and a great movies/entertainment experience in your workspac
 
 ### The Screens
 
-![Two LG 27-inch monitors](/images/notes/workspace/1_QuXx5Yw_7EdYllIyArYmGQ.webp)
+![Two LG 27-inch monitors](/images/notes/workspace/workspace-08.webp)
 
 I can't stress enough but say, a good screen/monitor changes everything in a setup. That the only thing that you visually interact the most while using a computer.
 
@@ -123,7 +125,7 @@ As a gamer and professional working heavily on visuals and videos, I also consid
 
 ### So, why Dual screen?
 
-![Dual monitor setup](/images/notes/workspace/1_UCCSjkCQO09ngeqr9TjxaA.webp)
+![Dual monitor setup](/images/notes/workspace/workspace-09.webp)
 
 Let me start by saying that yes, this is an unconventional look. As a usual setup and as a designer a dual monitor setup might seem like an overkill.
 
@@ -139,7 +141,7 @@ I was ideally looking for a single 21:9 aspect ratio display, but then I couldn'
 
 ### Why I use an external display stand?
 
-![Monitor arm stand](/images/notes/workspace/1_XL3V7trHSgRPT_BGi8unYg.webp)
+![Monitor arm stand](/images/notes/workspace/workspace-10.webp)
 
 I picked up Rife desk mount dual monitor stands and arms to fix my monitors to. This stand makes your screens have no legs.
 
@@ -158,7 +160,7 @@ Cons:
 
 ### Simplifying the Peripherals setup
 
-![MacBook Pro dongles](/images/notes/workspace/1_btkxhxAQGzrelo7osy4wYA.webp)
+![MacBook Pro dongles](/images/notes/workspace/workspace-11.webp)
 
 *Image source: AppleInsider*
 
@@ -170,7 +172,7 @@ Having a thunderbolt port makes so much sense for a desktop setup.
 
 ### Why I use a separate docking station?
 
-![Dell docking station](/images/notes/workspace/1_i3altNh43lxvzoohgHWBLA.webp)
+![Dell docking station](/images/notes/workspace/workspace-12.webp)
 
 Motherboards serve the purpose of bridging multiple devices such as monitors, storage, power supply, processor, memory, graphic card, and other peripherals. A docking station is a tiny motherboard that connects to a laptop/MacBook and converts it into a desktop using a single cable with thunderbolt USB-C port connection.
 
@@ -200,7 +202,7 @@ You can find cheaper alternatives too for a docking station. But I was intrigued
 
 ### Keyboard
 
-![Logitech K480 keyboard](/images/notes/workspace/1_jaRa-rRg3gI_XiMhxpY9qg.webp)
+![Logitech K480 keyboard](/images/notes/workspace/workspace-13.webp)
 
 *Image source: Techspot*
 
@@ -219,7 +221,7 @@ Cons:
 
 ### Mouse
 
-![Logitech MX Anywhere 2 mouse](/images/notes/workspace/1_jyMj_kr7WNlPbc3cmB4zAQ.webp)
+![Logitech MX Anywhere 2 mouse](/images/notes/workspace/workspace-14.webp)
 
 *Image source: Amazon*
 
@@ -239,15 +241,13 @@ Cons:
 
 ## Crafting the character of the workspace
 
-![Workspace with mood lighting](/images/notes/workspace/1_kWTkJF_vxu1LAPLphuJB8A.webp)
+![Workspace with mood lighting](/images/notes/workspace/workspace-15.webp)
 
 I went with a strict monochromatic black and white aesthetics for the setup.
 
 I added the dramatic mood lighting to the space that you typically find with the gaming setups. The only other colours that I allowed where chrome and certain shades of grey for various devices that I couldn't find them in black.
 
 ### Desk and Chair
-
-![Desk setup](/images/notes/workspace/1_lGSWreA8iDiXNdthZUyMbg.webp)
 
 I really wanted a desk with a natural wood finish on the top. But it was difficult to find one due to pandemic lockdowns. Finally, I found a decent industrial desk with all black finish on Amazon. Find a desk at least with depth/width of 20-inch if you want a comfortable desk area to put things and use it for diverse desk needs.
 
@@ -257,7 +257,7 @@ After display, the next thing you shouldn't compromise on is a chair. A good erg
 
 ### Lighting
 
-![LIFX app screenshots](/images/notes/workspace/1_m9ZJHFji0Me4dD7YmkK8ig.webp)
+![LIFX app screenshots](/images/notes/workspace/workspace-16.webp)
 
 *Screenshots from the LIFX App*
 
@@ -271,7 +271,7 @@ I love their app and their control system for lighting.
 
 ### Cable Management
 
-![Cable management](/images/notes/workspace/1_p4fT8GVmE0GPu0D0w50RpA.webp)
+![Cable management](/images/notes/workspace/workspace-18.webp)
 
 *Image Source: Pinterest*
 
@@ -279,7 +279,7 @@ One of the stressful parts of the process was to be able to conceal all the cabl
 
 I applied a simple formula for my setup. If the device was wired, hide the wire and if the device was wireless, it should be shown on the desk with all its glory.
 
-![Cable management detail](/images/notes/workspace/1_wDCuUFZpFQzgnWA0ghNihw.webp)
+![Cable management detail](/images/notes/workspace/workspace-17.webp)
 
 This helped me keep things tidy and get the illusion of future to work. Isn't minimalism all about clearing up the clutter. 🙂
 
@@ -295,7 +295,7 @@ I had exciting time learning about the computer hardware and the recent technolo
 
 ## So, what's next?
 
-![Gaming rig](/images/notes/workspace/1_1gurMTZCDmxKwJTfzOPAng.webp)
+![Gaming rig](/images/notes/workspace/workspace-19.webp)
 
 *Image Source: Amazon*
 
@@ -305,7 +305,7 @@ All the recommendations and products I have indicated in these articles aren't p
 
 I hope this seeded some ideas if you too were thinking about setting up a workstation for yourself. The future of how we work is really going to change from the aftermath of this pandemic.
 
-![Complete setup](/images/notes/workspace/1_GRiIs-h_f4waYbYKETmQ3g.webp)
+![Complete setup](/images/notes/workspace/workspace-20.webp)
 
 Here is the complete setup…
 

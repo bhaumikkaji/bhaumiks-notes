@@ -9,7 +9,7 @@ description: "My experience visiting IKEA's first store in Hyderabad, India — 
 tldr: "Visiting IKEA's first India store in Hyderabad revealed a fascinating tension between global design consistency and local behavioral adaptation. The numbered product system and self-service map worked brilliantly for attentive shoppers but clashed with Indian shopping culture where families shop together, queuing is uncommon, and the restaurant became the primary attraction. As a designer, I observed both masterful information hierarchy in the price tags and missed opportunities in understanding how Indian consumers actually navigate retail spaces."
 ---
 
-![Electric Auto-Rickshaws for Delivery](/images/notes/ikea/1_7MQAMkFCbcb6m4QTSloThA.webp)
+![IKEA cover](/images/notes/ikea/ikea-01.webp)
 
 *Electric Auto-Rickshaws for Delivery. Image Source: Curbed*
 
@@ -19,7 +19,7 @@ When IKEA was opening, it was the buzz of the town and everyone I knew was eager
 
 But when the store opened, The whole city and people from all around india turned up to the grand opening. It was insane! 😱
 
-![IKEA grand opening crowd](/images/notes/ikea/1_7Q4cjDc9gPhZqiLJWfDvcg.webp)
+![IKEA grand opening crowd](/images/notes/ikea/ikea-02.webp)
 
 My colleague shared this picture over the office group
 
@@ -29,13 +29,7 @@ But this made me realize the power of the brand and what it carries. Along with 
 
 After some days, I decided to visit the store with my wife and discover this massive Indian IKEA experience. What follows is the story of my experience at the store and some observations I picked up as a Designer.
 
-![IKEA store exterior](/images/notes/ikea/1_B3in6Ux-ePTPSala5aqbNg.webp)
-
-![Inside IKEA](/images/notes/ikea/1_J2YZeLNtynbfGBYCrq7DoQ.webp)
-
-![IKEA entrance](/images/notes/ikea/1_KmJbC8bdTxvCSQdyxGtxaA.webp)
-
-![IKEA map and guide](/images/notes/ikea/1_VYK1Jw7gO3I5V6iso7pVig.webp)
+![IKEA store](/images/notes/ikea/ikea-03.webp)
 
 *Image Source: Wikimedia Commons*
 
@@ -49,19 +43,13 @@ I was writing the product price on a piece of paper for which I would be paying 
 
 ## The Rules of Shopping
 
-![IKEA shopping rules](/images/notes/ikea/1_anow_qvoSxXo02MQe4viUA.webp)
-
 With certain constraints, colors and an extensive Information system, IKEA tries to ensure that the shopping is completed and managed in this massive store. IKEA is designed for the Literates. Its has its own positives and negatives in my opinion.
-
-![IKEA product tag example](/images/notes/ikea/1_c7rIgomRcEL9eELLbwkdkw.webp)
 
 For a normal Indian consumer this can be quite overwhelming and irritating at first. But If you pay a little attention to tiny details around you, that really changes the shopping experience.
 
-![IKEA price tag](/images/notes/ikea/1_eHh_1clTiwcMdTS92-OlBA.webp)
+![IKEA price tag](/images/notes/ikea/ikea-04.webp)
 
 *An example of a typical product price tag.*
-
-![IKEA product information](/images/notes/ikea/1_eTXeLLNg8NyGgTU1jRH4-A.webp)
 
 It took me a while to realize that the product names are immaterial. They are Swedish, I cant spell them or remember them. Also, writing them could be painstaking. But, numbers are easy! A tiny red appendage with each product was something that took care of this information gap and If I wrote bunch of these numbers correctly, my shopping experience was super stress free.
 
@@ -76,7 +64,7 @@ After observing various price tags, I could really appreciate the label design o
 
 ## Lighting up the way!
 
-![IKEA floor signage](/images/notes/ikea/1_pTgjN_tLJ_mqkvD7qV389g.webp)
+![IKEA floor signage](/images/notes/ikea/ikea-05.webp)
 
 *Image Source: HowStuffWorks*
 
@@ -86,9 +74,9 @@ The overhead projection arrow signages a big thumbs up 👍.
 
 ## Recognizing the Creators
 
-![IKEA designer credit](/images/notes/ikea/1_vFoBo_tRwwFsfSbZ5WLoPQ.webp)
-
 IKEA managed to step into India by promising to promote local crafters and giving importance to local manufacturing. This is very much evident in their store's branding and certain aesthetic choices.
+
+![IKEA designer credit](/images/notes/ikea/ikea-06.webp)
 
 *Image Source: TodayOnline*
 
@@ -96,11 +84,11 @@ But, as a designer I was even more delighted to see that certain designs were cr
 
 ## Culturally Familiar
 
-![IKEA Indian food](/images/notes/ikea/1_7Q4cjDc9gPhZqiLJWfDvcg.webp)
+After having a fairly overwhelming shopping experience, finding familiar food was a comfort.
+
+![IKEA Indian food](/images/notes/ikea/ikea-07.webp)
 
 *Image Source: NYTimes*
-
-After having a fairly overwhelming shopping experience, finding familiar food was a comfort.
 
 IKEA reimagined their restaurant menu culturally appropriate to India. With their oxymoron-ish vegetarian swedish meatballs, the food here is really good and priced apt as well. I believe that for a foreign brand to succeed in India, the food needs to be right and culture friendly!
 
@@ -108,7 +96,7 @@ IKEA reimagined their restaurant menu culturally appropriate to India. With thei
 
 I think everyone agrees that they hate to wait in long queues to check out for their shopping. But the discomfort starts even before the waiting. How to find which booth to go?
 
-![IKEA checkout](/images/notes/ikea/1_anow_qvoSxXo02MQe4viUA.webp)
+![IKEA checkout](/images/notes/ikea/ikea-08.webp)
 
 *Image Source: KenHughes.info*
 
@@ -122,7 +110,7 @@ Giving a sense of a quick closure at the end of a long shopping experience, is m
 
 At check-out counters things really start to seem alien! The check-out counter is observably different than the most typical super-market counters.
 
-![IKEA checkout counter](/images/notes/ikea/1_eTXeLLNg8NyGgTU1jRH4-A.webp)
+![IKEA checkout counter](/images/notes/ikea/ikea-09.webp)
 
 *Image Source: Flickr*
 
@@ -134,7 +122,7 @@ I realized packing the items that I had bought was difficult. I was concerned fo
 
 ## Self Assembly
 
-![IKEA instruction manual](/images/notes/ikea/1_eHh_1clTiwcMdTS92-OlBA.webp)
+![IKEA instruction manual](/images/notes/ikea/ikea-10.webp)
 
 *Sample IKEA Instructions. Image Source: Extemporeapp*
 
@@ -148,11 +136,9 @@ I am really looking forward to assemble my own armchair and bookshelf in coming 
 
 ## When a brand visually Mic-drops
 
-![IKEA warehouse](/images/notes/ikea/1_B3in6Ux-ePTPSala5aqbNg.webp)
+![IKEA warehouse](/images/notes/ikea/ikea-11.webp)
 
 Walking through the warehouse at the exit of the store.
-
-![IKEA warehouse aisles](/images/notes/ikea/1_c7rIgomRcEL9eELLbwkdkw.webp)
 
 While exiting the store, you are revealed to the scale of IKEA. The grand design or the belly of the store is witnessed. While walking through the warehouse and making my way to the check out, all I could see were the long aisles of shelves and boxes. It was such a powerful moment, that couldn't help myself imagine all sorts of absurd thoughts. How do they manage this place? How do they get to the top most box on the shelf? What if a box falls on someone? Why are all boxes brown 😬?
 
@@ -160,7 +146,7 @@ But I felt this was an important part of the whole experience. I was much more a
 
 ## In Conclusion
 
-![IKEA India](/images/notes/ikea/1_J2YZeLNtynbfGBYCrq7DoQ.webp)
+![IKEA India](/images/notes/ikea/ikea-12.webp)
 
 *Image Credit: NYTimes*
 
