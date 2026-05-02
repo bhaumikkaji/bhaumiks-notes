@@ -178,29 +178,21 @@ const schema = {
               animatables.push({ type: 'media', el });
             }
           }
-          // Inline decorations — animate their visual styling too
+          // Inline decorations — always animate these
           else if (
             el.tagName === 'STRONG' ||
             el.tagName === 'EM' ||
             el.tagName === 'CODE' ||
             el.tagName === 'A'
           ) {
-            // Only if it has visual styling that would appear instantly
-            const hasVisualStyle =
-              el.tagName === 'CODE' ||
-              el.tagName === 'A' ||
-              window.getComputedStyle(el).fontWeight === '700' ||
-              window.getComputedStyle(el).fontWeight === 'bold';
-            if (hasVisualStyle) {
-              const parentAdded = el.closest('[data-stream]');
-              if (!parentAdded) {
-                el.dataset.stream = 'true';
-                el.style.opacity = '0';
-                el.style.filter = 'blur(6px)';
-                el.style.transition = `opacity ${UNBLUR_DURATION}ms cubic-bezier(0.16,1,0.3,1), filter ${UNBLUR_DURATION}ms cubic-bezier(0.16,1,0.3,1)`;
-                el.style.willChange = 'opacity, filter';
-                animatables.push({ type: 'inline', el });
-              }
+            const parentAdded = el.closest('[data-stream]');
+            if (!parentAdded) {
+              el.dataset.stream = 'true';
+              el.style.opacity = '0';
+              el.style.filter = 'blur(6px)';
+              el.style.transition = `opacity ${UNBLUR_DURATION}ms cubic-bezier(0.16,1,0.3,1), filter ${UNBLUR_DURATION}ms cubic-bezier(0.16,1,0.3,1)`;
+              el.style.willChange = 'opacity, filter';
+              animatables.push({ type: 'inline', el });
             }
           }
         });
