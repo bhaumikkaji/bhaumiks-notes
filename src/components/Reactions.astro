@@ -141,53 +141,71 @@ const reactions = [
       var slug = container.dataset.slug;
       if (!slug) return;
 
-      var STORAGE_KEY = 'bkn-reactions';
-
-      function getStore() {
-        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
-        catch(e) { return {}; }
-      }
-
-      function saveStore(store) {
-        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(store)); }
-        catch(e) {}
-      }
+      var API_BASE = 'https://func-bhaumik-notes.azurewebsites.net/api/reactions';
+      var counts = {};
+      var userVotes = {};
 
       function renderCounts() {
-        var store = getStore();
-        var myReactions = store[slug] || {};
         container.querySelectorAll('.reaction-btn').forEach(function(btn) {
           var id = btn.dataset.reaction;
           if (!id) return;
           var countEl = btn.querySelector('.reaction-count');
-          var isReacted = !!myReactions[id];
+          var isReacted = !!userVotes[id];
+          var count = counts[id] || 0;
 
           btn.classList.toggle('reacted', isReacted);
 
           if (countEl) {
-            countEl.classList.toggle('visible', isReacted);
-            countEl.textContent = isReacted ? '1' : '0';
+            countEl.classList.toggle('visible', count > 0);
+            countEl.textContent = String(count);
           }
         });
       }
 
-      renderCounts();
+      // Load counts from API
+      fetch(API_BASE + '?slug=' + encodeURIComponent(slug))
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          counts = data.counts || {};
+          userVotes = data.userVotes || {};
+          renderCounts();
+        })
+        .catch(function() {
+          // Fallback: silent fail, show empty counts
+          renderCounts();
+        });
 
       container.querySelectorAll('.reaction-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
           var id = btn.dataset.reaction;
           if (!id) return;
-          var store = getStore();
-          if (!store[slug]) store[slug] = {};
 
-          if (store[slug][id]) {
-            delete store[slug][id];
+          // Optimistic UI
+          if (userVotes[id]) {
+            delete userVotes[id];
+            counts[id] = Math.max(0, (counts[id] || 0) - 1);
           } else {
-            store[slug][id] = true;
+            userVotes[id] = true;
+            counts[id] = (counts[id] || 0) + 1;
           }
-
-          saveStore(store);
           renderCounts();
+
+          // Sync with API
+          fetch(API_BASE + '?slug=' + encodeURIComponent(slug), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reaction: id })
+          })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+              counts = data.counts || {};
+              userVotes = data.userVotes || {};
+              renderCounts();
+            })
+            .catch(function() {
+              // Revert on error
+              renderCounts();
+            });
         });
       });
     }

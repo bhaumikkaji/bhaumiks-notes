@@ -43,9 +43,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(image, Astro.site).href} />
 
-    <!-- RSS -->
-    <link rel="alternate" type="application/rss+xml" title="Bhaumik's Notes" href="/feed.xml" />
-
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -457,10 +454,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       <div class="container">
         <span>&copy; {new Date().getFullYear()} Bhaumik Kaji</span>
         <span>
-          <a href="https://twitter.com/bhaumikkaji">Twitter</a>
-          <a href="https://linkedin.com/in/bhaumikkaji">LinkedIn</a>
-          <a href="mailto:bhaumik@bhaumikkaji.com">Email</a>
-          <a href="/feed.xml">RSS</a>
+          <a href="https://x.com/skinnymonk">X</a>
+          <a href="https://www.linkedin.com/in/bhaumikkaji/">LinkedIn</a>
         </span>
       </div>
     </footer>
