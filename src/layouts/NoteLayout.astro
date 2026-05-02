@@ -219,6 +219,123 @@ const { title, description, pubDate, category, image, slug = '', tldr, audio } =
       } else {
         init();
       }
+
+      // Privacy-focused analytics — no cookies, no IP, no personal data
+      (function() {
+        var API_BASE = 'https://func-bhaumik-notes.azurewebsites.net/api/analytics';
+        var slug = document.querySelector('article')?.dataset?.slug;
+        if (!slug) {
+          var match = location.pathname.match(/\/notes\/([^\/]+)\//);
+          if (match) slug = match[1];
+        }
+        var isNotePage = !!slug;
+        var sessionId = Math.random().toString(36).slice(2, 15) + Date.now().toString(36);
+        var startTime = Date.now();
+        var sentEvents = {};
+
+        function track(event, metadata) {
+          if (sentEvents[event]) return; // Don't double-send
+          sentEvents[event] = true;
+          fetch(API_BASE, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              slug: slug || 'site',
+              event: event,
+              sessionId: sessionId,
+              metadata: metadata || {},
+            }),
+            credentials: 'omit',
+          }).catch(function() {});
+        }
+
+        // Page view (after 3s engagement)
+        setTimeout(function() {
+          track('pageview', { path: location.pathname });
+        }, 3000);
+
+        // Track time on page (heartbeat every 30s)
+        var heartbeatInterval = setInterval(function() {
+          var elapsed = Math.round((Date.now() - startTime) / 1000);
+          if (elapsed > 30) {
+            track('time_heartbeat', { duration: elapsed });
+          }
+        }, 30000);
+
+        // Scroll depth tracking
+        var maxScroll = 0;
+        var scrollSent = false;
+        function checkScroll() {
+          if (scrollSent) return;
+          var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          if (docHeight <= 0) return;
+          var scrollPercent = window.scrollY / docHeight;
+          if (scrollPercent > maxScroll) maxScroll = scrollPercent;
+
+          if (scrollPercent >= 0.25 && !sentEvents['scroll_25']) {
+            track('scroll_25');
+          }
+          if (scrollPercent >= 0.50 && !sentEvents['scroll_50']) {
+            track('scroll_50');
+          }
+          if (scrollPercent >= 0.75 && !sentEvents['scroll_75']) {
+            track('scroll_75');
+            scrollSent = true;
+          }
+        }
+        window.addEventListener('scroll', checkScroll, { passive: true });
+
+        // TOC clicks
+        document.querySelectorAll('.toc a, .toc-mobile a').forEach(function(link) {
+          link.addEventListener('click', function() {
+            track('toc_click', { target: link.getAttribute('href') });
+          });
+        });
+
+        // Audio plays (TL;DR)
+        document.querySelectorAll('.audio-widget button, audio').forEach(function(el) {
+          el.addEventListener('play', function() {
+            track('audio_play', { slug: slug });
+          });
+          // Also catch clicks on play buttons
+          el.addEventListener('click', function() {
+            if (el.tagName === 'BUTTON' || el.closest('.audio-widget')) {
+              track('audio_play', { slug: slug });
+            }
+          });
+        });
+
+        // Resources page clicks
+        if (location.pathname === '/resources/') {
+          document.querySelectorAll('a[href^="http"]').forEach(function(link) {
+            link.addEventListener('click', function() {
+              track('resource_click', { url: link.href });
+            });
+          });
+        }
+
+        // Footer link clicks
+        document.querySelectorAll('footer a').forEach(function(link) {
+          link.addEventListener('click', function() {
+            track('footer_click', { url: link.href, text: link.textContent });
+          });
+        });
+
+        // Site exit tracking
+        window.addEventListener('beforeunload', function() {
+          var elapsed = Math.round((Date.now() - startTime) / 1000);
+          // Send beacon for exit (best effort)
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(API_BASE, JSON.stringify({
+              slug: slug || 'site',
+              event: 'site_exit',
+              sessionId: sessionId,
+              metadata: { duration: elapsed, maxScroll: Math.round(maxScroll * 100) },
+            }));
+          }
+          clearInterval(heartbeatInterval);
+        });
+      })();
     })();
   </script>
 </BaseLayout>
