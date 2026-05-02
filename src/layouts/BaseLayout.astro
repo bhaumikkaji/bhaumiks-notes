@@ -9,7 +9,7 @@ export interface Props {
   showScrollProgress?: boolean;
 }
 
-const { title, description = 'Notes on tech, design, and AI by Bhaumik Kaji.', image = '/images/og-default.svg', type = 'website', showScrollProgress = true } = Astro.props;
+const { title, description = 'Notes on tech, design, and AI by Bhaumik Kalpesh Kaji.', image = '/images/og-default.jpg', type = 'website', showScrollProgress = true } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
@@ -21,11 +21,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="theme-color" id="theme-color-meta" content="#fafafa" />
     <meta name="color-scheme" id="color-scheme-meta" content="light" />
     <meta name="description" content={description} />
-    <meta name="author" content="Bhaumik Kaji" />
+    <meta name="author" content="Bhaumik Kalpesh Kaji" />
     <meta name="robots" content="index, follow" />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <!-- Author Image -->
+    <meta property="og:image:alt" content="Bhaumik Kalpesh Kaji's profile photo" />
+    <link rel="icon" type="image/jpeg" href="/images/profile.jpg" />
+    <link rel="apple-touch-icon" href="/images/profile.jpg" />
+
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Open Graph -->
@@ -452,7 +455,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <footer>
       <div class="container">
-        <span>&copy; {new Date().getFullYear()} Bhaumik Kaji</span>
+        <span>&copy; {new Date().getFullYear()} Bhaumik Kalpesh Kaji</span>
         <span>
           <a href="https://x.com/skinnymonk">X</a>
           <a href="https://www.linkedin.com/in/bhaumikkaji/">LinkedIn</a>

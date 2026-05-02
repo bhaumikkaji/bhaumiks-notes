@@ -16,10 +16,42 @@ export interface Props {
 }
 
 const { title, description, pubDate, category, image, slug = '', tldr, audio } = Astro.props;
+
+// JSON-LD structured data
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description: description || '',
+  url: `https://notes.bhaumikkaji.com/notes/${slug}/`,
+  image: image ? `https://notes.bhaumikkaji.com${image}` : 'https://notes.bhaumikkaji.com/images/og-default.jpg',
+  datePublished: pubDate?.toISOString(),
+  dateModified: pubDate?.toISOString(),
+  author: {
+    '@type': 'Person',
+    name: 'Bhaumik Kalpesh Kaji',
+    url: 'https://notes.bhaumikkaji.com',
+    image: 'https://notes.bhaumikkaji.com/images/profile.jpg',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: "Bhaumik's Notes",
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://notes.bhaumikkaji.com/images/profile.jpg',
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `https://notes.bhaumikkaji.com/notes/${slug}/`,
+  },
+  ...(category ? { keywords: Array.isArray(category) ? category.join(', ') : category } : {}),
+};
 ---
 
 <BaseLayout title={title} description={description} image={image} type="article">
   <article class="note">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     <div class="note-layout">
       <aside class="note-sidebar">
         <TableOfContents />

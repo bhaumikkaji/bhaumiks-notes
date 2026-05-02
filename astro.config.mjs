@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://notes.bhaumikkaji.com',
@@ -10,4 +11,5 @@ export default defineConfig({
       theme: 'github-dark',
     },
   },
+  integrations: [sitemap()],
 });
