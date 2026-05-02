@@ -164,7 +164,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         darkMQ.addEventListener('change', function(e) { applySystemMode(e.matches); });
       })();
     </script>
-    <title>{title} ・ Bhaumik's Notes</title>
+    <title>{title === "Bhaumik's Notes" ? title : `${title} ・ Bhaumik's Notes`}</title>
 
     <style is:global>
       :root {
