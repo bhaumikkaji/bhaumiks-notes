@@ -62,10 +62,10 @@ const reactions = [
     align-items: center;
     gap: 6px;
     padding: 8px 14px;
-    border: 1px solid var(--border);
+    border: 1.5px solid color-mix(in srgb, var(--text-primary) 22%, transparent);
     border-radius: 999px;
     background: transparent;
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
     cursor: pointer;
     font-size: 0.78rem;
     font-weight: 500;
@@ -75,9 +75,9 @@ const reactions = [
   }
 
   .reaction-btn:hover {
-    border-color: var(--text-tertiary);
-    color: var(--text-secondary);
-    background: color-mix(in srgb, var(--text-primary) 3%, transparent);
+    border-color: color-mix(in srgb, var(--text-primary) 45%, transparent);
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--text-primary) 4%, transparent);
   }
 
   .reaction-btn:active {
@@ -85,9 +85,9 @@ const reactions = [
   }
 
   .reaction-btn.reacted {
-    border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+    border-color: var(--accent);
     color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   .reaction-btn :global(svg) {

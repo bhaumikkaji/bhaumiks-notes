@@ -90,12 +90,19 @@ const schema = {
 
   <script is:inline>
     (function() {
-      const WORD_DELAY = 25;
-      const UNBLUR_DURATION = 350;
-
       function init() {
         const container = document.getElementById('stream-content');
         if (!container) return;
+
+        // Skip heavy animation on touch devices (mobile) — go straight to visible
+        const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+        if (isTouchDevice) {
+          container.classList.remove('content-loading');
+          return;
+        }
+
+        const WORD_DELAY = 25;
+        const UNBLUR_DURATION = 350;
 
         // Step 1: Wrap all text into word spans
         const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
