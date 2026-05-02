@@ -4,3 +4,5 @@ dist/
 .DS_Store
 *.log*.zip
 DEPLOYMENT.md
+KILL-SWITCH.md
+scripts/kill-switch.sh
